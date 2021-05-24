@@ -1,0 +1,13 @@
+h2:hover{
+  color: orangered;
+  cursor: pointer;
+}
+#title{
+  font-size: 28px;
+  margin-right: -90px;
+  font-family: Verdana;
+  text-align: right;
+  margin-top: 20px;
+  margin-left: 18px;
+  color: #6B6B6B;
+}

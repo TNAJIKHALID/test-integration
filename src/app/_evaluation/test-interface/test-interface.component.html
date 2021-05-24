@@ -1,0 +1,290 @@
+<div *ngIf="onTest" style="margin-top: 22px;">
+  <div id="main" style="width: 100%;height: 100%; height: auto !important;height: 100%;
+  background-color: #F5F6FA;min-height: 100%;">
+    <div class="container" style="padding-right: 0px;padding-left: 0px;position: relative;" id="testContainer" >
+    <!-- Theme -->
+    <div style="background-color: #F5F6FA;margin-right: 0px;width: 100%;height: 6%;padding-bottom: 1px">
+      <span class="float-start ms-20" style="margin-top: 5px; margin-bottom: 0px;">
+<!--        <mat-icon color="primary">menu</mat-icon>-->
+        <svg id="Calque_1_copie" data-name="Calque 1 copie" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="35.766" height="26.228" viewBox="0 0 35.766 26.228">
+          <image id="Calque_1_copie-2" data-name="Calque 1 copie" width="35.766" height="26.228" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAhCAYAAABN2CLhAAAABHNCSVQICAgIfAhkiAAAAuRJREFUWEftmL9rFEEcxW/H+Fs0NoKFBgVNVLCOhaB1QG3yHyjcVtpIFFGDhaIgpJGDxEawSp3GxgQrk0ZLwUqQQBA0UaPmh7u+z+4MGZcQDm52uYMbeLn5zs6877vJ7rvZb5SmaS1rsTmmv4eFfcL2fLD2S0iEvYIRfnrxNvX/CKvCHoGYucSRxQ7Ls2xj5nENnr/CboE58KxZHvLAsyL02LyL+nxXaySM1aJMdGxuqn9PQHC7trcSNizhn6O0Hl1U8LpdlRZ0vVI8hOhRde53iOh16TyBaG6NJx0i+qt09iP6pDpzwoEOEP5Q9/Qd9yCek+BHwln7tPL0Ogfgu1iLycb8mH5xzI9ZF4Lnu3heCqMSvZaLdi02h2wSJxr7YQIxjXgr0cxlDkJZ40RvxbPZFyvyLEsstpm1/0VvyG/rXld0Vf+e7k5Xu9OxGVDC20KfffqLTzuHIRqHHOciOITvLGXO4UA1KQeZyN2jHh3V57RwvKqdaiHPNQl/jujrIhlrgajKpZ+U7EynHZg43/chekidqSq3q4Vc6LyCaB66p8KNFsiqWPpBSS7pnv644dOxOa/BfsG94nB2wC1wCd8ZcAxi91pU9hz0cGCakuCl3D38A1MV+xUgR1d0gE1siqK7001tU4BJvntcEB+vW7gDb724A0Ub3KHoEP5biXu9Yo7vLMSOBwfYjMedZeDwzztFnm+6/kbuMZ+7Rz2iwvNMuBpgE8qkWBD5ZQmfRfSwgskyswXkfi+uQUQ/UOduQOKyqbIDU11ZGmVnCsTPL+MAoikbzAinAhGXSXNL9/RjV6w5okwjwmmBShNlV0Djyd8l7BR+C5RbKdlSpqX/Q+As0mvnU5bFXfYLuA9rKP/C4UrIxPCzDi7msw4HOWh5qHNwnXVfhBcSPM615n5cYoMl9VDdyQhj4+xwXWO5bcUmr0U3EgQR82VJuqqx1K5hjMa6RGPwsi7xuNkcGjzkIW9Wl3btH4JKGDScgzuqAAAAAElFTkSuQmCC"/>
+        </svg>
+
+      </span>
+      <h3 class="text-center" ><span style="font-size: 20px;"><span style="color: #ff6d00">Thème: </span>{{question.theme}}</span>
+      <span class="float-end" style="margin-top: 7px;margin-right: 10px;">{{counter | formatTime}} min</span>
+      </h3>
+    </div>
+    <div class="progress" id="progressBar">
+      <div class="progress-bar" role="progressbar"
+           style="width: 75%; background-color: orangered;" [style]="'width: '+ counter*100/test.timeSecond+'%'"
+           aria-valuenow="{{counter*100/test.timeSecond}}" aria-valuemin="0"
+           aria-valuemax="100"></div>
+    </div>
+    <div class="row m-auto" style="width: 96%;">
+      <div class="col-6 mt-2 float-left">Question {{this.currentQuestionNumber+1}}/{{this.test.questions.length}}</div>
+      <div class="col-6 mt-2 float-right" style="cursor: pointer;">
+        <mat-icon class="float-end" *ngIf="speakService.activeVoiceReading" (click)="mute()" color="primary">volume_up</mat-icon>
+        <mat-icon class="float-end" *ngIf="!speakService.activeVoiceReading" (click)="voiceUp()" color="primary">volume_off</mat-icon>
+      </div>
+      <div class="col-12 mt-2 float-left" style="width: 98%;">
+        <p id="question">{{question.question}}</p>
+        <hr style="width: 70%;" class="m-auto"/>
+      </div>
+      <p style="font-size: 20px; color: #FF6801; margin-top: 10px;">{{question.instruction}}</p>
+    </div>
+
+    <div class="row m-auto" style="width: 93%;">
+      <!-- All except drag image -->
+      <div class="row mt-2" *ngIf="question.type != 'DRAG_IMAGE'">
+        <div class="col-8">
+          <div *ngIf="question.type == 'SELECT'">
+            <div  class="ms-3 mt-2" *ngFor="let a of question.answers">
+              <input class="form-check-input"
+                     [checked]="this.response.responses.get(question.id).indexOf(a.id) != -1 || (showAnswer && a.correct) "
+                     (change)="chosenAnswer($event,a.id,this.response.responses.get(question.id).indexOf(a.id))"
+                     type="checkbox" name="exampleRadios" id="11 {{a.id}}" value="option2">
+              <label class="form-check-label ms-2"
+                     for="11 {{a.id}}" [ngClass]="showAnswer && a.correct ? 'text-success font-weight-bold' : ''">
+                {{a.answer}}
+              </label>
+            </div>
+          </div>
+          <div *ngIf="question.type == 'CHOOSE'">
+            <div class="form-check mt-2" *ngFor="let a of question.answers">
+              <input class="form-check-input ml-3" type="radio"
+                     (change)="chosenAnswer($event,a.id,this.response.responses.get(question.id).indexOf(a.id))"
+                     [checked]="this.response.responses.get(question.id).indexOf(a.id) != -1"
+                     name="exampleRadios" id="{{a.id}}" value="option2">
+              <label class="form-check-label ml-1" for="{{a.id}}" [ngClass]="showAnswer && a.correct ? 'text-success font-weight-bold' : ''">
+                {{a.answer}}
+              </label>
+            </div>
+          </div>
+          <div *ngIf="question.type == 'ORDER'">
+            <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+              <div class="example-box" *ngFor="let a of question.answers" cdkDrag>
+                <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+                <b [ngClass]="showAnswer && a.correct ? 'text-success font-weight-bold' : ''">{{a.answer}}</b>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="question.type == 'FILL'" >
+            <form class="form-inline">
+              <p>
+                <span class="mt-2" *ngFor="let s of strings;let i = index">
+                  <span *ngIf="i>0">&nbsp;</span>
+                  {{s}}
+                  <select class="form-control" (change)="chosenAnswer($event, i, null)"
+                          *ngIf="ma.size-1 >= i" id="etat{{i}}" class="form control" name="etat{{i}}" >
+                    <option selected disabled>Choisis une réponse</option>
+                    <option *ngFor="let o of ma.get(i)"
+                            [selected]="this.response.responses.get(this.question.id)[i]==o.id"
+                            value="{{o.id}}">{{o.answer}}</option>
+                  </select>
+                </span>
+              </p>
+            </form>
+          </div>
+          <div *ngIf="question.type == 'DRAG'" >
+            <div class="row">
+              <div *ngIf="ids.length>0" class="example-container">
+                <div id="all"
+                     style="
+                         min-width: 300px;min-height: 50px;padding: 5px 5px 5px 5px;border-radius: 12px;"
+                     cdkDropList
+                     [cdkDropListData]="done"
+                     [cdkDropListConnectedTo]="ids"
+                     (cdkDropListDropped)="dropForZoneQuestions($event)">
+                  <div class="float-start "
+                       style="cursor: move;" *ngFor="let item of done" cdkDrag>
+                    <span class="float-start me-2"
+                          style="border-radius: 12px;min-height: 37px;padding: 5pX 5px 5px 5px;
+                                min-width: 35px; background-color: #F9D346;color: white;
+                            border: 1px solid #FC9602;text-align: center;">
+                            <b class="text-center example-box" style="font-size: 15px;text-align: center;">{{item.answerElement}}</b>
+                          </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-2" >
+              <div class="row" *ngFor="let d of data;let i = index;">
+                <div *ngIf="ids.length > 0" class="col-2">
+                  <div cdkDropList id="{{i}}" [cdkDropListData]="d"
+                       [cdkDropListConnectedTo]="idsAndAll"
+                       style="min-height: 20px; min-width: 20px;border-radius: 10px;background-color: #cccccc"
+                       (cdkDropListDropped)="dropForZoneQuestions($event)">
+                    <div style="align-items: center" class="text-center" *ngFor="let item of d" cdkDrag>{{item.answerElement}}</div>
+                  </div>
+                </div>
+                <div class="col-10">
+                  <h5> {{zoneNames[i].answer}}</h5>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <img *ngIf="question.image != undefined && question.image != null"
+               alt="..." class="img-fluid w-100 h-100 float-right"
+               [src]="dataService.host+'/photoQuestion/'+question.id">
+        </div>
+      </div>
+      <!-- only drag images -->
+      <div class="row" *ngIf="question.type == 'DRAG_IMAGE'">
+        <div *ngIf="question.type == 'DRAG_IMAGE'" >
+          <div class="row">
+            <div *ngIf="idsImages.length>0" class="example-container">
+              <div id="all_images"
+                   style="
+                         min-width: 300px;min-height: 50px;padding: 5px 5px 5px 5px;border-radius: 12px;"
+                   cdkDropList
+                   [cdkDropListData]="done"
+                   [cdkDropListConnectedTo]="idsImages"
+                   (cdkDropListDropped)="dropForZoneQuestions($event)">
+                <div class="float-start "
+                     style="cursor: move;" *ngFor="let item of done" cdkDrag>
+                    <span class="float-start me-2"
+                          style="border-radius: 12px;min-height: 37px;padding: 5pX 5px 5px 5px;
+                                min-width: 35px; background-color: #F9D346;color: white;
+                            border: 1px solid #FC9602;text-align: center;">
+                            <b class="text-center example-box" style="font-size: 15px;text-align: center;">
+                              {{item.answerElement}}</b>
+                          </span>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+          <div class="row m-auto mt-5" >
+              <div class="col-2" *ngFor="let d of data;let i = index;">
+                <div class="card">
+                  <div class="card-img">
+                    <img alt="..."
+                         [src]="dataService.host+'/photoSchema/'+zoneNames[i].id">
+                  </div>
+                 <div class="card-footer">
+                   <div *ngIf="idsImages.length > 0" >
+                     <div cdkDropList id="{{i+'_images'}}" [cdkDropListData]="d"
+                          [cdkDropListConnectedTo]="idsAndAllImages"
+                          style="min-height: 20px;min-width: 20px;border-radius: 10px;"
+                          (cdkDropListDropped)="dropForZoneQuestions($event)">
+                       <div id="boxx" style="align-items: center" class="text-center" *ngFor="let item of d" cdkDrag>{{item.answerElement}}</div>
+                     </div>
+                   </div>
+                 </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-auto" style="width: 98%;position: absolute;bottom: 0;">
+        <div class="row ms-3 mb-3">
+          <div class="col-2">
+            <!-- Valider -->
+            <button mat-raised-button color="primary" *ngIf="!onEvaluation" (click)="onValidateAnswer()"
+                    style="font-size: 12px;">Valider
+              <span style="background-color: white;border-radius: 50%;padding: 1px 1px 1px 1px;">
+                <svg id="istockphoto-997796236-612x612_copie" data-name="istockphoto-997796236-612x612 copie" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="14" height="12" viewBox="0 0 14 12">
+                <defs>
+                  <pattern id="pattern" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 60 50">
+                    <image width="60" height="50" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAyCAYAAAAA9rgCAAAABHNCSVQICAgIfAhkiAAACfdJREFUaEPVWgtQU1caPvcmkBckQEASRaQXxChQ0IJIVepa67rjq63S+mC1VruKuyvOOrtsrday1a3uVEfru06rpT4GXe0qarvaVq0UBUQsIIrRaxXlLUICCYTk3v0PWaxVch+AM+EwAnL/c/7/O//7vyFYlkW9Ze3IDyQWxVV3S2CiNwE+ZpwpnzLwQEt3FNRrAB+5OkH2esQ3rd0Bi/e6PeC/fksQw/tNkiUNzuLUbElNxqj7TTkvmizXBjOMg1TI9VV9lLH5A9Qjc/TqURUdF+XWgP9xlpBG65LkUw0Hm1xp9sLd1bPyKrb+sc5apSNYREkJ0CL8s4On22GTgkR0kCYub0zw8o9C/F4tclvAtc2lILed9Fc973AF9vMrww5drykcplYiSi0DlCyBWFYCgGEL/h1uwM4y6KEVmzKiZ0ftn+m2gLl8tdx00rC/6LWvzDabpxbASkgSsfAFsNqRYbDwzfl/+EnCjwcWFnl5IrrXAf654YRhd/GkExKEKF+ZBDHtwLgXCZdQbWbRIG3MkV4FuMp8vu/OwsTzYOuUn5xEDn6sSALE9S0OrGV6cUxxVK8B/MBSKv+0MLK4zcGG+UEkEgIWa7axhUXg0fTc6GOTQ9STS3sN4PUXfAoabY3D+qgI5GCwb/KZMYJgxeCITb8V9fXv+vtMuNEr8jAWcldB6OnbDTSlV5MUI8CMSZJF9c0s8gCwv48GsBon2F4B+GDxuJ1FNd+N8/ciqXa98igXR+SaZobWqfQVsyL/+1tfRZTlcVtwa5M+aZyx5ofbmTP0PgSAhbzKa8YsmDGL1J7+eUtH1MZ3Ru62gHPK311w7Nrad3VeBEVKO/Ksa8RQbiCzzYFaGEQvib0SrVVGd1qduSXgsro9iRlX5u1WqxClwGB5VIvN2NLGoEYbopMjtqUMCUg55epq3A5wbVOe/7ZL8bkSD0RpPKGw4EFLQBi22R2ozoLoaUPWpsXp0/7NZfluB3jDBU2hqc0Uo1UQAJY7QkFFiVrtDKpvQvSEsCWbEkM2fcKXrtwK8LZ83Y+V1mpdgEJKIdYBQco1YKzZVqg+GiEiTwl/P314//QMPrBulZa+KZuTfvrul8khvgTFQmHBF5Fxk1DVwNKvhKRsHztw28dCwPICrmn+yYskSMZf+etcJvRwoXTGB/tGZPyUvM9HSVAeEIH4wBKIRDUWOx3t/8qppMhTKUL5PAX4fmOOrrT2izn3TLnxD9tuhNvtViV2I7lU0xCumXY4LmjpRn9Vz4JvaCmTbsk3lIE/Ut6eJPgtt/gS8Nt6C4NUEnnpspHWCDFgHwFusJYov775l/XGxtPjW22Igq4LeXoghKcHDFDh6UETDFhU0E++FJy+alTw+3vFMnJFv/NSyHf3zXfGBnjxg8XFh5VxIFMzot+OPpQU6j/9slg5iEpTgU9GSXxuncUe3kcFQCV4atDROjuDBv6OxyYWiIh1wGy4fuLxpIjjqWKZPUmPK6lsqKT6qqWUQ+KcUrjMn+CzbaD+moeIfjVi+ZqE/ms+7wp/4iy9bPHhsvVbB/lJ2mdAzklB5wuDZhgGVUHOo9SRJTMivnpNLQ/DRiB65d5b+VbWjdUrIf04JxZ4UsG5gC+kn3H9/7T55YGbN4pm+P8NRF1TsXJXQVQxSE15K8GseMR3aptBlWaEAhW+l1IT6uPEMr/dkDVkV/6ULB8Yzyjw1ILHcXFfW9nE0jEBY86+EXlmvlh+j9O352FjXWZsxpUZmUpPAK2QQsPMbV74AFy7lpsddJxu3LfTI04vFCPEhouya+Y2m8FPBhfMsxGDrYUmXuupz06Nrxgthk9ntI8Kj9Ka3YmZRW/vVsgQpYQqB+dCztX+uF3T9PjgxVvHhm3dIESYc7dTl5y49Ulqfx9EMQyEXI6FXcgKccPaiuiFQ3Pj9ZrhdUJ4cJ75+KuWG/WHhu0tfOOQN4CWe3ggBo87uQSCZ23gA+117OAPV8bqV+znosd18o7C+FyZFM6H/MLvtRCkLCz95sC1aTH9uGtkoRfxVGl58V568n9KP0jXQqcig1kvn6Zxp4K10NAC04XIPXMHB8zNdsV8S0HQuQfN9xPxTEpIvq0wMeg5n+Cz7wy78xuhgPjoOq2lL1dumpR1bekmBfi0EjoWXNVyLVzEN8P8qNWO6Fkw7B7oPzPvSfqjpZM2Xaw+MUnv7SwduS0HettWB0wcyZvvDC0cqlU97/LNAx/AJ5+7bB6KqnaMP3Q1ZbtGAZr24GvToNiD4GcC0FCk0Ivic+MDlb/42+WKddMPlPx9XV81okh8O5x+yyKYqiKTmaXnDd0/M7STyxML8nF6zm7pYvkHc44Y01fpwLylBI/PgRFgLLUAWq/Q5aTEVY7EjBqsRnJLXrgR97eq9skF95JAyis3ITpxQPLeiWFfruoOuM728raHp24tWP79nc/m62HUwjdBa3+xAWmkvJGlkw0bU2OCUo9/URx11FhbMkXnDekO3vNwaxdeieALU+qzF8V2PwV1CTDelFk8dldx/ZmxgdDN8DXlGHSLg0EaRcj3A7zGnLlcuWeeCqopCPnccQCeWmCfGVLQn2MvJAR6jajpae3i83g13MH04xyPsia7PVyr4PNnKEpwELMxMGdCyA9yOm7WuSY1jywD+tup4X9bN3rAuk+fBVhRgH+uPz5kT9HkLDn2RU/+8YsTIe5CuIMUFgL6FVTTxNCD/Udlz4w6P/dZgRUFGBOXVO0ct69k0c4AbwFBTKDUWLtmmDjKSWXJsoTmKIHbukwm2KQ7OJwwzvrw3J0Ds4IgxWDt8Y1Q+STDtfIdCHLTDO+tSQha3aWWj4/H489FA8abt+b1PV9tqRwVAC+2+IIYd1QmICo7UF+VPnvhC88mKj/Jv0uAq5su+e0oiMvH/iyH3NqVReCGHhrwRitLp8SdH633/uWDJ105T+ieLgHGh+fcS/vD4ev/SgtW8+fnp4TBkw2SQffAlCc8l7L95VDhU0ehwFzRdRkwPjDjSlzmrYZLsWDalINnaP6kAA8gKgf7Drq+YOj1id0FIWZ/twBjRh/lSMtIwhGuICUCxjTOWq0ZuiuHA9ErRrOhYoTtCdpuAz5pnA1Re/+KIDX/9AILjEvPahNLTzesTXuhh3pcMRfRbcD18NmLzZcjrsJoilLyNPW4d640M3R0n5HZb0ZmP9MC45n4cMehP5a/N+/o9X+u6KdBFPGr3OystvDfGGgcKqCrDVL1ubgkvjpBjFZ6krbbGu4Q5mDpS5sv3P9hfIAcheMhPl5t0NeCuyIb1NQsfAQw1PfFnNcNn83XyAy2ngQh5qweA4yZHi2bPf/mw9PT7UwtBeYrUXgEVntLg+9q5eE3wrRTjxoCkkS/KRADRghtjwLuYFjbXCIjCQ+7VjmIewooRMIepvkf/BlLvfKIh0UAAAAASUVORK5CYII="/>
+                  </pattern>
+                </defs>
+                <rect id="istockphoto-997796236-612x612" width="14" height="12" fill="url(#pattern)"/>
+              </svg>
+              </span>
+
+            </button>
+            <button mat-raised-button color="primary" style="font-size: 12px;"
+                    *ngIf="this.currentQuestionNumber < this.test.questions.length-1 && onEvaluation"
+                    (click)="onNext()"
+                    class="float-start">
+              Valider<mat-icon>navigate_next</mat-icon></button>
+          </div>
+        </div>
+      <p class="text-danger text-center fw-bold mb-1" *ngIf="!noAnswer && !allowPassingQuestions" >Merci de répondre</p>
+      <div class="row">
+          <div class="col-10 pb-0">
+            <div class="row m-auto" >
+              <div class="col-3">
+                <button mat-raised-button class="float-end"
+                        *ngIf="this.currentQuestionNumber >= 1 && !this.onEvaluation" (click)="onPrev()"
+                        style="font-size: 12px;" color="primary">
+                  <mat-icon>navigate_before</mat-icon> Précedant
+                </button>
+              </div>
+              <div class="col-6 horizontal-scrollable pb-1"   >
+                <ul class="pagination " >
+                  <li  *ngFor="let q of test.questions;let i = index"  style="cursor: pointer;"
+                       class="page-item" >
+                    <a class="page-link"
+                       [style]="checkIfQuestionAnswered(q) && visitedQuestions.includes(q.id) ? 'background-color: orangered;':''"
+                       data-abc="true" (click)="goToQuestion(i)">{{i+1}}</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-3">
+                <button  mat-raised-button color="primary"  style="font-size: 12px;"
+                        *ngIf="this.currentQuestionNumber < this.test.questions.length-1 && !onEvaluation"
+                        (click)="onNext()"
+                        class="float-start">
+                  Suivant <mat-icon>navigate_next</mat-icon></button>
+                <button mat-raised-button color="primary" style="font-size: 12px;"
+                        *ngIf="this.currentQuestionNumber == this.test.questions.length-1"
+                        (click)="onSubmit()"
+                        class="float-start">
+                  Soumettre</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-2 pb-0" >
+            <button mat-raised-button color="primary" *ngIf="!onEvaluation" (click)="onShowAnswer()"
+                    class="float-end me-2 rounded">Voire la réponse</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div *ngIf="!onTest"  style="margin-top: 22px;height: 96%;width: 98%;">
+    <div *ngIf="!onTest" class="container-fluid mt-5" style="height: 95%;">
+      <div  class="card shadow p-3 mb-5 bg-white rounded w-100" style="height: 32rem;">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-8">
+              <h2>{{test?.testName}}</h2>
+            </div>
+            <div class="col-4 border-left">
+              <h3 class="h3 text-center mt-2">Quizz Details</h3>
+              <div class="p-3 border rounded-pill mt-3 shadow d-flex justify-content-between">
+                <span>Temps du test</span> <span><b>{{test?.timeSecond | formatTime}} min</b></span>
+              </div>
+              <div class="p-3 border rounded-pill mt-3 shadow d-flex justify-content-between">
+                <span>Nombre des questions</span> <span><b>{{test?.questions.length}}</b> </span>
+              </div>
+              <div class="p-3 border rounded-pill mt-3 shadow d-flex justify-content-between">
+                <span>Seuil de validation</span> <span><b>{{test?.admissionBarrier * 100}} %</b></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="text-center mb-0">
+            <button (click)="onStartTest()"
+                    [disabled]="test == null || test == undefined" mat-raised-button color="primary">Commencer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

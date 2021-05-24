@@ -1,0 +1,11 @@
+<div class="m-auto mt-lg-5" *ngIf="!onTest">
+      <app-test-parameters (paramsEvent)="getParams($event)"
+                           [testEngineTitle]="'Paramétrer votre quizz d\'entraînement'"
+                           [testModeInput]="'TEST_TYPE_DEMO'"></app-test-parameters>
+</div>
+
+
+<div *ngIf="onTest" style="margin-top: 0px;">
+  <app-test-interface [test]="test" [submitScoreUrl]="'/getScoreForQuizz'" ></app-test-interface>
+<!--  <app-test-only [test]="test" [submitScoreUrl]="'/getScoreForQuizz'" ></app-test-only>-->
+</div>

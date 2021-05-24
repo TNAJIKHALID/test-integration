@@ -1,0 +1,12 @@
+<div class="m-auto mt-5" *ngIf="!onTest">
+  <app-test-parameters (paramsEvent)="getParams($event)"
+                       [testEngineTitle]="'Paramétrer votre l\'évaluation'"
+                        [testModeInput]="'TEST_TYPE_EXAM'"></app-test-parameters>
+</div>
+
+<div *ngIf="onTest">
+  <app-test-interface [test]="test" [submitScoreUrl]="'/getEvaluationScoreForApprenantLibre'"></app-test-interface>
+<!--  <app-test-only [test]="test" [submitScoreUrl]="'/getEvaluationScoreForApprenantLibre'"></app-test-only>-->
+</div>
+
+

@@ -1,0 +1,111 @@
+<section></section>
+<div  class="container mt-5">
+  <div  class="card shadow p-3 mb-5 bg-white rounded w-100" style="min-height: 35rem;">
+    <div class="">
+      <h2 class="mat-h2 text-center">Rapport du teste</h2>
+
+    </div>
+    <mat-divider></mat-divider>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="row w-100">
+            <google-chart #chart
+                          [title]="title"
+                          [type]="type"
+                          [columns]="columnNames"
+                          [data]="dataPerTheme"
+                          [options]="options"
+                          [width]="'500'"
+            ></google-chart>
+          </div>
+
+          <div class="row w-100">
+            <google-chart #chart
+                          [title]="titlePerDefficulte"
+                          [type]="type"
+                          [columns]="columnNames"
+                          [data]="dataPerDefficulte"
+                          [options]="options"
+                          [width]="'500'"
+            ></google-chart>
+          </div>
+          <mat-divider></mat-divider>
+
+          <div class="card rounded border border-secondary">
+            <div class="card-body ml-3">
+              <div *ngIf="score.score < 90">
+                <h2>Recommendation</h2>
+                <hr/>
+                <p>Pour bien amelioré vos compétances, on vous conseille de revoire
+                  les thémes suivant:</p>
+                <ul class="ml-2">
+                  <b *ngFor="let d  of this.getKeysFromMap()">
+                    <li *ngIf="analysisPerTheme.get(d)[1] != 0">{{d}}</li>
+                  </b>
+                </ul>
+                <span *ngIf="fondamentalQuestions.length != correctFondamentalQuestions.length">
+                  <h3 class="text-error font-weight-bold">Attention !</h3>
+                  <p> Vous avez mal ou pas répondu sur {{fondamentalQuestions.length - correctFondamentalQuestions.length}}
+                    questons fondamentales en: <b *ngFor="let t of inCorrectfondamentalQuestionsThems">{{t +', '}}</b> <br/>
+                    On vous conseille de revoire
+                    <span>{{ inCorrectfondamentalQuestionsThems.size == 1 ? 'ce theme': 'ces themes'}}</span>
+                  </p>
+                </span>
+              </div>
+              <div *ngIf="score.validate">
+                <h2 class="font-weight-bold">Félicitation vous avez bien validé le niveau d'habilitation</h2>
+                <hr/>
+              </div>
+            </div>
+          </div>
+
+
+
+
+        </div>
+        <div class="col-lg-4">
+          <div class="p-3 border rounded-pill shadow d-flex justify-content-between">
+            <span>Nom</span> <span><b>{{auth.userAuthenticated.firstName +' ' + auth.userAuthenticated.lastName }}</b></span>
+          </div>
+          <div class="p-3 border rounded-pill shadow mt-2 d-flex justify-content-between">
+            <span>Temps Passer</span> <span><b>{{score.testTime | formatTime}} min</b></span>
+          </div>
+          <div class="p-3 border  rounded-pill shadow mt-2 d-flex justify-content-between">
+            <span>Nombre des questions correctes</span>
+            <span><b>{{score.questions.length}}</b></span>
+          </div>
+          <div class="p-3 border  rounded-pill shadow mt-2 d-flex justify-content-between">
+            <span>Questions fondamental correctes</span>
+            <span>
+              <b>{{correctFondamentalQuestions.length + '/' + fondamentalQuestions.length}}</b>
+              <b>({{(this.correctFondamentalQuestions.length / this.fondamentalQuestions.length) | percent}})</b>
+            </span>
+          </div>
+          <div [ngClass]="score.validate? 'bg-success' : 'bg-danger'"
+            class="p-3 rounded-pill shadow mt-2 d-flex justify-content-between ">
+            <span>Score</span>
+            <span><b>{{score.score  | number:'.2-2'}}%</b></span>
+          </div>
+          <div class="p-3 border  rounded-pill shadow mt-2 d-flex">
+            <mat-progress-spinner
+              class="m-auto"
+              [color]="score.validate ? 'primary' : 'warn'"
+              [mode]="'determinate'"
+              [value]="score.score">
+            </mat-progress-spinner>
+            <h1 class="m-auto"><b>{{score.score  | number:'.2-2'}}%</b></h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <button class="m-auto mr-2"
+              mat-raised-button color="accent" *ngIf="test.type == 'TEST_TYPE_EXAM'" (click)="onDownload()">télecharger l'avis</button>
+      <!--<button class="m-auto mr-2"
+              mat-raised-button color="accent" (click)="onDownload()">télecharger l'avis</button>-->
+      <button class="m-auto"
+              mat-raised-button color="accent" >télecharger le rapport</button>
+    </div>
+  </div>
+</div>

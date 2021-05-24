@@ -1,0 +1,43 @@
+<div class="container mt-lg-5">
+  <div class="card w-75 m-auto mt-lg-5">
+    <div class="card-header">
+      <h2 class="text-center">Test de Positionnement</h2>
+    </div>
+    <div class="card-body"><!--*ngIf="selected.length > 3"-->
+      <button mat-raised-button *ngIf="selected.length >= 1"
+              color="warn" class="mb-2" (click)="previous()" >Retour</button>
+
+      <h2 class="text-center m-auto" *ngIf="question.includes('R')">Votre niveau est:</h2>
+      <div class="row m-auto mt-lg-5">
+        <h2 class="text-center m-auto" *ngIf="selected.length>2"
+            [ngClass]="question.includes('R') ? ' text-success' : ''" > {{values[keys.indexOf(question)]}} </h2>
+        <h2 class="text-center m-auto" *ngIf="isRoot">
+         Chercher par
+        </h2>
+      </div>
+      <hr/>
+      <div class="row w-75 m-auto mt-lg-5">
+        <div class="row m-auto" *ngIf="!question.includes('R') && selected.length>2 ">
+          <button mat-raised-button color="accent" (click)="OnYes()">Oui</button>
+          <button mat-raised-button color="primary" class="ml-2" (click)="OnNo()">Non</button>
+        </div>
+        <div class="row m-auto" *ngIf="isRoot">
+          <button mat-raised-button color="accent" (click)="OnValue('T')">Tache</button>
+          <button mat-raised-button color="primary" class="ml-2" (click)="OnValue('M')">Metier</button>
+        </div>
+        <div class="row m-auto" *ngIf="isTache">
+          <button mat-raised-button color="accent" (click)="OnValue('F')">Formation Initial</button>
+          <button mat-raised-button color="primary" class="ml-2" (click)="OnValue('R')">Formation Recyclage</button>
+        </div>
+        <div class="row m-auto" *ngIf="isElectrique || isMetier">
+          <button mat-raised-button color="accent" (click)="OnValue('E')">Electrique</button>
+          <button mat-raised-button color="primary" class="ml-2" (click)="OnValue('N')">Non Electrique</button>
+        </div>
+        <div class="row m-auto" *ngIf="question.includes('R')">
+          <button class="btn btn-outline-primary" (click)="OnConfirm(question)">Confirmer</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

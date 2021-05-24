@@ -1,0 +1,152 @@
+<div class="container pb-3" style="min-width: 1300px;">
+  <div class="card m-auto justify-content-center" style="border: 2px solid darkorange;">
+    <div class="card-header bg-white mb-5">
+      <h2 class="text-center">{{testEngineTitle}}</h2>
+    </div>
+    <div class="card-body justify-content-center m-auto">
+      <div class="row">
+        <form [formGroup]="myForm" >
+          <div class="row w-100">
+            <div class="col-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Mode</mat-label>
+                <mat-select formControlName="testMode">
+                  <mat-option [value]="testModeInput">
+                    {{testModeInput == 'TEST_TYPE_DEMO' ? 'Entrainement' : 'Evaluation'}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="testMode.invalid && testMode.touched">
+                  merci de choisir un mode
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Niveau</mat-label>
+                <mat-select formControlName="habilitationLevel">
+                  <mat-option *ngFor="let level of levels" [value]="level.habilitationLevel">{{level.habilitationLevel}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="habilitationLevel.invalid && habilitationLevel.touched">
+                  merci de choisir un niveaux
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field  class="w-100">
+                <input type="number" matInput placeholder="nombres des questions fondamentales"
+                       formControlName="fundamentalQuestion">
+                <mat-error *ngIf="fundamentalQuestion.invalid && fundamentalQuestion.touched">
+                  merci d'entre un nombre valid
+                </mat-error>
+                <mat-hint>0-5</mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class = "row w-100 mt-3">
+            <div class="col-4">
+              <mat-form-field  class="w-100">
+                <input type="number" matInput placeholder="temp de teste" formControlName="time">
+                <span matSuffix>min</span>
+                <mat-error *ngIf="time.invalid && time.touched">
+                  merci d'entrer le temp
+                </mat-error>
+                <mat-hint>5-15 min</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field  class="w-100">
+                <input type="number" matInput placeholder="seuil de validation" formControlName="admissionBarrier">
+                <span matSuffix>%</span>
+                <mat-error *ngIf="admissionBarrier.invalid && admissionBarrier.touched">
+                  seuil invalide
+                </mat-error>
+                <mat-hint>0-100%</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field class="w-100" >
+                <input type="number" matInput placeholder="Nombre de questions"
+                       formControlName="numberOfQuestions" [readonly]="true"
+                       [value]="questionDificile.value + questionFacile.value  + questionMoyen.value">
+                <mat-error *ngIf="numberOfQuestions.invalid && numberOfQuestions.touched">
+                  le nombre de questions invalid
+                </mat-error>
+                <mat-hint>5-20</mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row w-100 mt-3">
+            <div class="col-4">
+              <mat-form-field  class="w-100">
+                <input type="number" matInput placeholder="Nombre des questions faciles"
+                       formControlName="questionFacile">
+                <mat-error *ngIf="questionFacile.invalid && questionFacile.touched">
+                  merci d'entrer les question
+                </mat-error>
+                <mat-hint>0-5</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field  class="w-100">
+                <input type="number" matInput placeholder="Nombre des questions a moyennes dificultées"
+                       formControlName="questionMoyen">
+                <mat-error *ngIf="questionMoyen.invalid && questionMoyen.touched">
+                  merci d'entrer un nombre valid
+                </mat-error>
+                <mat-hint>0-5</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field  class="w-100">
+                <input type="number" matInput placeholder="Nombre des questions dificiles"
+                       formControlName="questionDificile">
+                <mat-error *ngIf="questionDificile.invalid && questionDificile.touched">
+                  merci d'entrer un nombre valid
+                </mat-error>
+                <mat-hint>0-5</mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row w-100 mt-3 ml-1">
+              <mat-form-field style="width: 100%;" >
+                <mat-label>Thèmes</mat-label>
+                <mat-chip-list #chipList aria-label="Thèmes">
+                  <mat-chip color="accent"
+                    *ngFor="let fruit of themes"
+                    [selectable]="selectable"
+                    [removable]="removable"
+                    (removed)="remove(fruit)">
+                    {{fruit}}
+                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                  </mat-chip>
+                  <input
+                    placeholder="Autre Thème..."
+                    #fruitInput
+                    [formControl]="themeCtrl"
+                    [matAutocomplete]="auto"
+                    [matChipInputFor]="chipList"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    (matChipInputTokenEnd)="add($event)">
+                </mat-chip-list>
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                  <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+                    {{fruit}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+          </div>
+
+
+          <div class="row justify-content-center mt-3 w-25 m-auto" style="border-radius: 12px;">
+            <button mat-raised-button (click)="onSubmit()"
+                    color="primary" [disabled]="myForm.invalid">Charger</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

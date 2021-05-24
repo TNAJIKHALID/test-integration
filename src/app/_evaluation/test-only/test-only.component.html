@@ -1,0 +1,239 @@
+<div *ngIf="onTest" class="container-fluid h-100 mt-lg-5">
+  <div  class="card shadow p-3 mb-5 bg-white rounded m-auto" style="min-height: 30rem;">
+    <div>
+      <h2 class="text-center font-weight-bold" style="color: #3C1874">{{this.onEvaluation ? 'Mode Evaluation' : 'Mode Entrainement'}}</h2>
+      <h3 class="card-subtitle text-center" >Temps restant {{counter | formatTime}} min</h3>
+      <span class="float-left mb-2" style="cursor: pointer;" >
+        <mat-icon *ngIf="speakService.activeVoiceReading" (click)="mute()" color="primary">volume_up</mat-icon>
+        <mat-icon  *ngIf="!speakService.activeVoiceReading" (click)="voiceUp()" color="primary">volume_off</mat-icon>
+      </span>
+    </div>
+    <mat-progress-bar mode="determinate" value="{{(currentQuestionNumber+1)*100/test.questions.length}}"></mat-progress-bar>
+    <div class="card-body">
+      <div class="mt-3" label="test diviation">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-4">
+                <p class="mat-h1 text-muted" >
+                  <b>Question {{this.currentQuestionNumber+1}}/{{this.test.questions.length}}</b>
+                </p>
+              </div>
+            </div>
+            <p class="mat-h2" *ngIf="question.type!='FILL'">{{question.question}}</p>
+            <p class="mat-h2" *ngIf="question.type =='FILL'">Completez la paragraph:</p>
+            <p class="mat-h3 font-weight-bold text-warning">{{this.question.instruction}}</p>
+            <br/>
+            <span class="text-danger mt-3 mb-0" *ngIf="!noAnswer && !allowPassingQuestions" >Merci de répondre</span>
+            <mat-divider></mat-divider>
+            <div class="mt-2" label="Questions Types Area">
+              <div *ngIf="question.type == 'SELECT'">
+                <div  class="ml-3 mt-2" *ngFor="let a of question.answers">
+                  <input class="form-check-input"
+                         [checked]="this.response.responses.get(question.id).indexOf(a.id) != -1 || (showAnswer && a.correct) "
+                         (change)="chosenAnswer($event,a.id,this.response.responses.get(question.id).indexOf(a.id))"
+                         type="checkbox" name="exampleRadios" id="11 {{a.id}}" value="option2">
+                  <label class="form-check-label" for="11 {{a.id}}" [ngClass]="showAnswer && a.correct ? 'text-success font-weight-bold' : ''">
+                    {{a.answer}}
+                  </label>
+                </div>
+              </div>
+              <div *ngIf="question.type == 'CHOOSE'">
+                <div class="form-check mt-2" *ngFor="let a of question.answers">
+                  <input class="form-check-input ml-3" type="radio"
+                         (change)="chosenAnswer($event,a.id,this.response.responses.get(question.id).indexOf(a.id))"
+                         [checked]="this.response.responses.get(question.id).indexOf(a.id) != -1"
+                         name="exampleRadios" id="{{a.id}}" value="option2">
+                  <label class="form-check-label ml-1" for="{{a.id}}" [ngClass]="showAnswer && a.correct ? 'text-success font-weight-bold' : ''">
+                    {{a.answer}}
+                  </label>
+                </div>
+              </div>
+              <div *ngIf="question.type == 'ORDER'">
+                <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+                  <div class="example-box" *ngFor="let a of question.answers" cdkDrag>
+                    <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+                    <b [ngClass]="showAnswer && a.correct ? 'text-success font-weight-bold' : ''">{{a.answer}}</b>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="question.type == 'FILL'" >
+                <form class="form-inline">
+                  <p>
+                          <span class="mt-2" *ngFor="let s of strings;let i = index">
+                            <span *ngIf="i>0">&nbsp;</span>
+                            {{s}}
+                            <select class="form-control" (change)="chosenAnswer($event, i, null)"
+                                    *ngIf="ma.size-1 >= i" id="etat{{i}}" class="form control" name="etat{{i}}" >
+                              <option selected disabled>Choisis une réponse</option>
+                              <option *ngFor="let o of ma.get(i)"
+                                      [selected]="this.response.responses.get(this.question.id)[i]==o.id"
+                                      value="{{o.id}}">{{o.answer}}</option>
+                            </select>
+                          </span>
+                  </p>
+                </form>
+              </div>
+              <div *ngIf="question.type == 'DRAG'" class="container">
+                <div class="row">
+                  <div *ngIf="ids.length>0" class="example-container">
+                    <div id="all" style="border: solid;min-width: 100px;min-height: 20px;"
+                         cdkDropList
+                         [cdkDropListData]="done"
+                         [cdkDropListConnectedTo]="ids"
+                         class="row"
+                         (cdkDropListDropped)="dropForZoneQuestions($event)">
+                      <mat-chip-list>
+                        <div class="ml-3 "
+                             style="cursor: move;" *ngFor="let item of done" cdkDrag>
+                          <mat-chip color="accent" class="text-center font-weight-bold">{{item.answerElement}}</mat-chip>
+                        </div>
+                      </mat-chip-list>
+                    </div>
+                  </div>
+                </div>
+                <div class="row example-container">
+                  <div class="row mt-5" *ngFor="let d of data;let i = index;">
+                    <div class="col-8 col-sm-6">
+                      <h2> {{zoneNames[i].answer}}</h2>
+                    </div>
+                    <div *ngIf="ids.length > 0" class="col-4 col-sm-6">
+                      <!-- [cdkDropListConnectedTo]="['all']"-->
+                      <div cdkDropList id="{{i}}" [cdkDropListData]="d"
+                           [cdkDropListConnectedTo]="idsAndAll"
+                           class="example-list" (cdkDropListDropped)="dropForZoneQuestions($event)">
+                        <div class="example-box" *ngFor="let item of d" cdkDrag>{{item.answerElement}}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="question.type == 'DRAG_IMAGE'" class="container">
+                <div class="row">
+                  <div *ngIf="idsImages.length>0" class="example-container">
+                    <div id="all_images" style="border: solid;min-width: 100px;min-height: 20px;"
+                         cdkDropList
+                         [cdkDropListData]="done"
+                         [cdkDropListConnectedTo]="idsImages"
+                         class="row"
+                         (cdkDropListDropped)="dropForZoneQuestions($event)">
+                      <mat-chip-list>
+                        <div class="ml-3 "
+                             style="cursor: move;" *ngFor="let item of done" cdkDrag>
+                          <img  alt="..." width="50px" height="50px" class="border border-secondary"
+                                [src]="dataService.host+'/photoSchema/'+item.id">
+                        </div>
+                      </mat-chip-list>
+                    </div>
+                  </div>
+                </div>
+                <div class="row example-container">
+                  <div class="row mt-5" *ngFor="let d of data;let i = index;">
+                    <div class="col-8 col-sm-6">
+                      <h2> {{zoneNames[i].answer}}</h2>
+                    </div>
+                    <div *ngIf="idsImages.length>0" class="col-4 col-sm-6">
+                      <!--                      [cdkDropListConnectedTo]="['all_images']"-->
+                      <div cdkDropList id="{{i+'_images'}}" [cdkDropListData]="d"
+                           [cdkDropListConnectedTo]="idsAndAllImages"
+                           class="example-list" (cdkDropListDropped)="dropForZoneQuestions($event)">
+                        <div class="example-box" *ngFor="let item of d" cdkDrag>
+                          <img alt="..." width="50px" height="50px"
+                               [src]="dataService.host+'/photoSchema/'+item.id">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-12" label="figure if it exist">
+            <img *ngIf="question.image != undefined && question.image != null"
+                 alt="..." class="img-fluid w-100 h-100 float-right"
+                 [src]="dataService.host+'/photoQuestion/'+question.id">
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr/>
+    <div class="row m-auto">
+      <nav >
+        <ul class="pagination pagination-lg">
+          <li class="page-item" *ngFor="let q of test.questions;let i = index"
+              [ngClass]="checkIfQuestionAnswered(q) && visitedQuestions.includes(q.id) ? 'active':''">
+            <a class="page-link"  (click)="goToQuestion(i)">{{i+1}}</a></li>
+        </ul>
+      </nav>
+    </div>
+    <hr/>
+    <!-- Submit btns -->
+    <div>
+      <div class="justify-content-center">
+        <button class="btn btn-outline-primary mr-lg-5 float-left"
+                *ngIf="this.currentQuestionNumber >= 1 && !this.onEvaluation" (click)="onPrev()">Précedant</button>
+        <button class="btn btn-primary mr-lg-3" *ngIf="this.currentQuestionNumber < this.test.questions.length-1"
+                (click)="onNext()" >Suivant</button>
+        <button class="btn btn-primary mr-lg-3"*ngIf="this.currentQuestionNumber == this.test.questions.length-1"
+                (click)="onSubmit()" >Soumettre</button>
+
+        <button *ngIf="!onEvaluation" class="btn btn-outline-warning float-right" (click)="onValidateAnswer()">
+          verifier ma réponse
+        </button>
+        <button *ngIf="!onEvaluation" class="btn btn-outline-warning float-right" (click)="onShowAnswer()">
+          voire la réponse
+        </button>
+        <button *ngIf="!onEvaluation && (question.explication != null || question.explication != undefined)"
+                class="btn btn-outline-warning float-right ml-3 mr-3"
+                (click)="evaluationService.showExplication(this.question)">
+          Explication
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="!onTest" class="page-wraper">
+  <div class="page-content bg-white">
+    <div *ngIf="!onTest" class="container-fluid h-100 mt-lg-5">
+      <div  class="card shadow p-3 mb-5 bg-white rounded w-100" style="height: 35rem;">
+        <div class="card-body">
+          <div class="page-banner ovbl-dark h-25">
+            <div class="container">
+              <div class="page-banner-entry">
+                <h1 class="text-white">Test Quizz</h1>
+              </div>
+            </div>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="row">
+            <div class="col-8">
+              <h2>{{test?.testName}}</h2>
+            </div>
+            <div class="col-4 border-left">
+              <h3 class="h3 text-center mt-2">Quizz Details</h3>
+              <div class="p-3 border rounded-pill mt-3 shadow d-flex justify-content-between">
+                <span>Temps du test</span> <span><b>{{test?.timeSecond | formatTime}} min</b></span>
+              </div>
+              <div class="p-3 border rounded-pill mt-3 shadow d-flex justify-content-between">
+                <span>Nombre des questions</span> <span><b>{{test?.questions.length}}</b> </span>
+              </div>
+              <div class="p-3 border rounded-pill mt-3 shadow d-flex justify-content-between">
+                <span>Seuil de validation</span> <span><b>{{test?.admissionBarrier * 100}} %</b></span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="card-footer">
+
+          <div class="text-center mb-0">
+            <button (click)="onStartTest()" [disabled]="test == null || test == undefined" class="btn btn-success">Commencer</button>
+            <button class="btn btn-outline-success ml-2">Retour au cours</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

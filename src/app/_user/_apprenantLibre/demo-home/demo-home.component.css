@@ -1,0 +1,15 @@
+.url:hover{
+  color: orangered;
+  cursor: pointer;
+}
+img:hover{
+  border-bottom: 2px solid orangered;
+}
+
+
+svg {
+  cursor: pointer;
+  width: 145px;
+  height: 151px;
+}
+
