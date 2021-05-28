@@ -44,7 +44,9 @@
   text-align: center;
 }
 
-
+.pagination{
+  padding-bottom: 8px;
+}
 
 .pagination > li > a.active,
 .pagination > li > span {
@@ -86,6 +88,19 @@ button{
 
 #colImage{
   margin-top: -60px;
+}
+
+#boxxDrag{
+  border-radius: 12px;min-height: 37px;padding: 5pX 5px 5px 5px;
+  min-width: 35px; background-color: #F9D346;color: white;
+  border: 1px solid #FC9602;text-align: center;
+}
+
+#boxxToDrag:hover{
+  cursor: move;
+  border-radius: 12px;min-height: 20px;padding: 5pX 5px 5px 5px;
+  min-width: 35px; background-color: #F9D346;color: white;
+  border: 1px solid #FC9602;text-align: center;
 }
 
 #boxx:hover{
@@ -163,6 +178,7 @@ button{
   box-shadow: inset 0 0 5px grey;
   border-radius: 10px;
   height: 5px;
+
 
 }
 

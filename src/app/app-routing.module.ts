@@ -14,13 +14,19 @@ import {TestInterfaceComponent} from './_evaluation/test-interface/test-interfac
 import {ScoreComponent} from './_evaluation/score/score.component';
 import {HomeComponent} from './_static/home/home.component';
 import {ErrorComponent} from './_static/error/error.component';
+import {PositionTestUpdatedComponent} from "./_evaluation/position-test-updated/position-test-updated.component";
+import {PositionIntegrationComponent} from "./_demos/position-integration/position-integration.component";
 
 const routes: Routes = [
   {path: '', component : HomeComponent},
   {path: 'home', component : HomeComponent},
-  {path: 'test', component : TestInterfaceComponent},
   {path: 'score', component : ScoreComponent, canActivate: [AuthenticationGuardService]},
 
+  {path: 'test', component : TestInterfaceComponent},
+  /* dev */
+  {path: 'positionDemo', component : PositionTestUpdatedComponent},
+  {path: 'pos', component : PositionIntegrationComponent},
+  /* dev */
   {path: 'login', component : LoginComponent, canActivate: [LoggedGuardService]},
 
 

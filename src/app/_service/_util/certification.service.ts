@@ -19,6 +19,22 @@ export class CertificationService {
     });
   }
 
+  public downloadResultatsPositionTest(firstName: string, lastName: string,niveau: string){
+    let doc = new jsPDF('p','pt', 'a4');
+    doc.html(this.resultatsPositionTest(firstName, lastName,niveau),{
+      callback: function (doc) {
+        doc.save("test de positionnement.pdf");
+      }
+    });
+  }
+  public resultatsPositionTest(firstName: string, lastName: string,niveau: string){
+    return '<div id="htmlData" #htmlData class="border-success" style="width: 595px;height: 842px" >\n' +
+      '  <h1>Resultas du test de positionnement</h1>\n' +
+      '  <h1>Niveau est : '+niveau+'</h1>\n' +
+      '</div>';
+  }
+
+
   public html(firstName: string, lastName: string,niveau: string, isFavorable: boolean, date){
     date =this.datepipe.transform(date, 'yyyy-MM-dd');
     return '<div id="htmlData" #htmlData class="border-success" style="width: 842px;height: 595px" >\n' +

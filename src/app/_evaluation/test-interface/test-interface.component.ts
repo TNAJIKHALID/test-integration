@@ -13,6 +13,7 @@ import {SpeakService} from '../../_service/_util/speak.service';
 import {DataStoringService} from '../../_service/_util/data-storing.service';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {ConfirmationDialogService} from '../../_service/_util/confirmation-dialog.service';
+import {noUndefined} from "@angular/compiler/src/util";
 
 @Component({
   selector: 'app-test-interface',
@@ -27,6 +28,9 @@ export class TestInterfaceComponent implements OnInit {
 
   public question: Question;
   public response: Response = new Response();
+
+  public filteredResponses : Map<number,number[]>  = new Map<number,number[]>();
+
   /* todo to add to state. */public respondedQuestionsIds: Array<number> = new Array<number>();
   /** state variables**/
   public onTest: boolean;
@@ -43,6 +47,7 @@ export class TestInterfaceComponent implements OnInit {
   public numberOfQuestionsToLoad: number = 5;
   /** Data for Questions*/
   public visitedQuestions: Array<number> = new Array<number>();
+  public verifiedQuestions: Array<number> = new Array<number>();
   public zoneNames: Array<Answer> = new Array<Answer>();
   public zoneValues: Array<AnswerElement> = new Array<AnswerElement>();
   public strings: any;
@@ -100,6 +105,17 @@ export class TestInterfaceComponent implements OnInit {
       EvaluationService.test = this.test;
       this.response.testTime = this.test.timeSecond - this.counter;
       this.countDown.unsubscribe();
+
+      //todo
+      /****************/
+      for (let key of this.response.responses.keys()) {
+        if (this.filteredResponses.has(key)){
+          this.response.responses.set(key,this.filteredResponses.get(key))
+        } else {
+          this.response.responses.set(key,[])
+        }
+      }
+      /****************/
       this.evaluationService.getScoreFromURL(this.response,this.submitScoreUrl);
     }
   }
@@ -442,7 +458,14 @@ export class TestInterfaceComponent implements OnInit {
 
   onValidateAnswer() {
     let isCorrect : boolean = this.questionIsCorrect(this.question);
-    this.evaluationService.showExplication(this.question)
+    this.verifiedQuestions.push(this.question.id);
+    this.evaluationService.showExplication(this.question);
+
+    if(!this.filteredResponses.has(this.question.id)){
+      this.filteredResponses.set(this.question.id,this.response.responses.get(this.question.id));
+    }
+
+
     this._snackBar.open(isCorrect ? 'Bravo...' : 'Ops! C\'est Raté', '', {
       horizontalPosition: 'right',
       verticalPosition: 'top',

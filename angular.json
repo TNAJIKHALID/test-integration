@@ -123,5 +123,8 @@
       }
     }
   },
-  "defaultProject": "testApplication"
+  "defaultProject": "testApplication",
+  "cli": {
+    "analytics": "aa8e26d4-b61f-4d8e-a57c-cc6149aee542"
+  }
 }

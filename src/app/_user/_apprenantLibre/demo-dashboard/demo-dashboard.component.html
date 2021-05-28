@@ -3,13 +3,15 @@ background-color: #F5F6FA;min-height: 100%;">
   <div class="w-100" style="height: 60px;min-width: 100%;
    background-color: #FBFBFB; border-bottom: 3px solid #E4E5E9">
     <div class="row">
-      <div class="col-6">
+      <div class="col-4">
         <a href="/testDashboard/dashUser" class="float-start mt-1 pb-2 "><img src="assets/images/logoo.png"
                                                           style="height: 30px; width: 150px;
                                                           margin-top: 10px;margin-left: 20px;"  alt=""></a>
-        <span class="float-start fw-bold text-uppercase" id="title">{{getCurrentMode()}}</span>
       </div>
-      <div class="col-6" style="padding-top: 13px;">
+      <div class="col-4">
+        <span class="float-start fw-bold text-uppercase text-center w-100" id="title">{{getCurrentMode()}}</span>
+      </div>
+      <div class="col-4" style="padding-top: 13px;">
         <span class="float-end mt-2">
           <span class="h5 mt-1" style="font-family: Verdana;font-size: 20px;">
           {{jwtService.userAuthenticated.firstName + ' ' + jwtService.userAuthenticated.lastName}}

@@ -37,6 +37,8 @@ export class Enterprise{
 export class ApprenantLibre{
   id:number;
   appUser:AppUser;
+  scores:  Array<Score>;
+  positionTestResult: string;
 }
 
 export class Formateur{

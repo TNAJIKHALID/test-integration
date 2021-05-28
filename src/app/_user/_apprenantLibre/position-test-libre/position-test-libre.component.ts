@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../../_service/_util/data.service';
+import {JwtAuthenticationService} from "../../../_service/_authentication/jwt-authentication.service";
+import {ApprenantLibre} from "../../../_model/user";
 
 @Component({
   selector: 'app-position-test-libre',
@@ -7,23 +9,40 @@ import {DataService} from '../../../_service/_util/data.service';
   styleUrls: ['./position-test-libre.component.css']
 })
 export class PositionTestLibreComponent implements OnInit {
-  apprenant: { positionTestResult:string };
   startTest: boolean = false;
   positionTestResult:string;
-  constructor(public dataService:DataService) { }
+  apprenantLibre: ApprenantLibre;
+  constructor(public dataService:DataService,public jwtService:JwtAuthenticationService) {
+    let d;
+    this.dataService.getResource("/getApprenantLibre?appUserId="+this.jwtService.userAuthenticated.id).subscribe(data=>{
+      d = data;
+      this.apprenantLibre = d;
+      this.positionTestResult = this.apprenantLibre.positionTestResult;
+      console.log(this.apprenantLibre);
+    })
+  }
 
   ngOnInit(): void {
-    this.positionTestResult = 'NAN';
+    let d;
+    this.dataService.getResource("/getApprenantLibre?appUserId="+this.jwtService.userAuthenticated.id).subscribe(data=>{
+      d = data;
+      this.apprenantLibre = d;
+      this.positionTestResult = this.apprenantLibre.positionTestResult;
+      console.log("hhhhhh");
+      console.log(this.positionTestResult);
+    })
   }
 
   receivedLevel($event: string) {
     this.positionTestResult = $event;
     this.startTest = false;
     let d;
-    console.log('parent ........ ' + this.apprenant.positionTestResult);
-   /* this.dataService.postResource('/putPositionTestResult',this.apprenant).subscribe(data=>{
+    let url = "id=" + this.jwtService.userAuthenticated.id+"&result="+this.positionTestResult;
+    this.dataService.getResource('/putPositionTestResutlsApprenantLibre?'+url).subscribe(data=>{
       d=data;
-      this.apprenant = d;
-    },error => console.log(error))*/
+      this.apprenantLibre = d;
+      console.log("tn........")
+      console.log(data)
+    },error => console.log(error))
   }
 }

@@ -1,4 +1,7 @@
-<div class="container mt-5  bg-white h-100" style="min-width: 1300px;min-height: 500px;"  *ngIf="!startTest && positionTestResult != null">
+
+
+<div *ngIf="false">
+  <div  class="container mt-5  bg-white h-100" style="min-width: 1300px;min-height: 500px;"  *ngIf="!startTest && positionTestResult != null">
     <div class=" bg-white w-100" *ngIf="positionTestResult != 'NAN'">
       <div class=" bg-white"  >
         <h2 class="mt-5 ms-5">Votre Niveau est apres le test de positionnment<br/>
@@ -15,10 +18,15 @@
       </div>
       <hr/>
       <div class=" bg-white">
-<!--        <button mat-raised-button color="accent" class="rounded" (click)="startTest = true">Commencer</button>-->
+        <!--        <button mat-raised-button color="accent" class="rounded" (click)="startTest = true">Commencer</button>-->
       </div>
     </div>
+  </div>
+  <div *ngIf="startTest" class="container mt-5 " style="min-width: 1300px;">
+    <app-position-test (levelEmetter)="receivedLevel($event)"></app-position-test>
+  </div>
 </div>
-<div *ngIf="startTest" class="container mt-5 " style="min-width: 1300px;">
-  <app-position-test (levelEmetter)="receivedLevel($event)"></app-position-test>
+
+<div *ngIf="apprenantLibre != null || apprenantLibre!= undefined">
+  <app-position-test-updated [positionTestResult]="apprenantLibre.positionTestResult" (levelEmetter)="receivedLevel($event)"></app-position-test-updated>
 </div>

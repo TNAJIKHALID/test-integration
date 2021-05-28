@@ -39,6 +39,8 @@ import { HomeComponent } from './_static/home/home.component';
 import { ErrorComponent } from './_static/error/error.component';
 import {PositionTestComponent} from './_evaluation/position-test/position-test.component';
 import {ConfirmationDialogComponent} from './_static/confirmation-dialog/confirmation-dialog.component';
+import {PositionTestUpdatedComponent} from "./_evaluation/position-test-updated/position-test-updated.component";
+import { PositionIntegrationComponent } from './_demos/position-integration/position-integration.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,9 @@ import {ConfirmationDialogComponent} from './_static/confirmation-dialog/confirm
     DemoHomeComponent,
     HomeComponent,
     ConfirmationDialogComponent,
-    ErrorComponent
+    PositionTestUpdatedComponent,
+    ErrorComponent,
+    PositionIntegrationComponent
   ],
   imports: [
     BrowserModule,
