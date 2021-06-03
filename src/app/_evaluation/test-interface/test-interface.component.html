@@ -5,7 +5,6 @@
     <!-- Theme -->
     <div style="background-color: #F5F6FA;margin-right: 0px;width: 100%;height: 6%;padding-bottom: 1px">
       <span class="float-start ms-20" style="margin-top: 5px; margin-bottom: 0px;">
-<!--        <mat-icon color="primary">menu</mat-icon>-->
         <svg id="Calque_1_copie" data-name="Calque 1 copie" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="35.766" height="26.228" viewBox="0 0 35.766 26.228">
           <image id="Calque_1_copie-2" data-name="Calque 1 copie" width="35.766" height="26.228" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAhCAYAAABN2CLhAAAABHNCSVQICAgIfAhkiAAAAuRJREFUWEftmL9rFEEcxW/H+Fs0NoKFBgVNVLCOhaB1QG3yHyjcVtpIFFGDhaIgpJGDxEawSp3GxgQrk0ZLwUqQQBA0UaPmh7u+z+4MGZcQDm52uYMbeLn5zs6877vJ7rvZb5SmaS1rsTmmv4eFfcL2fLD2S0iEvYIRfnrxNvX/CKvCHoGYucSRxQ7Ls2xj5nENnr/CboE58KxZHvLAsyL02LyL+nxXaySM1aJMdGxuqn9PQHC7trcSNizhn6O0Hl1U8LpdlRZ0vVI8hOhRde53iOh16TyBaG6NJx0i+qt09iP6pDpzwoEOEP5Q9/Qd9yCek+BHwln7tPL0Ogfgu1iLycb8mH5xzI9ZF4Lnu3heCqMSvZaLdi02h2wSJxr7YQIxjXgr0cxlDkJZ40RvxbPZFyvyLEsstpm1/0VvyG/rXld0Vf+e7k5Xu9OxGVDC20KfffqLTzuHIRqHHOciOITvLGXO4UA1KQeZyN2jHh3V57RwvKqdaiHPNQl/jujrIhlrgajKpZ+U7EynHZg43/chekidqSq3q4Vc6LyCaB66p8KNFsiqWPpBSS7pnv644dOxOa/BfsG94nB2wC1wCd8ZcAxi91pU9hz0cGCakuCl3D38A1MV+xUgR1d0gE1siqK7001tU4BJvntcEB+vW7gDb724A0Ub3KHoEP5biXu9Yo7vLMSOBwfYjMedZeDwzztFnm+6/kbuMZ+7Rz2iwvNMuBpgE8qkWBD5ZQmfRfSwgskyswXkfi+uQUQ/UOduQOKyqbIDU11ZGmVnCsTPL+MAoikbzAinAhGXSXNL9/RjV6w5okwjwmmBShNlV0Djyd8l7BR+C5RbKdlSpqX/Q+As0mvnU5bFXfYLuA9rKP/C4UrIxPCzDi7msw4HOWh5qHNwnXVfhBcSPM615n5cYoMl9VDdyQhj4+xwXWO5bcUmr0U3EgQR82VJuqqx1K5hjMa6RGPwsi7xuNkcGjzkIW9Wl3btH4JKGDScgzuqAAAAAElFTkSuQmCC"/>
         </svg>
@@ -20,13 +19,13 @@
     <div class="progress" id="progressBar">
       <div class="progress-bar" role="progressbar"
            style="width: 100%; background-color: orangered;" [style]=""
-           [style]="counter*100/test.timeSecond< 90? 'background-color:red; ' + 'width: '+ counter*100/test.timeSecond+'%'
-           :'background-color:green;'+'width: '+ counter*100/test.timeSecond+'%'"
+           [style]="counter*100/test.timeSecond< 30? 'background-color:#FF6801; ' + 'width: '+ counter*100/test.timeSecond+'%'
+           :'background-color:#92d04f;'+'width: '+ counter*100/test.timeSecond+'%'"
            aria-valuenow="{{counter*100/test.timeSecond}}" aria-valuemin="0"
            aria-valuemax="100"></div>
     </div>
     <div class="row m-auto" style="width: 96%;">
-      <div class="col-6 mt-2 float-left">Question {{this.currentQuestionNumber+1}}/{{this.test.questions.length}}</div>
+      <div class="col-6 mt-2 float-left fw-bold" style="font-size: 15px;">Question {{this.currentQuestionNumber+1}}/{{this.test.questions.length}}</div>
       <div class="col-6 mt-2 float-right" style="cursor: pointer;">
         <mat-icon class="float-end" *ngIf="speakService.activeVoiceReading" (click)="mute()" color="primary">volume_up</mat-icon>
         <mat-icon class="float-end" *ngIf="!speakService.activeVoiceReading" (click)="voiceUp()" color="primary">volume_off</mat-icon>
@@ -160,24 +159,29 @@
                 </div>
               </div>
             </div>
-
-
           </div>
+
           <div class="row m-auto mt-5" >
               <div class="col-2" *ngFor="let d of data;let i = index;">
-                <div class="card">
+                <div class="card" cdkDropList id="{{i+'_images'}}" [cdkDropListData]="d"
+                     [cdkDropListConnectedTo]="idsAndAllImages"
+                     (cdkDropListDropped)="dropForZoneQuestions($event)"
+                >
                   <div class="card-img">
                     <img alt="..."
                          [src]="dataService.host+'/photoSchema/'+zoneNames[i].id">
                   </div>
-                 <div class="card-footer">
+                  <div class="card-footer">
                    <div *ngIf="idsImages.length > 0" >
-                     <div cdkDropList id="{{i+'_images'}}" [cdkDropListData]="d"
-                          [cdkDropListConnectedTo]="idsAndAllImages"
+                     <div
                           style="min-height: 20px;min-width: 20px;border-radius: 10px;"
-                          (cdkDropListDropped)="dropForZoneQuestions($event)">
-                       <div id="boxx" style="align-items: center" [style]="showAnswer ? 'color:green;font-weight: bold;':''"
-                            class="text-center" *ngFor="let item of d" cdkDrag>{{item.answerElement}}</div>
+                          >
+                       <div id="boxx" style="align-items: center"
+                            [style]="showAnswer ? 'color:green;font-weight: bold;':''"
+                            class="text-center" *ngFor="let item of d" cdkDrag>
+                         {{item.answerElement}}
+
+                       </div>
                      </div>
                    </div>
                  </div>
@@ -232,8 +236,9 @@
                   <li  *ngFor="let q of test.questions;let i = index"  style="cursor: pointer;"
                        class="page-item" >
                     <a class="page-link"
-                       [style]="checkIfQuestionAnswered(q) &&
-                       visitedQuestions.includes(q.id) && verifiedQuestions.includes(q.id)? 'background-color: orangered;':''"
+                       [style]=" (checkIfQuestionAnswered(q) &&
+                       visitedQuestions.includes(q.id) && verifiedQuestions.includes(q.id)) || (checkIfQuestionAnswered(q) &&
+                       visitedQuestions.includes(q.id) && onEvaluation ) ? 'background-color: orangered;':''"
                        data-abc="true" (click)="goToQuestion(i)">{{i+1}}</a>
                   </li>
                 </ul>

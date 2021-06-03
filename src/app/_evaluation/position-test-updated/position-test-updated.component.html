@@ -1,8 +1,9 @@
-<div  style="margin-top: 36px;">
-  <div id="main" style="width: 100%;height: 100%; height: auto !important;height: 100%;
+<div >
+  <div style="width: 100%;height: 100%; height: auto !important;height: 100%;
   background-color: #F5F6FA;min-height: 100%;">
-    <div class="container shadow-lg rounded-2" style="padding-right: 0px;padding-left: 0px;height: 560px;position: relative;" id="testContainer" >
-      <!-- Theme -->
+
+    <div class="container shadow-lg rounded-2"
+         style="padding-right: 0px;padding-left: 0px;height: 560px;position: relative;" >
       <div style="background-color: #F5F6FA;margin-right: 0px;width: 100%;height: 8%;padding-bottom: 1px">
       <span class="float-start ms-20" style="margin-top: 11px; margin-bottom: 0px;margin-left: 8px;">
         <svg id="Calque_1_copie" data-name="Calque 1 copie" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="35.766" height="26.228" viewBox="0 0 35.766 26.228">
@@ -16,8 +17,15 @@
 
       <div *ngIf="currentIndex == 'Dx' " class="container" style="width: 100%;height:100%;background-color: white;">
         <div class="row w-75 m-auto">
-          <h1 class="text-center mt-5"><b style="color: orangered;">Entrainement</b> pour définir (redéfinir) au mieux un niveau habilitation
-            electrocute en fonction de la norme <b style="color: orangered;">NF C18 - 510</b></h1>
+          <h1 class="text-center mt-5">Ce test de positionnement a pour objectif de (re)définir au mieux un niveau d’habilitation. Le questionnaire est basé sur le référentiel de formation à la prévention des risques d’origine électrique, en accord avec la norme <b style="color: orangered;">NF C18 - 510.</b></h1>
+          <h1> Explication à développer comme quoi l’utilisateur a la possibilité de choisir entre </h1>
+          <ul class="ms-3">
+            <li class="h4">Par tâches</li>
+            <li class="h4">Par métier</li>
+          </ul>
+          <h1 class="text-center mt-2">
+            A la fin de ce test, le niveau d’habilitation est automatiquement enregistré par le système et affiche les tâches qui sont permises et les tâches non autorisées pour chaque niveau. L’utilisateur a toujours la possibilité de recommencer le test de positionnement.
+          </h1>
         </div>
 
         <div class="row w-25 mx-auto d-block" style="margin-top: 50px;">
@@ -151,7 +159,7 @@
 
 
         <!-- level -->
-        <div *ngIf="isLevel" class="container" style="width: 100%;height:100%;background-color: white;" >
+        <div *ngIf="false" class="container" style="width: 100%;height:100%;background-color: white;" >
           <div class="row">
             <h1 class="text-center mt-5">Votre niveau d’habilitation et
               <b style="color: #FF6801">{{this.currentIndex}}</b></h1>
@@ -191,22 +199,51 @@
 
             </div>
             <div class="col-4">
-              <!--<div class="row">
-                <svg class="float-end" xmlns="http://www.w3.org/2000/svg" width="196.5" height="196.5" viewBox="0 0 196.5 196.5">
-                  <g id="Ellipse_2" data-name="Ellipse 2" fill="#fff" stroke="#a0a0a0" stroke-width="10.14">
-                    <circle cx="98.25" cy="98.25" r="98.25" stroke="none"/>
-                    <circle cx="98.25" cy="98.25" r="93.18" fill="none"/>
-                  </g>
-                  <text x="50%" y="50%" text-anchor="middle" stroke="#FF6801" stroke-width="4x" dy=".5em"
-                        style="font-weight: bold;font-size: 10px;color: #FF6801;">{{currentIndex}}</text>
-                </svg>
-              </div>-->
               <div class="row w-50 mx-auto d-block">
                 <button mat-raised-button color="primary" class="resultButton" (click)="onDownloadRepport()">Telecharger</button>
                 <button mat-raised-button color="primary" class="resultButton" (click)="onConfirm()">Enregistrer</button>
                 <button mat-raised-button color="primary" class="resultButton" (click)="onRestart()">Re-Commencer</button>
               </div>
 
+            </div>
+          </div>
+        </div>
+
+        <!-- level 2.0 -->
+        <div *ngIf="isLevel" class="container" style="width: 100%;height:100%;background-color: white;" >
+          <div class="row">
+            <h1 class="text-center mt-5">Votre niveau d’habilitation et
+              <b style="color: #FF6801">{{this.currentIndex}}</b></h1>
+              <hr>
+          </div>
+          <div class="row m-auto justify-content-around" style="width: 90%;">
+            <div class="col-2 ms-1 card mt-3 shadow colTask " *ngFor="let a of authorization[0].allTasks"
+                [style]="authorizationMap.
+                get(currentIndex.toLowerCase().trim()).authorizedTasks.includes(a)?
+                'background-color: green;':'background-color: red;'"
+            >
+                <h3 class="text-center text-white fw-bold mt-2" style="text-align: center;">{{a}}</h3>
+            </div>
+          </div>
+          <div class="row mt-2 ms-5">
+            <p style="border-left: 20px solid green;padding-left: 10px;">Les taches autorses</p>
+            <p style="border-left: 20px solid red;padding-left: 10px;">Les taches non autorses</p>
+          </div>
+          <div class="row w-50 m-auto">
+            <div class="col-4">
+              <button mat-raised-button color="primary" class="resultButton" (click)="onDownloadRepport()">
+                <mat-icon>file_download</mat-icon>
+                Telecharger</button>
+            </div>
+            <div class="col-4">
+              <button mat-raised-button color="primary" class="resultButton" (click)="onConfirm()">
+                <mat-icon>save</mat-icon>
+                Enregistrer</button>
+            </div>
+            <div class="col-4">
+              <button mat-raised-button color="primary" class="resultButton" (click)="onRestart()">
+                <mat-icon>restart_alt</mat-icon>
+                Re-Commencer</button>
             </div>
           </div>
         </div>
@@ -271,69 +308,3 @@
 
 
 
-
-<div *ngIf="false">
-  <div class="row m-auto mt-2" style="width: 100%;height:100%;background-color: white;">
-
-    <div label="start screen">
-
-    </div>
-    <div class="container m-auto mt-5 justify-content-center" >
-      <div *ngIf="currentIndex == 'D2'" label="tache or metier screen screen">
-        <button mat-raised-button color="primary" (click)="setMode(true)">Tache</button>
-        <button mat-raised-button color="primary" (click)="setMode(false)">Metier</button>
-      </div>
-
-      <div *ngIf="currentIndex == 'D47' ||currentIndex == 'D4' " label="electrique and no electrique screen">
-
-
-        <span>Text For Electrique</span>
-        <button mat-raised-button color="primary" (click)="setElectrique( previousIsTach ? 'D49' : 'D26')">Electrique</button>
-        <span>Text For Non Electrique</span>
-        <button mat-raised-button color="primary" (click)="setElectrique(previousIsTach ? 'D48' : 'D5')">Non Electrique</button>
-      </div>
-
-      <div *ngIf="onModeTache && startOUINON" label="on tache screen">
-        <h1>{{data.get(currentIndex).index}}</h1>
-        <p>{{data.get(currentIndex).question}}</p>
-        <p>{{data.get(currentIndex).consigne}}</p>
-        <p>{{data.get(currentIndex).noteBien}}</p>
-        <div *ngIf="data.get(currentIndex).buttons[0].button.includes('OUI') ">
-          <button mat-raised-button color="primary" (click)="setNextIndex(data.get(currentIndex).buttons[0].nextIndex)">Oui</button>
-          <button mat-raised-button color="primary" (click)="setNextIndex(data.get(currentIndex).buttons[1].nextIndex)">Non</button>
-        </div>
-        <div *ngIf="!data.get(currentIndex).buttons[0].button.includes('OUI')">
-          <button mat-raised-button color="primary"
-                  (click)="setNextIndex(data.get(currentIndex).buttons[0].nextIndex)">Base Tension</button>
-          <button mat-raised-button color="primary" (click)="setNextIndex(data.get(currentIndex).buttons[1].nextIndex)">Haute tension</button>
-        </div>
-      </div>
-
-
-
-      <div *ngIf="isLevel" label="level screen">
-        votre niveau est : {{this.currentIndex}}
-      </div>
-
-      <div *ngIf="noLevel" label="no level screen">
-        pas de niveaux
-      </div>
-
-      <div *ngIf="isNoHabilitation" label="no habilitation screen">
-        pas de d'habilitation
-      </div>
-
-    </div>
-
-
-  </div>
-  <div *ngIf="onModeMetier && startMetier" label="on metier screen">
-    <h3>Metier...</h3>
-    <h1>{{data.get(currentIndex).index}}</h1>
-    <p>{{data.get(currentIndex).question}}</p>
-    <p>{{data.get(currentIndex).consigne}}</p>
-    <p [innerHTML]="data.get(currentIndex).text"></p>
-    <p>{{data.get(currentIndex).noteBien}}</p>
-    <button mat-raised-button *ngFor="let b of data.get(currentIndex).buttons" color="primary" (click)="setNextIndex(b.nextIndex)">{{b.button}}</button>
-  </div>
-</div>

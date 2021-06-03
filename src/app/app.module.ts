@@ -37,17 +37,17 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { HomeComponent } from './_static/home/home.component';
 import { ErrorComponent } from './_static/error/error.component';
-import {PositionTestComponent} from './_evaluation/position-test/position-test.component';
 import {ConfirmationDialogComponent} from './_static/confirmation-dialog/confirmation-dialog.component';
 import {PositionTestUpdatedComponent} from "./_evaluation/position-test-updated/position-test-updated.component";
 import { PositionIntegrationComponent } from './_demos/position-integration/position-integration.component';
+import {ToastrModule} from "ngx-toastr";
+import {MatSidenavModule} from "@angular/material/sidenav";
 
 @NgModule({
   declarations: [
     AppComponent,
     FormatTimePipe,
     LoginComponent,
-    PositionTestComponent,
     TestInterfaceComponent,
     TestOnlyComponent,
     ScoreComponent,
@@ -64,28 +64,30 @@ import { PositionIntegrationComponent } from './_demos/position-integration/posi
     ErrorComponent,
     PositionIntegrationComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatButtonModule,
-    MatProgressBarModule,
-    MatIconModule,
-    MatChipsModule,
-    MatDividerModule,
-    DragDropModule,
-    MatProgressSpinnerModule,
-    GoogleChartsModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatAutocompleteModule,
-    MatDialogModule,
-    MatSnackBarModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        ToastrModule.forRoot(),
+        ReactiveFormsModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatButtonModule,
+        MatProgressBarModule,
+        MatIconModule,
+        MatChipsModule,
+        MatDividerModule,
+        DragDropModule,
+        MatProgressSpinnerModule,
+        GoogleChartsModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatAutocompleteModule,
+        MatDialogModule,
+        MatSnackBarModule,
+        MatSidenavModule
+    ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

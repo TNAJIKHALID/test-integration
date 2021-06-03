@@ -221,6 +221,7 @@ class Task {
 }
 class AuthorizationLevels {
    level;
+   allTasks: Array<string> = new Array<string>();
    authorizedTasks : Array<string> = new Array<string>();
    unAuthorizedTasks  : Array<string> = new Array<string>();
 }

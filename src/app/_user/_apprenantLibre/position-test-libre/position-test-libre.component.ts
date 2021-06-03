@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../../_service/_util/data.service';
 import {JwtAuthenticationService} from "../../../_service/_authentication/jwt-authentication.service";
 import {ApprenantLibre} from "../../../_model/user";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-position-test-libre',
@@ -12,7 +13,10 @@ export class PositionTestLibreComponent implements OnInit {
   startTest: boolean = false;
   positionTestResult:string;
   apprenantLibre: ApprenantLibre;
-  constructor(public dataService:DataService,public jwtService:JwtAuthenticationService) {
+  positionTestResultSaved: boolean = false;
+
+  constructor(public dataService:DataService,public jwtService:JwtAuthenticationService,
+              private toastr: ToastrService) {
     let d;
     this.dataService.getResource("/getApprenantLibre?appUserId="+this.jwtService.userAuthenticated.id).subscribe(data=>{
       d = data;
@@ -29,6 +33,7 @@ export class PositionTestLibreComponent implements OnInit {
       this.apprenantLibre = d;
       this.positionTestResult = this.apprenantLibre.positionTestResult;
       console.log("hhhhhh");
+
       console.log(this.positionTestResult);
     })
   }
@@ -41,8 +46,11 @@ export class PositionTestLibreComponent implements OnInit {
     this.dataService.getResource('/putPositionTestResutlsApprenantLibre?'+url).subscribe(data=>{
       d=data;
       this.apprenantLibre = d;
-      console.log("tn........")
-      console.log(data)
+      this.toastr.success('le niveau a bien ete enregistre!', 'Test de positionnement',{
+        timeOut: 3000,
+        positionClass: 'toast-top-right'
+      });
+
     },error => console.log(error))
   }
 }

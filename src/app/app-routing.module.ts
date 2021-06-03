@@ -34,10 +34,10 @@ const routes: Routes = [
       {path: '', component : DemoHomeComponent,canActivate: [AuthenticationGuardService,
           DemoDashGuardService]},
       {path: 'dashUser', component : DemoHomeComponent,canActivate: [AuthenticationGuardService]},
-      {path: 'positionTestLibre', component : PositionTestLibreComponent,canActivate: [AuthenticationGuardService]},
-      {path: 'entrainmentLibre', component : EntrainementLibreComponent,canActivate: [AuthenticationGuardService]},
-      {path: 'evaluationLibre', component : EvaluationLibreComponent,canActivate: [AuthenticationGuardService]},
-      {path: 'formationLibre', component : FormationLibreComponent,canActivate: [AuthenticationGuardService]},
+      {path: 'positionTestLibre', component : PositionTestLibreComponent,canActivate: [AuthenticationGuardService],data: {animation: 'AboutPage'}},
+      {path: 'entrainmentLibre', component : EntrainementLibreComponent,canActivate: [AuthenticationGuardService],data: {animation: 'HomePage'}},
+      {path: 'evaluationLibre', component : EvaluationLibreComponent,canActivate: [AuthenticationGuardService],data: {animation: 'HomePage'}},
+      {path: 'formationLibre', component : FormationLibreComponent,canActivate: [AuthenticationGuardService],data: {animation: 'HomePage'}},
     ]
   },
 
@@ -58,7 +58,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,{useHash: true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

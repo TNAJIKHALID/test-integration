@@ -14,6 +14,7 @@ import {DataStoringService} from '../../_service/_util/data-storing.service';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {ConfirmationDialogService} from '../../_service/_util/confirmation-dialog.service';
 import {noUndefined} from "@angular/compiler/src/util";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-test-interface',
@@ -26,12 +27,19 @@ export class TestInterfaceComponent implements OnInit {
   @Input() public submitScoreUrl:string;
 
 
+  /** store the current question */
   public question: Question;
+  /** store the responses to submission */
   public response: Response = new Response();
-
+  /** store the responses AKA questions to keep for submission */
   public filteredResponses : Map<number,number[]>  = new Map<number,number[]>();
+  /** visited questions*/
+  public visitedQuestions: Array<number> = new Array<number>();
+  /** question on which user click valider*/
+  public verifiedQuestions: Array<number> = new Array<number>();
+  /** question on which user click voire la reponse*/
+  public respondedQuestionsIds: Array<number> = new Array<number>();
 
-  /* todo to add to state. */public respondedQuestionsIds: Array<number> = new Array<number>();
   /** state variables**/
   public onTest: boolean;
   public noAnswer: boolean = true;
@@ -45,9 +53,7 @@ export class TestInterfaceComponent implements OnInit {
   public showAnswer: boolean = false;
   public allowPassingQuestions: boolean = false;
   public numberOfQuestionsToLoad: number = 5;
-  /** Data for Questions*/
-  public visitedQuestions: Array<number> = new Array<number>();
-  public verifiedQuestions: Array<number> = new Array<number>();
+
   public zoneNames: Array<Answer> = new Array<Answer>();
   public zoneValues: Array<AnswerElement> = new Array<AnswerElement>();
   public strings: any;
@@ -64,8 +70,8 @@ export class TestInterfaceComponent implements OnInit {
   public questionTimeInSecond: number;
   public QuestionCountDown;
 
-  /**/public idsAndAll: Array<string> = new Array<string>();
-  /**/public idsAndAllImages: Array<string> = new Array<string>();
+  public idsAndAll: Array<string> = new Array<string>();
+  public idsAndAllImages: Array<string> = new Array<string>();
 
   @HostListener("window:beforeunload", ["$event"])
   unloadHandler(event: Event) {
@@ -78,6 +84,7 @@ export class TestInterfaceComponent implements OnInit {
               public evaluationService: EvaluationService, public route: ActivatedRoute,
               private _snackBar: MatSnackBar, public dialog: MatDialog,
               public confirmationDialogService:ConfirmationDialogService,
+              private toastr: ToastrService,
               public speakService: SpeakService, public dataStoring: DataStoringService
   ) { }
 
@@ -91,22 +98,16 @@ export class TestInterfaceComponent implements OnInit {
 
   ngOnDestroy(): void {
     console.log('on destroy.....')
-    /* todo */
-    //this.saveState();
     this.countDown.unsubscribe();
     this.speakService.mute();
   }
 
   onSubmit() {
     this.noAnswer = this.checkIfAnswered();
-    // todo
-    //this.removeRespondedFromResponse();
     if (this.noAnswer || this.allowPassingQuestions) {
       EvaluationService.test = this.test;
       this.response.testTime = this.test.timeSecond - this.counter;
       this.countDown.unsubscribe();
-
-      //todo
       /****************/
       for (let key of this.response.responses.keys()) {
         if (this.filteredResponses.has(key)){
@@ -380,7 +381,6 @@ export class TestInterfaceComponent implements OnInit {
       }
       this.response.responses.set(this.question.id, array);
     }
-    /*Mark question as responded*/
     this.respondedQuestionsIds.push(this.question.id);
   }
 
@@ -464,19 +464,24 @@ export class TestInterfaceComponent implements OnInit {
     if(!this.filteredResponses.has(this.question.id)){
       this.filteredResponses.set(this.question.id,this.response.responses.get(this.question.id));
     }
+    if(isCorrect){
+      this.toastr.success('Bravo', 'Question',{
+        timeOut: 3000,
+        positionClass: 'toast-top-right'
+      });
+    } else {
+      this.toastr.error('Ops! c\'est raté', 'Question',{
+        timeOut: 3000,
+        positionClass: 'toast-top-right'
+      });
+    }
 
-
-    this._snackBar.open(isCorrect ? 'Bravo...' : 'Ops! C\'est Raté', '', {
+    /* this._snackBar.open(isCorrect ? 'Bravo...' : 'Ops! C\'est Raté', '', {
       horizontalPosition: 'right',
       verticalPosition: 'top',
       duration: 2000
-    });
+    });*/
   }
 
-  removeRespondedFromResponse() {
-    this.respondedQuestionsIds.forEach(id=>{
-      this.response.responses.set(id,[]);
-    })
-  }
 }
 
