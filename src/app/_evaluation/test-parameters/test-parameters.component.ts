@@ -31,7 +31,7 @@ export class TestParametersComponent implements OnInit {
     this.myForm = this.formBuilder.group(
       {
         testMode:[this.testModeInput,[Validators.required]],
-        habilitationLevel: ['H1', [Validators.required ]],
+        habilitationLevel: ['B0 Exécutant', [Validators.required ]],
         fundamentalQuestion: [1,
           [ Validators.required, Validators.max(5), Validators.min(0)]
         ],

@@ -4,12 +4,12 @@
     <div class="container" style="padding-right: 0px;padding-left: 0px;position: relative;" id="testContainer" >
     <!-- Theme -->
     <div style="background-color: #F5F6FA;margin-right: 0px;width: 100%;height: 6%;padding-bottom: 1px">
-      <span class="float-start ms-20" style="margin-top: 5px; margin-bottom: 0px;">
+      <!--<span class="float-start ms-20" style="margin-top: 5px; margin-bottom: 0px;">
         <svg id="Calque_1_copie" data-name="Calque 1 copie" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="35.766" height="26.228" viewBox="0 0 35.766 26.228">
           <image id="Calque_1_copie-2" data-name="Calque 1 copie" width="35.766" height="26.228" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAhCAYAAABN2CLhAAAABHNCSVQICAgIfAhkiAAAAuRJREFUWEftmL9rFEEcxW/H+Fs0NoKFBgVNVLCOhaB1QG3yHyjcVtpIFFGDhaIgpJGDxEawSp3GxgQrk0ZLwUqQQBA0UaPmh7u+z+4MGZcQDm52uYMbeLn5zs6877vJ7rvZb5SmaS1rsTmmv4eFfcL2fLD2S0iEvYIRfnrxNvX/CKvCHoGYucSRxQ7Ls2xj5nENnr/CboE58KxZHvLAsyL02LyL+nxXaySM1aJMdGxuqn9PQHC7trcSNizhn6O0Hl1U8LpdlRZ0vVI8hOhRde53iOh16TyBaG6NJx0i+qt09iP6pDpzwoEOEP5Q9/Qd9yCek+BHwln7tPL0Ogfgu1iLycb8mH5xzI9ZF4Lnu3heCqMSvZaLdi02h2wSJxr7YQIxjXgr0cxlDkJZ40RvxbPZFyvyLEsstpm1/0VvyG/rXld0Vf+e7k5Xu9OxGVDC20KfffqLTzuHIRqHHOciOITvLGXO4UA1KQeZyN2jHh3V57RwvKqdaiHPNQl/jujrIhlrgajKpZ+U7EynHZg43/chekidqSq3q4Vc6LyCaB66p8KNFsiqWPpBSS7pnv644dOxOa/BfsG94nB2wC1wCd8ZcAxi91pU9hz0cGCakuCl3D38A1MV+xUgR1d0gE1siqK7001tU4BJvntcEB+vW7gDb724A0Ub3KHoEP5biXu9Yo7vLMSOBwfYjMedZeDwzztFnm+6/kbuMZ+7Rz2iwvNMuBpgE8qkWBD5ZQmfRfSwgskyswXkfi+uQUQ/UOduQOKyqbIDU11ZGmVnCsTPL+MAoikbzAinAhGXSXNL9/RjV6w5okwjwmmBShNlV0Djyd8l7BR+C5RbKdlSpqX/Q+As0mvnU5bFXfYLuA9rKP/C4UrIxPCzDi7msw4HOWh5qHNwnXVfhBcSPM615n5cYoMl9VDdyQhj4+xwXWO5bcUmr0U3EgQR82VJuqqx1K5hjMa6RGPwsi7xuNkcGjzkIW9Wl3btH4JKGDScgzuqAAAAAElFTkSuQmCC"/>
         </svg>
 
-      </span>
+      </span>-->
       <h3 class="text-center" ><span style="font-size: 20px;"><span style="color: #ff6d00">Thème: </span>{{question.theme}}</span>
       <span class="float-end" style="margin-top: 7px;margin-right: 10px;">{{counter | formatTime}} min</span>
       </h3>
@@ -31,7 +31,7 @@
         <mat-icon class="float-end" *ngIf="!speakService.activeVoiceReading" (click)="voiceUp()" color="primary">volume_off</mat-icon>
       </div>
       <div class="col-12 mt-2 float-left" style="width: 98%;">
-        <p id="question">{{question.question}}</p>
+        <p id="question" *ngIf="question.type != 'FILL'">{{question.question}}</p>
         <hr style="width: 70%;" class="m-auto"/>
       </div>
       <p style="font-size: 20px; color: #FF6801; margin-top: 10px;">{{question.instruction}}</p>
@@ -42,53 +42,79 @@
       <div class="row mt-2" *ngIf="question.type != 'DRAG_IMAGE'">
         <div class="col-8">
           <div *ngIf="question.type == 'SELECT'">
-            <div  class="ms-3 mt-2" *ngFor="let a of question.answers">
-              <input class="form-check-input"
-                     [checked]="this.response.responses.get(question.id).indexOf(a.id) != -1 || (showAnswer && a.correct) "
-                     (change)="chosenAnswer($event,a.id,this.response.responses.get(question.id).indexOf(a.id))"
-                     type="checkbox" name="exampleRadios" id="11 {{a.id}}" value="option2">
-              <label class="form-check-label ms-2"
-                     for="11 {{a.id}}" [ngClass]="showAnswer && a.correct ? 'text-success font-weight-bold' : ''">
-                {{a.answer}}
-              </label>
+            <div  class="mt-2" *ngFor="let a of question.answers">
+                <div class="row " style="padding-left: 0px;">
+                  <div class="col-1" style="padding-right: 0px; padding-left: 0px;margin-left: -30px;">
+                    <input class="form-check-input float-end"
+                           [checked]="this.response.responses.get(question.id).indexOf(a.id) != -1 || (showAnswer && a.correct) "
+                           (change)="chosenAnswer($event,a.id,this.response.responses.get(question.id).indexOf(a.id))"
+                           type="checkbox" name="exampleRadios" id="11 {{a.id}}" value="option2">
+                  </div>
+                  <div class="col-11">
+                    <label class="form-check-label ms-2 float-start"
+                           for="11 {{a.id}}" [ngClass]="showAnswer && a.correct ? 'text-success font-weight-bold' : ''">
+                      {{a.answer}}
+                    </label>
+                  </div>
+                </div>
+
+
             </div>
           </div>
+
           <div *ngIf="question.type == 'CHOOSE'">
             <div class="form-check mt-2" *ngFor="let a of question.answers">
               <input class="form-check-input ml-3" type="radio"
                      (change)="chosenAnswer($event,a.id,this.response.responses.get(question.id).indexOf(a.id))"
                      [checked]="this.response.responses.get(question.id).indexOf(a.id) != -1"
                      name="exampleRadios" id="{{a.id}}" value="option2">
-              <label class="form-check-label ml-1" for="{{a.id}}" [ngClass]="showAnswer && a.correct ? 'text-success font-weight-bold' : ''">
+              <label class="form-check-label ml-1" for="{{a.id}}"
+                     [ngClass]="showAnswer && a.correct ? 'text-success font-weight-bold' : ''">
                 {{a.answer}}
               </label>
             </div>
           </div>
+
           <div *ngIf="question.type == 'ORDER'">
             <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-              <div class="example-box" *ngFor="let a of question.answers" cdkDrag>
+              <div class="example-box-drag" *ngFor="let a of question.answers" cdkDrag>
                 <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
                 <b [ngClass]="showAnswer && a.correct ? 'text-success font-weight-bold' : ''">{{a.answer}}</b>
               </div>
             </div>
           </div>
+
           <div *ngIf="question.type == 'FILL'" >
             <form class="form-inline">
-              <p>
+              <p style="font-size: 18px;">
                 <span class="mt-2" *ngFor="let s of strings;let i = index">
                   <span *ngIf="i>0">&nbsp;</span>
                   {{s}}
-                  <select class="form-control" (change)="chosenAnswer($event, i, null)" [style]="showAnswer? 'color:green;font-weight: bold;':''"
-                          *ngIf="ma.size-1 >= i" id="etat{{i}}" class="form control" name="etat{{i}}" >
-                    <option selected disabled>Choisis une réponse</option>
-                    <option *ngFor="let o of ma.get(i)"
-                            [selected]="this.response.responses.get(this.question.id)[i]==o.id"
-                            value="{{o.id}}"><span >{{o.answer}}</span></option>
-                  </select>
+                  <span *ngIf="!showAnswer">
+                    <select class="form-control form-select-sm" (change)="chosenAnswer($event, i, null)" [style]="showAnswer? 'color:green;font-weight: bold;':''"
+                              *ngIf="ma.size-1 >= i" id="etat{{i}}" class="form control" name="etat{{i}}" >
+                      <option selected disabled>Choisis une réponse</option>
+                      <option *ngFor="let o of ma.get(i)"
+                              [selected]="this.response.responses.get(this.question.id)[i]==o.id"
+                              value="{{o.id}}">
+                        <span >{{o.answer}}</span>
+                      </option>
+                    </select>
+                  </span>
+
+                  <span *ngIf="showAnswer">
+                    <b *ngFor="let o of ma.get(i)">
+                      <span *ngIf="this.response.responses.get(this.question.id)[i]==o.id">
+                        {{o.answer}}
+                      </span>
+                    </b>
+                  </span>
+
                 </span>
               </p>
             </form>
           </div>
+
           <div *ngIf="question.type == 'DRAG'" >
             <div class="row">
               <div *ngIf="ids.length>0" class="example-container">
@@ -161,7 +187,7 @@
             </div>
           </div>
 
-          <div class="row m-auto mt-5" >
+          <div class="row m-auto mt-5 justify-content-center" >
               <div class="col-2" *ngFor="let d of data;let i = index;">
                 <div class="card" cdkDropList id="{{i+'_images'}}" [cdkDropListData]="d"
                      [cdkDropListConnectedTo]="idsAndAllImages"

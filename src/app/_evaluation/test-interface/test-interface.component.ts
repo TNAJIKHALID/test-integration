@@ -40,6 +40,8 @@ export class TestInterfaceComponent implements OnInit {
   /** question on which user click voire la reponse*/
   public respondedQuestionsIds: Array<number> = new Array<number>();
 
+  public isCurrentQuestionCorrect: boolean;
+
   /** state variables**/
   public onTest: boolean;
   public noAnswer: boolean = true;
@@ -138,8 +140,11 @@ export class TestInterfaceComponent implements OnInit {
     if (this.question.type == 'FILL') {
       this.ma = new Map<number, Array<Answer>>();
       this.strings = this.question.question.split('<s>');
+      let answers =this.question.answers;
+
       for (let i = 0; i < this.question.answers.length; i++) {
-        let answer = this.question.answers[i];
+        this.ma.set(i, answers);
+        /*let answer = this.question.answers[i];
         let order = this.question.answers[i].inOrder;
         if (this.ma.has(order) && this.ma.get(order).indexOf(answer) == -1) {
           let array = this.ma.get(order);
@@ -149,8 +154,11 @@ export class TestInterfaceComponent implements OnInit {
           let array = new Array<Answer>();
           array.push(answer);
           this.ma.set(order, array);
-        }
+        }*/
       }
+
+      console.log(this.strings)
+      console.log(this.ma)
       this.strings = this.question.question.split('<s>');
     }
     else if (this.question.type == 'DRAG' || this.question.type == 'DRAG_IMAGE' ) {
@@ -203,8 +211,10 @@ export class TestInterfaceComponent implements OnInit {
   onNext() {
     this.noAnswer = this.checkIfAnswered();
     if(!this.noAnswer && !this.allowPassingQuestions){
-      this.confirmationDialogService.confirm('',
-        'merci de finaliser votre réponse','','annuler')
+      this.toastr.error('Merci de finaliser votre reponse', 'Erreur',{
+        timeOut: 3000,
+        positionClass: 'toast-top-right'
+      });
     }
     if (this.noAnswer || this.allowPassingQuestions) {
       this.currentQuestionNumber++;
@@ -474,6 +484,7 @@ export class TestInterfaceComponent implements OnInit {
         timeOut: 3000,
         positionClass: 'toast-top-right'
       });
+      this.isCurrentQuestionCorrect = isCorrect;
     }
 
     /* this._snackBar.open(isCorrect ? 'Bravo...' : 'Ops! C\'est Raté', '', {

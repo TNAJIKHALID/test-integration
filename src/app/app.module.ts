@@ -42,6 +42,7 @@ import {PositionTestUpdatedComponent} from "./_evaluation/position-test-updated/
 import { PositionIntegrationComponent } from './_demos/position-integration/position-integration.component';
 import {ToastrModule} from "ngx-toastr";
 import {MatSidenavModule} from "@angular/material/sidenav";
+import {IpListModule} from "./_service/_localisation/iplist";
 
 @NgModule({
   declarations: [
@@ -86,7 +87,10 @@ import {MatSidenavModule} from "@angular/material/sidenav";
         MatAutocompleteModule,
         MatDialogModule,
         MatSnackBarModule,
-        MatSidenavModule
+        MatSidenavModule,
+
+
+        IpListModule
     ],
   providers: [
     {

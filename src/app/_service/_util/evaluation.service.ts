@@ -37,9 +37,20 @@ export class EvaluationService {
       });
     }
     else if (question.type == 'FILL') {
-      this.correctAnswers(question).forEach(answer =>
-        numbers.indexOf(answer.id) == -1 ? isCorrect = false : isCorrect);
-    } else if( question.type == 'DRAG' || question.type == 'DRAG_IMAGE'){
+      let allCorrect : boolean = true;
+
+      console.log(question)
+      console.log(allCorrect)
+      for (let answer of question.answers) {
+        if (answer.correct && numbers[answer.inOrder] != answer.id)
+          allCorrect = false;
+      }
+      console.log(allCorrect)
+      isCorrect = allCorrect;
+      /*this.correctAnswers(question).forEach(answer =>
+        numbers.indexOf(answer.id) == -1 ? isCorrect = false : isCorrect);*/
+    }
+    else if( question.type == 'DRAG' || question.type == 'DRAG_IMAGE'){
       question.answerElements.forEach(answerElemnt=>{
         if(numbers[answerElemnt.answer.inOrder] != answerElemnt.id) isCorrect = false;
       });

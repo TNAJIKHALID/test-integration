@@ -1,7 +1,7 @@
 <mat-drawer-container class="example-container" [hasBackdrop]="true" style="width: 100%;height: 100%; height: auto !important;height: 100%;
   background-color: #F5F6FA;min-height: 100%;">
   <mat-drawer #drawer [mode]="'over'" style="min-width: 200px;">
-    <div style="min-width: 70px;">
+    <div style="min-width: 70px; margin-top: 20px;margin-left: 10px;">
       <a>Hello word</a>
     </div>
 
@@ -15,11 +15,12 @@
      background-color: #FBFBFB; border-bottom: 3px solid #E4E5E9">
       <div class="row">
         <div class="col-4">
-          <span (click)="drawer.toggle()" class="float-start pb-2 ms-1" style="margin-top: 18px;">
+          <span (click)="drawer.toggle()" class="float-start pb-2 ms-1" style="margin-top: 18px;cursor: pointer;">
             <svg  id="Calque_1_copie" data-name="Calque 1 copie" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="35.766" height="26.228" viewBox="0 0 35.766 26.228">
             <image id="Calque_1_copie-2" data-name="Calque 1 copie" width="35.766" height="26.228" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAhCAYAAABN2CLhAAAABHNCSVQICAgIfAhkiAAAAuRJREFUWEftmL9rFEEcxW/H+Fs0NoKFBgVNVLCOhaB1QG3yHyjcVtpIFFGDhaIgpJGDxEawSp3GxgQrk0ZLwUqQQBA0UaPmh7u+z+4MGZcQDm52uYMbeLn5zs6877vJ7rvZb5SmaS1rsTmmv4eFfcL2fLD2S0iEvYIRfnrxNvX/CKvCHoGYucSRxQ7Ls2xj5nENnr/CboE58KxZHvLAsyL02LyL+nxXaySM1aJMdGxuqn9PQHC7trcSNizhn6O0Hl1U8LpdlRZ0vVI8hOhRde53iOh16TyBaG6NJx0i+qt09iP6pDpzwoEOEP5Q9/Qd9yCek+BHwln7tPL0Ogfgu1iLycb8mH5xzI9ZF4Lnu3heCqMSvZaLdi02h2wSJxr7YQIxjXgr0cxlDkJZ40RvxbPZFyvyLEsstpm1/0VvyG/rXld0Vf+e7k5Xu9OxGVDC20KfffqLTzuHIRqHHOciOITvLGXO4UA1KQeZyN2jHh3V57RwvKqdaiHPNQl/jujrIhlrgajKpZ+U7EynHZg43/chekidqSq3q4Vc6LyCaB66p8KNFsiqWPpBSS7pnv644dOxOa/BfsG94nB2wC1wCd8ZcAxi91pU9hz0cGCakuCl3D38A1MV+xUgR1d0gE1siqK7001tU4BJvntcEB+vW7gDb724A0Ub3KHoEP5biXu9Yo7vLMSOBwfYjMedZeDwzztFnm+6/kbuMZ+7Rz2iwvNMuBpgE8qkWBD5ZQmfRfSwgskyswXkfi+uQUQ/UOduQOKyqbIDU11ZGmVnCsTPL+MAoikbzAinAhGXSXNL9/RjV6w5okwjwmmBShNlV0Djyd8l7BR+C5RbKdlSpqX/Q+As0mvnU5bFXfYLuA9rKP/C4UrIxPCzDi7msw4HOWh5qHNwnXVfhBcSPM615n5cYoMl9VDdyQhj4+xwXWO5bcUmr0U3EgQR82VJuqqx1K5hjMa6RGPwsi7xuNkcGjzkIW9Wl3btH4JKGDScgzuqAAAAAElFTkSuQmCC"/>
           </svg>
           </span>
+
           <a routerLink="/testDashboard/dashUser" class="float-start mt-1 pb-2 "><img src="assets/images/logoo.png"
                                                             style="height: 30px; width: 150px;
                                                             margin-top: 10px;margin-left: 20px;"  alt=""></a>

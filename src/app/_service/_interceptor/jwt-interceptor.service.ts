@@ -10,13 +10,15 @@ export class JwtInterceptorService implements HttpInterceptor {
   constructor(private jwtService: JwtAuthenticationService, public router:Router) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    let a = localStorage.getItem('jwtAccessToken');
-    if (a) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${a}`
-        }
-      });
+    if(!request.url.includes('https://iplist.cc/api/')){
+      let a = localStorage.getItem('jwtAccessToken');
+      if (a) {
+        request = request.clone({
+          setHeaders: {
+            Authorization: `Bearer ${a}`
+          }
+        });
+      }
     }
     return next.handle(request).pipe(
       catchError(err => {

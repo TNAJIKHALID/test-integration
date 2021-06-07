@@ -140,9 +140,6 @@ button{
   transition: transform 250ms cubic-bezier(0, 0, 0.5, 1);
 }
 
-.example-box:last-child {
-  border: none;
-}
 
 .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.5, 1);
@@ -193,3 +190,27 @@ button{
 ::-webkit-scrollbar-thumb:hover {
   background: #b30000;
 }
+
+
+
+.example-box-drag {
+  padding: 10px 10px;
+  margin-top: 10px;
+  border: solid 1px #130b0b;
+  color: rgba(0, 0, 0, 0.87);
+  display: flex;
+  border-radius: 10px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  cursor: move;
+  background: white;
+  font-size: 14px;
+}
+/*
+
+.example-box:last-child {
+  border: none;
+}
+ */

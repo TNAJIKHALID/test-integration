@@ -1,2 +1,7 @@
 <mat-progress-bar *ngIf="loading" mode="indeterminate" color="primary"></mat-progress-bar>
 <router-outlet></router-outlet>
+
+<!--
+<input [value]="(iplist$ | async)?.ip" [(ngModel)]="ip" name="ip" fxFlex="1 1 auto"/>
+<p>{{ iplist$ | async | json }}</p>
+-->
