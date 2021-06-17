@@ -98,7 +98,7 @@ export class TestOnlyComponent implements OnInit, OnDestroy {
       EvaluationService.test = this.test;
       this.response.testTime = this.test.timeSecond - this.counter;
       this.countDown.unsubscribe();
-      this.evaluationService.getScoreFromURL(this.response,this.submitScoreUrl);
+      this.evaluationService.getScoreFromURL(this.response,this.submitScoreUrl,'/score');
     }
   }
 

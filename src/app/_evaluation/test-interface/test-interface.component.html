@@ -297,34 +297,47 @@
 
 
 
-<div *ngIf="!onTest"  style="margin-top: 22px;height: 96%;width: 98%;">
-    <div *ngIf="!onTest" class="container-fluid mt-5" style="height: 95%;">
-      <div  class="card shadow p-3 mb-5 bg-white rounded w-100" style="height: 32rem;">
-        <div class="card-body">
+<div *ngIf="!onTest" class=" container pb-3 rounded shadow mt-5 apprenantLibreDiv" style="min-width: 1300px;" >
+      <div  style="position: relative;height: 100%">
+        <div class="row w-75 mt-4 m-auto">
+          <h1 class="text-center fw-bold mt-3 colorPrimary">Résumé du test</h1>
+          <hr class="w-100">
+        </div>
+        <div class="row ">
           <div class="row">
-            <div class="col-8">
-              <h2>{{test?.testName}}</h2>
+            <div class="col-8 ml-3" style="padding-right: 30px;padding-left: 20px;">
+              <div class="p-3 br rounded-pill mt-3 d-flex justify-content-between">
+                <span>Niveau d'habilitation</span> <span><b class="colorPrimary">{{test?.testLevel}}</b> </span>
+              </div>
+              <p class="mt-2 justify-content-center" style="font-size: 20px;color: #6B6B6B;line-height: 32px;">Pendant l’exécution des travaux, l’exécutant de travaux
+                d’ordre électrique ou d’ordre non électrique doit,
+                dans le cadre des instructions reçues :</p>
             </div>
-            <div class="col-4 border-left">
-              <h3 class="h3 text-center mt-2">Quizz Details</h3>
-              <div class="p-3 border rounded-pill mt-3 shadow d-flex justify-content-between">
+            <div class="col-4 testRecap shadow">
+              <div class="p-3 br rounded-pill mt-3  d-flex justify-content-between">
                 <span>Temps du test</span> <span><b>{{test?.timeSecond | formatTime}} min</b></span>
               </div>
-              <div class="p-3 border rounded-pill mt-3 shadow d-flex justify-content-between">
+              <div class="p-3 br rounded-pill mt-3  d-flex justify-content-between">
                 <span>Nombre des questions</span> <span><b>{{test?.questions.length}}</b> </span>
               </div>
-              <div class="p-3 border rounded-pill mt-3 shadow d-flex justify-content-between">
+              <div class="p-3 br rounded-pill mt-3  d-flex justify-content-between">
+                <span>Nombre des questions fondamentales</span> <span><b>{{numberOfFondamentalQuestions}}</b> </span>
+              </div>
+              <div class="p-3 br rounded-pill mt-3  d-flex justify-content-between">
+                <span>Nombre des themes</span> <span><b>{{numberOfThemes}}</b> </span>
+              </div>
+              <div class="p-3 br rounded-pill mt-3  d-flex justify-content-between">
                 <span>Seuil de validation</span> <span><b>{{test?.admissionBarrier * 100}} %</b></span>
               </div>
             </div>
           </div>
         </div>
-        <div class="card-footer">
+        <div class="row w-100 bg-transparent" style="position: absolute; bottom: 0;align-items: center">
           <div class="text-center mb-0">
             <button (click)="onStartTest()"
                     [disabled]="test == null || test == undefined" mat-raised-button color="primary">Commencer</button>
           </div>
         </div>
       </div>
-    </div>
+
 </div>

@@ -14,7 +14,7 @@
         <h3 class="text-center" style="margin-top: 11px;"><span style="font-size: 20px;"><span style="color: #ff6d00">Thème: </span>Pour définir un niveau d’habilitation électrique selon la norme NFC-18-510</span>
         </h3>
       </div>
-
+      <!-- Commencer -->
       <div *ngIf="currentIndex == 'Dx' " class="container" style="width: 100%;height:100%;background-color: white;">
         <div class="row w-75 m-auto">
           <h1 class="text-center mt-5">Ce test de positionnement a pour objectif de (re)définir au mieux un niveau d’habilitation. Le questionnaire est basé sur le référentiel de formation à la prévention des risques d’origine électrique, en accord avec la norme <b style="color: orangered;">NF C18 - 510.</b></h1>
@@ -23,7 +23,7 @@
             <li class="h4">Par tâches</li>
             <li class="h4">Par métier</li>
           </ul>
-          <h1 class="text-center mt-5">
+          <h1 class="text-center mt-1">
             A la fin de ce test, le niveau d’habilitation est automatiquement enregistré par le système et affiche les tâches qui sont permises et les tâches non autorisées pour chaque niveau. L’utilisateur a toujours la possibilité de recommencer le test de positionnement.
           </h1>
         </div>
@@ -37,45 +37,54 @@
       <!-- tache or metier -->
       <div *ngIf="currentIndex == 'DTache'" class="container" style="width: 100%;height:100%;background-color: white;">
         <div class="row">
-          <p class="question">Déterminez votre qualification quelques soit le domaine de tension</p>
+          <!--
+          <p class="question text-center">Déterminez votre qualification quelques soit le domaine de tension</p>
           <hr style="width: 70%;margin-top: 4px;" class="m-auto"/>
-          <p style="font-size: 20px; color: #FF6801; margin-top: 20px;">Répondez en cliquant sur la case correspondante à vos tâches</p>
+          -->
+          <p class="text-center mt-5" style="font-size: 20px; color: #FF6801; margin-top: 20px;">Répondez en cliquant sur la case
+            correspondant</p>
         </div>
-        <div class="row mt-3 justify-content-between">
-          <p class="text-center mb-5">Vous avez des activités.</p>
+        <div class="row mt-5 justify-content-between">
+          <h3 class="text-center fw-bold " style="margin-bottom: 60px;">Souhaitez-vous déterminer votre
+            niveau d’habilitation en fonction des tâches que vous effectuées ou en
+            fonction de votre métier?
+          </h3>
           <div class="col-6">
             <button (click)="setMode(true)"
               mat-raised-button class="mx-auto d-block buttonHauteTension btnHover"  >
-              <b>Tache</b></button>
+              <b>TÂCHE</b></button>
+            <img class="mt-2 mx-auto d-block" src="assets/images/tache.png" height="212px" width="200px">
           </div>
           <div class="col-6 ">
             <button (click)="setMode(false)"
               class="buttonHauteTension mx-auto d-block btnHover"  mat-raised-button >
-              <b>Metier</b></button>
+              <b>MÉTIER</b></button>
+            <img class="img mx-auto d-block" src="assets/images/metier.jpeg" height="100px" width="100px">
           </div>
         </div>
       </div>
 
-
         <!-- electrique and no electrique screen -->
         <div *ngIf="(currentIndex == 'DElec' ||currentIndex == 'DNelec') && ! onModeMetier" class="container" style="width: 100%;height:100%;background-color: white;">
           <div class="row">
-            <p class="question">Déterminez votre qualification quelques soit le domaine de tension</p>
+            <!--
+            <p class="question text-center">Déterminez votre qualification quelques soit le domaine de tension</p>
             <hr style="width: 70%;margin-top: 4px;" class="m-auto"/>
-            <p style="font-size: 20px; color: #FF6801; margin-top: 20px;">Répondez en cliquant sur la case correspondante à vos tâches</p>
+            -->
+            <p class="text-center mt-5 " style="font-size: 20px; color: #FF6801; margin-top: 20px;">Répondez en cliquant sur la case correspondante à vos tâches</p>
           </div>
           <div class="row mt-3 justify-content-between">
-            <p class="text-center mb-5">Vous avez des activités.</p>
+            <p class="text-center mb-5 fw-bold">Vous effectuez des tâches de nature...</p>
             <div class="col-6">
               <button  mat-raised-button (click)="setElectrique( previousIsTach ? 'D4' : 'D26')"
                      class="mx-auto d-block buttonHauteTension btnHover"  >
-                Tâches de nature <b>Non Eléctrique</b></button>
+                <b>NON ElECTRIQUE</b></button>
               <img class="img mx-auto d-block" src="assets/images/tacheElectrique.png">
             </div>
             <div class="col-6 ">
               <button class="buttonHauteTension mx-auto d-block btnHover" (click)="setElectrique(previousIsTach ? 'D10' : 'D5')"
                       mat-raised-button >
-                Tâches de nature <b>Eléctrique</b></button>
+                 <b>ElECTRIQUE</b></button>
               <img class="img mx-auto d-block" src="assets/images/tacheElectrique.png">
             </div>
           </div>
@@ -85,7 +94,7 @@
         <div *ngIf="onModeTache && startOUINON && data.get(currentIndex).buttons[0].button.includes('Oui')"
              class="container" style="width: 100%;height:100%;background-color: white;">
           <div class="row">
-            <p class="question">{{data.get(currentIndex).question}}</p>
+            <p class="question text-center">{{data.get(currentIndex).question}}</p>
             <hr style="width: 70%;margin-top: 4px;" class="m-auto"/>
             <!--
             <p style="font-size: 20px; color: #FF6801; margin-top: 20px;">Répondez en cliquant sur la case correspondante à vos tâches</p>
@@ -96,12 +105,12 @@
             <div class="col-6">
               <button  (click)="setNextIndex(data.get(currentIndex).buttons[0].nextIndex)"
                        mat-raised-button class="mx-auto d-block buttonHauteTension btnHover"  >
-                <b>Oui</b></button>
+                <b>OUI</b></button>
             </div>
             <div class="col-6 ">
               <button  (click)="setNextIndex(data.get(currentIndex).buttons[1].nextIndex)"
                        class="buttonHauteTension mx-auto d-block btnHover"  mat-raised-button >
-                <b>Non</b></button>
+                <b>NON</b></button>
             </div>
           </div>
         </div>
@@ -110,35 +119,34 @@
         <div *ngIf="onModeTache
       && startOUINON && !data.get(currentIndex).buttons[0].button.includes('Oui') && !data.get(currentIndex).buttons[0].button.includes('HTA')" class="container" style="width: 100%;height:100%;background-color: white;">
           <div class="row">
-            <p id="question">{{data.get(currentIndex).question}}</p>
+            <p class="text-center" id="question">{{data.get(currentIndex).question}}</p>
             <hr style="width: 70%;margin-top: 4px;" class="m-auto"/>
-            <p style="font-size: 20px; color: #FF6801; margin-top: 20px;">Répondez en cliquant sur la case correspondante à vos tâches</p>
+            <p class="text-center" style="font-size: 20px; color: #FF6801; margin-top: 20px;">Répondez en cliquant sur la case correspondante à vos tâches</p>
           </div>
           <div class="row mt-3 justify-content-between">
             <p class="text-center mb-5">{{data.get(currentIndex).consigne}}</p>
             <div class="col-6">
               <button  (click)="setNextIndex(data.get(currentIndex).buttons[0].nextIndex)"
                        mat-raised-button class="mx-auto d-block buttonHauteTension btnHover"  >
-                Tâches de nature <b>Base Tansion</b></button>
-              <img class="img mx-auto d-block" src="assets/images/tacheElectrique.png">
+                Tâches de nature <b>BASE TENSION</b></button>
+              <img class="img mx-auto d-block" src="assets/images/base.jpg">
             </div>
             <div class="col-6 ">
               <button (click)="setNextIndex(data.get(currentIndex).buttons[1].nextIndex)"
                       class="buttonHauteTension mx-auto d-block btnHover"  mat-raised-button >
-                Tâches de nature <b>Haute Tansion</b></button>
-              <img class="img mx-auto d-block" src="assets/images/tacheElectrique.png">
+                Tâches de nature <b>HAUTE TENSION</b></button>
+              <img class="img mx-auto d-block" src="assets/images/haute.jpg">
             </div>
           </div>
         </div>
-
 
         <!-- hta -->
         <div *ngIf="onModeTache
       && startOUINON && data.get(currentIndex).buttons[0].button.includes('HTA')" class="container" style="width: 100%;height:100%;background-color: white;">
           <div class="row">
-            <p class="question">{{data.get(currentIndex).question}}</p>
+            <p class="question text-center">{{data.get(currentIndex).question}}</p>
             <hr style="width: 70%;margin-top: 4px;" class="m-auto"/>
-            <p style="font-size: 20px; color: #FF6801; margin-top: 20px;">Répondez en cliquant sur la case correspondante à vos tâches</p>
+            <p class="text-center" style="font-size: 20px; color: #FF6801; margin-top: 20px;">Répondez en cliquant sur la case correspondante à vos tâches</p>
           </div>
           <div class="row mt-3 justify-content-between">
             <p class="text-center mb-5"> {{data.get(currentIndex).consigne}} </p>
@@ -146,50 +154,51 @@
               <button  (click)="setNextIndex(data.get(currentIndex).buttons[0].nextIndex)"
                        mat-raised-button class="mx-auto d-block buttonHauteTension btnHover"  >
                 <b>HTA</b></button>
-              <img class="img mx-auto d-block" src="assets/images/tacheElectrique.png">
+<!--              <img class="img mx-auto d-block" src="assets/images/tacheElectrique.png">-->
             </div>
             <div class="col-6 ">
               <button (click)="setNextIndex(data.get(currentIndex).buttons[1].nextIndex)"
                       class="buttonHauteTension mx-auto d-block btnHover"  mat-raised-button >
                 <b>HTB</b></button>
-              <img class="img mx-auto d-block" src="assets/images/tacheElectrique.png">
+<!--              <img class="img mx-auto d-block" src="assets/images/tacheElectrique.png">-->
             </div>
           </div>
         </div>
 
-
         <!-- level -->
-        <div *ngIf="false" class="container" style="width: 100%;height:100%;background-color: white;" >
+        <div *ngIf="isLevel" class="container" style="width: 100%;height:100%;background-color: white;" >
           <div class="row">
-            <h1 class="text-center mt-5">Votre niveau d’habilitation et
+            <h1 class="text-center mt-5">Votre niveau d’habilitation et:
               <b style="color: #FF6801">{{this.currentIndex}}</b></h1>
           </div>
           <div class="row mt-5 " style="width: 90%;">
-            <div class="col-8" >
-              <div class="row">
-                <div class="col-6 rounded-3 pe-1 me-0" style="overflow: scroll;height: 350px !important;">
-                  <table class="table table-striped table-hover shadow-lg rounded-5" >
+            <div class="col-10" >
+              <div class="row ps-5">
+                <div class="col-6 ps-1 pb-0 pt-0 pe-0" style="overflow: scroll;height: 350px !important; border-radius: 20px;">
+                  <table class="table table-striped table-hover"
+                         style=" border-bottom: 5px solid #92d04f;">
                     <thead>
                     <tr>
-                      <th scope="col" class="head" style="background-color: green;">Les taches autorisee</th>
+                      <th scope="col" class="head" style="background-color: #92d04f;">Les tâches autorisées</th>
                     </tr>
                     </thead>
                     <tbody style="padding-bottom: 2px;">
-                    <tr *ngFor="let a of authorizationMap.get(currentIndex.toLowerCase().trim()).authorizedTasks">
+                    <tr *ngFor="let a of authorizationMap?.get(currentIndex?.toLowerCase().trim()).authorizedTasks">
                       <td class="tableText">{{a}}</td>
                     </tr>
                     </tbody>
                   </table>
                 </div>
-                <div class="col-6 rounded-3 ps-1 ms-0" style=" overflow: scroll;height: 350px !important;">
-                  <table class="table table-striped table-hover shadow-lg rounded-5 " style="height: 200px;overflow: scroll;">
+                <div class="col-6 ps-1 pb-0 pt-0 pe-0 " style=" overflow: scroll;height: 350px !important;border-radius: 20px;">
+                  <table class="table table-striped table-hover"
+                         style="height: 200px;overflow: scroll;border-bottom: 5px solid red;">
                     <thead>
                     <tr>
-                      <th scope="col" class="head"  style="background-color: red;">les taches non autorisee</th>
+                      <th scope="col" class="head"  style="background-color: red;">Les tâches non autorisées</th>
                     </tr>
                     </thead>
                     <tbody style="padding-bottom: 2px;">
-                    <tr *ngFor="let a of authorizationMap.get(currentIndex.toLowerCase().trim()).unAuthorizedTasks">
+                    <tr *ngFor="let a of authorizationMap?.get(currentIndex.toLowerCase().trim()).unAuthorizedTasks">
                       <td class="tableText">{{a}}</td>
                     </tr>
                     </tbody>
@@ -198,11 +207,11 @@
               </div>
 
             </div>
-            <div class="col-4">
+            <div class="col-2">
               <div class="row w-50 mx-auto d-block">
-                <button mat-raised-button color="primary" class="resultButton" (click)="onDownloadRepport()">Telecharger</button>
+                <button mat-raised-button color="primary" class="resultButton" (click)="onDownloadRepport()">Télécharger</button>
                 <button mat-raised-button color="primary" class="resultButton" (click)="onConfirm()">Enregistrer</button>
-                <button mat-raised-button color="primary" class="resultButton" (click)="onRestart()">Re-Commencer</button>
+                <button mat-raised-button color="primary" class="resultButton" (click)="onRestart()">Recommencer</button>
               </div>
 
             </div>
@@ -210,7 +219,7 @@
         </div>
 
         <!-- level 2.0 -->
-        <div *ngIf="isLevel" class="container" style="width: 100%;height:100%;background-color: white;" >
+        <div *ngIf="false" class="container" style="width: 100%;height:100%;background-color: white;" >
           <div class="row">
             <h1 class="text-center mt-5">Votre niveau d’habilitation et
               <b style="color: #FF6801">{{this.currentIndex}}</b></h1>
@@ -286,17 +295,23 @@
 
         <div class="container w-50 m-auto">
           <div class="row">
-            <select (change)="getNewCat($event)" class="form-select form-select-lg mb-3" style="margin-top: 70px;" aria-label=".form-select-lg example">
-              <option selected disabled>votre metier appartient a une parmis les categories suivants</option>
-              <option value="{{c.categoryName}}" *ngFor="let c of metier.categories">{{c.categoryName}}</option>
-            </select>
+           <div style="margin-top: 70px;">
+             <label for="select1" class="colorPrimary"><h2>Choisis une catégorie</h2></label>
+             <select id="select1" (change)="getNewCat($event)" class="form-select form-select-lg mb-3"  aria-label=".form-select-lg example">
+               <option selected disabled>Catégorie de métiers…</option>
+               <option value="{{c.categoryName}}" *ngFor="let c of metier.categories">{{c.categoryName}}</option>
+             </select>
+           </div>
           </div>
 
           <div class="row" *ngIf="category != null || category!= undefined">
-            <select (change)="getNewTsk($event)" class="form-select form-select-lg mb-3" style="margin-top: 70px;" aria-label=".form-select-lg example">
-              <option selected disabled>votre metier appartient a une parmis les metiers suivants</option>
-              <option value="{{task.taskName}}" *ngFor="let task of category.tasks">{{task.taskName}}</option>
-            </select>
+            <div  style="margin-top: 70px;" >
+              <label for="select2" class="colorPrimary"><h2>Métiers…</h2></label>
+              <select id="select2" (change)="getNewTsk($event)" class="form-select form-select-lg mb-3"aria-label=".form-select-lg example">
+                <option selected disabled>Choisis un métiers</option>
+                <option value="{{task.taskName}}" *ngFor="let task of category.tasks">{{task.taskName}}</option>
+              </select>
+            </div>
           </div>
         </div>
 

@@ -9,7 +9,7 @@ import {GoogleChartsModule} from 'angular-google-charts';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {JwtInterceptorService} from './_service/_interceptor/jwt-interceptor.service';
 import {LoaderInterceptorService} from './_service/_interceptor/loader-interceptor.service';
-import {DatePipe} from '@angular/common';
+import {DatePipe, PercentPipe} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { TestInterfaceComponent } from './_evaluation/test-interface/test-interface.component';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
@@ -89,7 +89,6 @@ import {IpListModule} from "./_service/_localisation/iplist";
         MatSnackBarModule,
         MatSidenavModule,
 
-
         IpListModule
     ],
   providers: [
@@ -102,7 +101,9 @@ import {IpListModule} from "./_service/_localisation/iplist";
       useClass: LoaderInterceptorService,
       multi: true
     }
-    , DatePipe
+    , DatePipe,
+    PercentPipe,
+    FormatTimePipe
   ],
   bootstrap: [AppComponent]
 })

@@ -33,6 +33,7 @@ const routes: Routes = [
   {path: 'testDashboard', component : DemoDashboardComponent, canActivate: [AuthenticationGuardService], children :[
       {path: '', component : DemoHomeComponent,canActivate: [AuthenticationGuardService,
           DemoDashGuardService]},
+      {path: 'score', component : ScoreComponent, canActivate: [AuthenticationGuardService],data: {animation: 'AboutPage'}},
       {path: 'dashUser', component : DemoHomeComponent,canActivate: [AuthenticationGuardService]},
       {path: 'positionTestLibre', component : PositionTestLibreComponent,canActivate: [AuthenticationGuardService],data: {animation: 'AboutPage'}},
       {path: 'entrainmentLibre', component : EntrainementLibreComponent,canActivate: [AuthenticationGuardService],data: {animation: 'HomePage'}},

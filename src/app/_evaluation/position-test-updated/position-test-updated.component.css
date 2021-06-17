@@ -29,8 +29,11 @@ th{
   padding-top: 20px;
 }
 td {
-  border-right: 1px solid #555;
+  border: none;
   padding: 10px;
+}
+tr{
+  border: none;
 }
 .tableText{
   font-size: 17px;
@@ -50,6 +53,7 @@ td {
 .resultButton{
   min-width: 200px;
   border-radius: 10px;
+  margin-top: 27px;
 }
 
 .cardHabilitation{

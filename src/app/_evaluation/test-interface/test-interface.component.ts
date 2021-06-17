@@ -25,6 +25,7 @@ export class TestInterfaceComponent implements OnInit {
   /** Data variables */
   @Input() public test: Test;
   @Input() public submitScoreUrl:string;
+  @Input() public routerScoreUrl:string = '';
 
 
   /** store the current question */
@@ -75,6 +76,8 @@ export class TestInterfaceComponent implements OnInit {
   public idsAndAll: Array<string> = new Array<string>();
   public idsAndAllImages: Array<string> = new Array<string>();
 
+  public numberOfFondamentalQuestions:number = 0;
+  public numberOfThemes: number = 0;
   @HostListener("window:beforeunload", ["$event"])
   unloadHandler(event: Event) {
     console.log("Processing beforeunload...");
@@ -96,11 +99,18 @@ export class TestInterfaceComponent implements OnInit {
     this.allowPassingQuestions = this.onEvaluation ? false : true;
     this.setDataTest();
     this.speakService.mute();
+    this.test.questions.forEach(q=> {if(q.fondamentale)this.numberOfFondamentalQuestions++;})
+    let themes: Set<string> = new Set<string>();
+    this.test.questions.forEach(q=> themes.add(q.theme));
+    this.numberOfThemes = themes.size;
   }
 
   ngOnDestroy(): void {
     console.log('on destroy.....')
-    this.countDown.unsubscribe();
+    if(this.countDown != null){
+      this.countDown.unsubscribe();
+    }
+
     this.speakService.mute();
   }
 
@@ -119,7 +129,7 @@ export class TestInterfaceComponent implements OnInit {
         }
       }
       /****************/
-      this.evaluationService.getScoreFromURL(this.response,this.submitScoreUrl);
+      this.evaluationService.getScoreFromURL(this.response,this.submitScoreUrl,this.routerScoreUrl);
     }
   }
 

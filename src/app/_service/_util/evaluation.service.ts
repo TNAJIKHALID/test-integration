@@ -121,14 +121,14 @@ export class EvaluationService {
     });
   }
 
-  public getScoreFromURL(response: Response, testSubmitURLl: string) {
+  public getScoreFromURL(response: Response, testSubmitURLl: string, routerScoreURL:string) {
     let responseObject = this.getResponsesObject(response);
     let scoreData: any;
-    let url =testSubmitURLl;
+    let url = testSubmitURLl;
     this.dataService.postResource(url, responseObject).subscribe(data => {
       scoreData = data;
       EvaluationService.score = scoreData;
-      this.router.navigateByUrl('score');
+      this.router.navigateByUrl(routerScoreURL);
     }, error => {
       console.log(error);
     });

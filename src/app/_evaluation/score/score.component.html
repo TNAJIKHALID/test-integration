@@ -1,15 +1,20 @@
-<section></section>
-<div  class="container mt-5">
-  <div  class="card shadow p-3 mb-5 bg-white rounded w-100" style="min-height: 35rem;">
-    <div class="">
-      <h2 class="mat-h2 text-center">Rapport du teste</h2>
-
-    </div>
-    <mat-divider></mat-divider>
+<div  class="container pb-3 rounded shadow mt-5 " style="min-width: 1300px;background-color: white;
+  min-width: 1300px;
+  border-radius: 10px;">
+  <div  class="" style="min-height: 580px;position: relative;">
     <div class="card-body">
-      <div class="row">
+      <div class="row w-25 m-auto " style="margin-top: 0px;">
+        <h1 class="text-center fw-bold " *ngIf="!score.validate" style="color: red;font-size: 37px">Non Validee</h1>
+        <h1 class="text-center fw-bold green" *ngIf="score.validate" style="font-size: 37px">Validee</h1>
+      </div>
+      <div class="card w-25 shadow border p-2 mb-3" style="margin-top: -35px;border-radius: 20px;">
+        <h3 class="text-center">Votre niveau d'habilitation</h3>
+        <h2 class="text-center fw-bold colorPrimary">{{test.testLevel}}</h2>
+      </div>
+
+      <div class="row" *ngIf="score != null && test != null ">
         <div class="col-lg-8">
-          <div class="row w-100">
+          <div class="row w-100" id="themesGraph">
             <google-chart #chart
                           [title]="title"
                           [type]="type"
@@ -20,6 +25,7 @@
             ></google-chart>
           </div>
 
+         <!--
           <div class="row w-100">
             <google-chart #chart
                           [title]="titlePerDefficulte"
@@ -30,12 +36,12 @@
                           [width]="'500'"
             ></google-chart>
           </div>
-          <mat-divider></mat-divider>
+         -->
 
-          <div class="card rounded border border-secondary">
-            <div class="card-body ml-3">
+          <div class="card"  id="rec">
+            <div class="card-body ms-2 ">
               <div *ngIf="score.score < 90">
-                <h2>Recommendation</h2>
+                <h2 class="text-center colorPrimary">Recommendations</h2>
                 <hr/>
                 <p>Pour bien amelioré vos compétances, on vous conseille de revoire
                   les thémes suivant:</p>
@@ -60,52 +66,155 @@
             </div>
           </div>
 
-
-
-
         </div>
-        <div class="col-lg-4">
-          <div class="p-3 border rounded-pill shadow d-flex justify-content-between">
-            <span>Nom</span> <span><b>{{auth.userAuthenticated.firstName +' ' + auth.userAuthenticated.lastName }}</b></span>
+        <div class="col-lg-4" style="margin-top: -90px;">
+          <div id="scoreChart" class="p-3 mt-2 w-75 m-auto d-flex shadow"  style="border: 5px solid #F7F8FC;border-radius: 20px;">
+            <div class="item html m-auto">
+              <h2 class="fw-bold colorPrimary" style="margin-top: 20px;">{{score?.score  | number:'.2-2'}}%</h2>
+              <svg width="160" height="160" xmlns="http://www.w3.org/2000/svg">
+                <g>
+                  <title class="fw-bold colorPrimary">Score</title>
+                  <circle
+                          r="69.85699" cy="81" cx="81" stroke-width="10" stroke="#F5F6FA" fill="transparent"/>
+                  <circle *ngIf="score.validate" class="circle_animation" [style]="'stroke-dashoffset:'+dashOfsset"
+                          r="69.85699" cy="81" cx="81" stroke-width="10" stroke="green" fill="none"/>
+                  <circle *ngIf="!score.validate" class="circle_animation" [style]="'stroke-dashoffset:'+dashOfsset"
+                          r="69.85699" cy="81" cx="81" stroke-width="10" stroke="red" fill="none"/>
+                </g>
+              </svg>
+              <h3 class="fw-bold colorPrimary" style="position: absolute;    margin-top: -7px;    margin-left: 58px;">Score</h3>
+            </div>
           </div>
-          <div class="p-3 border rounded-pill shadow mt-2 d-flex justify-content-between">
-            <span>Temps Passer</span> <span><b>{{score.testTime | formatTime}} min</b></span>
+
+          <div class="p-3 rounded-pill brd mt-4  d-flex justify-content-between">
+            <span class="scoreInfoTextColor">Nom</span> <span><b>{{auth.userAuthenticated.firstName +' ' + auth.userAuthenticated.lastName }}</b></span>
           </div>
-          <div class="p-3 border  rounded-pill shadow mt-2 d-flex justify-content-between">
-            <span>Nombre des questions correctes</span>
-            <span><b>{{score.questions.length}}</b></span>
+          <div class="p-3 rounded-pill brd  mt-3 d-flex justify-content-between">
+            <span class="scoreInfoTextColor">Temps Passer</span> <span><b>{{score?.testTime | formatTime}} / {{test?.timeSecond | formatTime}} </b></span>
           </div>
-          <div class="p-3 border  rounded-pill shadow mt-2 d-flex justify-content-between">
-            <span>Questions fondamental correctes</span>
+          <div class="p-3 rounded-pill brd mt-3 d-flex justify-content-between">
+            <span class="scoreInfoTextColor">Nombre des questions correctes</span>
+            <span><b>{{score?.questions.length + '/'  + test.questions.length}}</b></span>
+          </div>
+          <div class="p-3 rounded-pill brd mt-3 d-flex justify-content-between">
+            <span class="scoreInfoTextColor">Questions fondamental correctes </span>
             <span>
               <b>{{correctFondamentalQuestions.length + '/' + fondamentalQuestions.length}}</b>
               <b>({{(this.correctFondamentalQuestions.length / this.fondamentalQuestions.length) | percent}})</b>
             </span>
           </div>
-          <div [ngClass]="score.validate? 'bg-success' : 'bg-danger'"
+          <!--
+          <div [ngClass]="score?.validate? 'bg-success' : 'bg-danger'"
             class="p-3 rounded-pill shadow mt-2 d-flex justify-content-between ">
             <span>Score</span>
-            <span><b>{{score.score  | number:'.2-2'}}%</b></span>
+            <span><b>{{score?.score  | number:'.2-2'}}%</b></span>
           </div>
-          <div class="p-3 border  rounded-pill shadow mt-2 d-flex">
-            <mat-progress-spinner
-              class="m-auto"
-              [color]="score.validate ? 'primary' : 'warn'"
-              [mode]="'determinate'"
-              [value]="score.score">
-            </mat-progress-spinner>
-            <h1 class="m-auto"><b>{{score.score  | number:'.2-2'}}%</b></h1>
-          </div>
+          -->
         </div>
       </div>
     </div>
-    <div class="card-footer">
-      <button class="m-auto mr-2"
-              mat-raised-button color="accent" *ngIf="test.type == 'TEST_TYPE_EXAM'" (click)="onDownload()">télecharger l'avis</button>
-      <!--<button class="m-auto mr-2"
+    <div class="row w-75 m-auto"    *ngIf="score!= null">
+      <div class="col-6">
+        <button class="m-auto me-2 float-end"
+                mat-raised-button color="primary" *ngIf="test?.type == 'TEST_TYPE_EXAM'" (click)="onDownload()">télecharger l'avis</button>
+      </div>
+      <div class="col-6 float-start">
+        <button class="m-auto rounded-1"
+                mat-raised-button color="primary" (click)="downloadRepport()">télecharger le rapport</button>
+      </div>
+       <!--<button class="m-auto mr-2"
               mat-raised-button color="accent" (click)="onDownload()">télecharger l'avis</button>-->
-      <button class="m-auto"
-              mat-raised-button color="accent" >télecharger le rapport</button>
+
     </div>
   </div>
+</div>
+
+<div *ngIf="false" class="container mt-5 bg-white m-auto w-75" >
+  <div id="htmlRepport" style="border: 1px solid white;height: 830px; width: 595px;position: relative;">
+      <div class="" style="margin-left: 10px;">
+        <div class="row w-100 m-auto"  style="position: absolute; top: 0;border-bottom: 5px solid #DEDFE4;">
+          <div class="col-4">
+            <a class="float-start mt-1 pb-2 "><img src="assets/images/logoo.png" style="height: 30px; width: 150px;" ></a>
+          </div>
+          <div class="col-4 justify-content-center">
+            <span class="h3 mt-3 ms-3 w-100 fw-bold text-uppercase text-center" id="title">Rapport</span>
+          </div>
+          <div class="col-4" >
+            <span class="h3 mt-2 float-end" style="font-family: Verdana;font-size: 20px;">Khalid TNAJI</span>
+          </div>
+        </div>
+
+
+        <div class="row w-100"  style="margin-top: 70px;">
+          <div class="row m-auto w-50" >
+            <h1 class="text-center fw-bold pb-2" style="color: red; border-bottom: 1px solid #DEDFE4;">Non Validee</h1>
+          </div>
+          <div class="row w-100">
+            <div class="col-6">
+              <p class="mt-2"><b>EMAIL: khalidtnaji@gmail.com</b></p>
+              <p><b>DATE: 12/07/2021</b></p>
+            </div>
+            <div class="col-6">
+              <div class="float-end  w-100 shadow border p-2 mb-3" style="border-radius: 12px;">
+                <h5 class="text-center">Votre niveau d'habilitation</h5>
+                <h3 class="text-center fw-bold colorPrimary">{{test.testLevel}}</h3>
+              </div>
+            </div>
+          </div>
+          <div class="row w-100 h-25">
+            <div class="col-7">
+              <div class="p-1 rounded-pill brd  mt-3 d-flex justify-content-between">
+                <span class="scoreInfoTextColor">Temps Passer</span> <span><b>{{score?.testTime | formatTime}} / {{test?.timeSecond | formatTime}} </b></span>
+              </div>
+              <div class="p-1 rounded-pill brd mt-3 d-flex justify-content-between">
+                <span class="scoreInfoTextColor">Nombre des questions correctes</span>
+                <span><b>{{score?.questions.length + '/'  + test.questions.length}}</b></span>
+              </div>
+              <div class="p-1 rounded-pill brd mt-3 d-flex justify-content-between">
+                <span class="scoreInfoTextColor">Questions fondamental correctes </span>
+                <span>
+              <b>{{correctFondamentalQuestions.length + '/' + fondamentalQuestions.length}}</b>
+              <b>({{(this.correctFondamentalQuestions.length / this.fondamentalQuestions.length) | percent}})</b>
+            </span>
+              </div>
+            </div>
+
+          </div>
+
+
+        <div class="row w-100 m-auto"  style="position: absolute; bottom: 0;">
+          <div class="row mb-3" >
+            <div class="card" style=" margin-left: 5px;  background-color: #EDEDED;  margin-top: 30px;"  >
+              <div class="ms-2 ">
+                <div *ngIf="score.score < 90">
+                  <h2 class="text-center colorPrimary">Recommendations</h2>
+                  <p>Pour bien amelioré vos compétances, on vous conseille de revoire
+                    les thémes suivant:</p>
+                  <ul class="ml-2">
+                    <div class="row justify-content-between">
+                      <div class="col-6" *ngFor="let d  of this.getKeysFromMap()">
+                        <li style="font-size: 12px;" *ngIf="analysisPerTheme.get(d)[1] != 0">{{d}}</li>
+                      </div>
+                    </div>
+                    <!--
+                    <b *ngFor="let d  of this.getKeysFromMap()">
+                      <li style="font-size: 12px;" *ngIf="analysisPerTheme.get(d)[1] != 0">{{d}}</li>
+                    </b>
+                    -->
+                  </ul>
+                </div>
+                <div *ngIf="score.validate">
+                  <h2 class="font-weight-bold">Félicitation vous avez bien validé le niveau d'habilitation</h2>
+                  <hr/>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="justify-content-center" style="font-size: 15px;"><b>NB.</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse</p>
+        </div>
+      </div>
+  </div>
+</div>
 </div>

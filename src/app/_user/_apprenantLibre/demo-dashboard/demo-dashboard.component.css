@@ -11,3 +11,21 @@ h2:hover{
   margin-left: 18px;
   color: #6B6B6B;
 }
+
+.my-nav-item{
+  font-weight: bold;
+  width: 98%;
+  background-color: white;
+  border-bottom: 3px solid orangered;
+  padding: 5px 5px 5px 5px;
+  margin-left: 3px;
+  margin-bottom: 20px;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  border-top-left-radius: 12px;
+}
+.my-item{
+  margin-left: 5px;
+  padding-bottom: 10px;
+
+}

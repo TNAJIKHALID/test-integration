@@ -34,10 +34,11 @@ export class AppComponent {
         AppComponent.currentUrl = event.url;
       }
     });
-    this.ip = '';
-   this.getIp();
-   this.getCountry();
-    this.loaderService.isLoading.subscribe((v) => {
+    //this.ip = '';
+   //this.getIp();
+   //this.getCountry();
+
+   this.loaderService.isLoading.subscribe((v) => {
       console.log(v);
       this.loading = v;
     });
@@ -47,7 +48,6 @@ export class AppComponent {
         if (!router.navigated) {
           browserRefresh = true;
           refreshEvent.emit(true);
-          console.log('refresh.........................................gggggggggggg')
         }
       }
     });
@@ -87,6 +87,8 @@ export class AppComponent {
       return "évaluation"
     } else if(AppComponent.currentUrl.includes("positionTestLibre")) {
       return "test de positionnement"
+    }else if(AppComponent.currentUrl.includes("score")) {
+      return "rapport du test"
     } else return "";
   }
 }

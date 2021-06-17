@@ -8,3 +8,16 @@ body { margin: 0; font-family: Verdana, "Helvetica Neue", SansSerif; }
   border-radius: 10px;
   height: 580px;
 }
+
+.colorPrimary{
+color:   #FF6801;
+}
+
+.boderPrimary{
+  border: 1px solid #FF6801;
+
+}
+
+.green{
+  color: #92d04f;
+}

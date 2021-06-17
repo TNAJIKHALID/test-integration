@@ -19,6 +19,7 @@ export class TestParametersComponent implements OnInit {
   @Output() paramsEvent: EventEmitter<Params> = new EventEmitter<Params>();
   @Input() testEngineTitle: string;
   @Input() testModeInput: string;
+  public isOnEvaluation: boolean = false;
   levels: Array<HabilitationLevel> = new Array<HabilitationLevel>();
 
   constructor(public formBuilder:FormBuilder, public dataService:DataService) {
@@ -28,6 +29,7 @@ export class TestParametersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isOnEvaluation = this.testModeInput == 'TEST_TYPE_EXAM';
     this.myForm = this.formBuilder.group(
       {
         testMode:[this.testModeInput,[Validators.required]],

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {PositionIntegrationComponent} from "../../_demos/position-integration/position-integration.component";
 
 @Component({
   selector: 'app-home',

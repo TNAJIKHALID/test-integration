@@ -1,8 +1,16 @@
 <mat-drawer-container class="example-container" [hasBackdrop]="true" style="width: 100%;height: 100%; height: auto !important;height: 100%;
   background-color: #F5F6FA;min-height: 100%;">
-  <mat-drawer #drawer [mode]="'over'" style="min-width: 200px;">
-    <div style="min-width: 70px; margin-top: 20px;margin-left: 10px;">
-      <a>Hello word</a>
+  <mat-drawer #drawer [mode]="'over'" style="min-width: 300px;background-color: #F5F6FA;">
+    <div style="min-width: 100px; margin-top: 40px;
+    margin-left: 5px;height: 100%;position: relative;">
+      <h2 class="my-nav-item " routerLink="/testDashboard/dashUser"><span class="my-item">Accueil</span></h2>
+      <h2 class="my-nav-item" routerLink="/testDashboard/positionTestLibre"><span class="my-item">Test de positionnement</span></h2>
+      <h2 class="my-nav-item"  routerLink="/testDashboard/formationLibre" ><span class="my-item">Formation</span></h2>
+      <h2 class="my-nav-item" routerLink="/testDashboard/entrainmentLibre" ><span class="my-item">Entraînement</span></h2>
+      <h2 class="my-nav-item" routerLink="/testDashboard/evaluationLibre" ><span class="my-item">Évaluation</span></h2>
+
+      <h2 class="my-nav-item colorPrimary" style="position: absolute; bottom: 40px;">
+        <a href="http://localhost:8082/" class="my-item colorPrimary" style="text-decoration: none">E-Habilita</a></h2>
     </div>
 
   </mat-drawer>

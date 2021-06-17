@@ -82,7 +82,7 @@ button{
 #question{
   font-family: Verdana;
   color: #6B6B6B;
-  font-size: 20px;
+  font-size: 15px;
   line-height: 150%;
 }
 
@@ -214,3 +214,17 @@ button{
   border: none;
 }
  */
+
+.testRecap{
+  border: 3px solid #FF6801;
+  padding-bottom: 38px;
+  padding-right: 38px;
+  padding-left: 38px;
+  padding-top: 25px;
+  border-radius: 12px;
+  margin-top: 15px;
+}
+
+.br{
+  border: 1px solid orange;
+}

@@ -1,10 +1,10 @@
 <div class="container pb-3 rounded shadow mt-5 apprenantLibreDiv" style="min-width: 1300px;">
   <div class="card m-auto justify-content-center" style="border: 2px solid white;">
-    <div class="card-header bg-white mb-5">
-      <h2 class="text-center">{{testEngineTitle}}</h2>
+    <div  *ngIf="!isOnEvaluation" class="card-header bg-white mb-5">
+      <h2  class="text-center">{{testEngineTitle}}</h2>
     </div>
     <div class="card-body justify-content-center m-auto w-75">
-      <div class="row">
+      <div *ngIf="!isOnEvaluation" class="row">
         <form [formGroup]="myForm" >
           <div class="row w-100">
             <div class="col-4">
@@ -147,6 +147,31 @@
 
         </form>
       </div>
+      <div *ngIf="isOnEvaluation" class="row" style="margin-top: 150px;">
+        <form [formGroup]="myForm" >
+          <div class="row w-50 m-auto">
+            <div class="row float-start">
+              <mat-form-field appearance="outline">
+                <mat-label>Niveau</mat-label>
+                <mat-select formControlName="habilitationLevel">
+                  <mat-option *ngFor="let level of levels" [value]="level.habilitationLevel">{{level.habilitationLevel}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="habilitationLevel.invalid && habilitationLevel.touched">
+                  merci de choisir un niveaux
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+          </div>
+
+          <div class="row justify-content-center mt-5 w-25 m-auto" style="border-radius: 12px;">
+            <button mat-raised-button (click)="onSubmit()"
+                    color="primary" [disabled]="myForm.invalid">Charger</button>
+          </div>
+
+        </form>
+      </div>
+
     </div>
   </div>
 </div>

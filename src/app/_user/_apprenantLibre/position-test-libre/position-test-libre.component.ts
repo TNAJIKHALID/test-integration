@@ -46,7 +46,7 @@ export class PositionTestLibreComponent implements OnInit {
     this.dataService.getResource('/putPositionTestResutlsApprenantLibre?'+url).subscribe(data=>{
       d=data;
       this.apprenantLibre = d;
-      this.toastr.success('le niveau a bien ete enregistre!', 'Test de positionnement',{
+      this.toastr.success('le niveau a bien été enregistré!', 'Test de positionnement',{
         timeOut: 3000,
         positionClass: 'toast-top-right'
       });
