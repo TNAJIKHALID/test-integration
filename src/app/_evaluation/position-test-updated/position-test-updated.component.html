@@ -11,23 +11,29 @@
         </svg>
 
       </span>-->
-        <h3 class="text-center" style="margin-top: 11px;"><span style="font-size: 20px;"><span style="color: #ff6d00">Thème: </span>Pour définir un niveau d’habilitation électrique selon la norme NFC-18-510</span>
+        <h3 class="text-center" style="margin-top: 11px;"><span style="font-size: 20px;">
+          <span style="color: #ff6d00">Thème: </span>Pour définir un niveau d’habilitation électrique selon la norme
+          <b class="colorPrimary">NM 06.1.225 (NF C-18-510)</b></span>
         </h3>
       </div>
       <!-- Commencer -->
       <div *ngIf="currentIndex == 'Dx' " class="container" style="width: 100%;height:100%;background-color: white;">
         <div class="row w-75 m-auto">
-          <h1 class="text-center mt-5">Ce test de positionnement a pour objectif de (re)définir au mieux un niveau d’habilitation. Le questionnaire est basé sur le référentiel de formation à la prévention des risques d’origine électrique, en accord avec la norme <b style="color: orangered;">NF C18 - 510.</b></h1>
-          <h1> Explication à développer comme quoi l’utilisateur a la possibilité de choisir entre </h1>
-          <ul class="ms-3">
-            <li class="h4">Par tâches</li>
-            <li class="h4">Par métier</li>
-          </ul>
+          <h1 class="text-center mt-5">Ce test de positionnement a pour objectif de (re)définir au mieux un niveau d’habilitation. Le questionnaire est basé sur le référentiel de formation à la prévention des risques d’origine électrique, en accord avec la norme marocaine
+            <b style="color: orangered;">NM 06.1.225 (NF C-18-510)</b></h1>
+          <h1>Durant ce test, vous avez la possibilité de définir votre niveau d’habilitation:</h1>
+          <div class="row w-25 ps-3 m-auto">
+            <ul class="ms-5 m-auto">
+              <li class="h4">Par tâches</li>
+              <li class="h4">Par métier</li>
+            </ul>
+          </div>
           <h1 class="text-center mt-1">
-            A la fin de ce test, le niveau d’habilitation est automatiquement enregistré par le système et affiche les tâches qui sont permises et les tâches non autorisées pour chaque niveau. L’utilisateur a toujours la possibilité de recommencer le test de positionnement.
+            A la fin du  test, le niveau d’habilitation est automatiquement enregistré par le système. L’utilisateur a toujours la possibilité de recommencer le test de positionnement.
           </h1>
         </div>
-
+        <h2 class="text-center">B1V, BR, BS, BC, B2 , BE mesurage, BE essai, BE manœuvre, B0 exécutant, B0 chargé de chantier, BP, BF/HF, etc...
+        </h2>
         <div class="row w-25 mx-auto d-block" style="margin-top: 50px;">
           <button mat-raised-button color="primary" (click)="currentIndex= 'DTache'">Commencer</button>
         </div>
@@ -42,7 +48,7 @@
           <hr style="width: 70%;margin-top: 4px;" class="m-auto"/>
           -->
           <p class="text-center mt-5" style="font-size: 20px; color: #FF6801; margin-top: 20px;">Répondez en cliquant sur la case
-            correspondant</p>
+            correspondante</p>
         </div>
         <div class="row mt-5 justify-content-between">
           <h3 class="text-center fw-bold " style="margin-bottom: 60px;">Souhaitez-vous déterminer votre
@@ -52,14 +58,16 @@
           <div class="col-6">
             <button (click)="setMode(true)"
               mat-raised-button class="mx-auto d-block buttonHauteTension btnHover"  >
-              <b>TÂCHE</b></button>
-            <img class="mt-2 mx-auto d-block" src="assets/images/tache.png" height="212px" width="200px">
+              <b>TÂCHES</b></button>
+            <img (click)="setMode(true)" style="cursor: pointer;"
+                 class="mt-2 mx-auto d-block" src="assets/images/tache.png" height="212px" width="200px">
           </div>
           <div class="col-6 ">
             <button (click)="setMode(false)"
               class="buttonHauteTension mx-auto d-block btnHover"  mat-raised-button >
-              <b>MÉTIER</b></button>
-            <img class="img mx-auto d-block" src="assets/images/metier.jpeg" height="100px" width="100px">
+              <b>MÉTIERS</b></button>
+            <img (click)="setMode(false)" style="cursor: pointer;"
+                 class="img mx-auto d-block" src="assets/images/metier.jpeg" height="100px" width="100px">
           </div>
         </div>
       </div>
@@ -75,18 +83,24 @@
           </div>
           <div class="row mt-3 justify-content-between">
             <p class="text-center mb-5 fw-bold">Vous effectuez des tâches de nature...</p>
-            <div class="col-6">
-              <button  mat-raised-button (click)="setElectrique( previousIsTach ? 'D4' : 'D26')"
-                     class="mx-auto d-block buttonHauteTension btnHover"  >
-                <b>NON ElECTRIQUE</b></button>
-              <img class="img mx-auto d-block" src="assets/images/tacheElectrique.png">
-            </div>
+
             <div class="col-6 ">
               <button class="buttonHauteTension mx-auto d-block btnHover" (click)="setElectrique(previousIsTach ? 'D10' : 'D5')"
                       mat-raised-button >
-                 <b>ElECTRIQUE</b></button>
-              <img class="img mx-auto d-block" src="assets/images/tacheElectrique.png">
+                 <b>ÉLECTRIQUES</b></button>
+              <img  (click)="setElectrique(previousIsTach ? 'D10' : 'D5')" style="cursor: pointer;"
+                    class="img mx-auto d-block" src="assets/images/elec.jpeg">
             </div>
+            <div class="col-6">
+              <button  mat-raised-button (click)="setElectrique( previousIsTach ? 'D4' : 'D26')"
+                       class="mx-auto d-block buttonHauteTension btnHover"  >
+                <b>NON ÉLECTRIQUES</b></button>
+              <img (click)="setElectrique( previousIsTach ? 'D4' : 'D26')"  style="cursor: pointer;"
+                   class="img mx-auto d-block" src="assets/images/nonElec.jpeg">
+            </div>
+          </div>
+          <div class="row w-25 mt-1 m-auto" >
+            <button mat-raised-button color="primary" class="resultButton" (click)="onRestart()">Recommencer</button>
           </div>
         </div>
 
@@ -100,7 +114,7 @@
             <p style="font-size: 20px; color: #FF6801; margin-top: 20px;">Répondez en cliquant sur la case correspondante à vos tâches</p>
             -->
           </div>
-          <div class="row mt-3 justify-content-between">
+          <div class="row mt-3 mb-5 justify-content-between">
             <h2 class="text-center mb-5">{{data.get(currentIndex).consigne}}</h2>
             <div class="col-6">
               <button  (click)="setNextIndex(data.get(currentIndex).buttons[0].nextIndex)"
@@ -112,6 +126,10 @@
                        class="buttonHauteTension mx-auto d-block btnHover"  mat-raised-button >
                 <b>NON</b></button>
             </div>
+          </div>
+
+          <div class="row w-25 mt-5 m-auto" >
+            <button mat-raised-button color="primary" class="resultButton" (click)="onRestart()">Recommencer</button>
           </div>
         </div>
 
@@ -128,15 +146,19 @@
             <div class="col-6">
               <button  (click)="setNextIndex(data.get(currentIndex).buttons[0].nextIndex)"
                        mat-raised-button class="mx-auto d-block buttonHauteTension btnHover"  >
-                Tâches de nature <b>BASE TENSION</b></button>
-              <img class="img mx-auto d-block" src="assets/images/base.jpg">
+                <b>BASSE TENSION</b></button>
+              <img class="img mx-auto d-block" src="assets/images/elec.jpeg">
             </div>
             <div class="col-6 ">
               <button (click)="setNextIndex(data.get(currentIndex).buttons[1].nextIndex)"
                       class="buttonHauteTension mx-auto d-block btnHover"  mat-raised-button >
-                Tâches de nature <b>HAUTE TENSION</b></button>
-              <img class="img mx-auto d-block" src="assets/images/haute.jpg">
+                <b>HAUTE TENSION</b></button>
+              <img class="img mx-auto d-block" src="assets/images/hauteTension.jpeg">
             </div>
+          </div>
+
+          <div class="row w-25 mt-2 m-auto">
+            <button mat-raised-button color="primary" class="resultButton" (click)="onRestart()">Recommencer</button>
           </div>
         </div>
 
@@ -163,6 +185,9 @@
 <!--              <img class="img mx-auto d-block" src="assets/images/tacheElectrique.png">-->
             </div>
           </div>
+          <div class="row w-25 mt-3 m-auto">
+            <button mat-raised-button color="primary" class="resultButton" (click)="onRestart()">Recommencer</button>
+          </div>
         </div>
 
         <!-- level -->
@@ -179,7 +204,7 @@
                          style=" border-bottom: 5px solid #92d04f;">
                     <thead>
                     <tr>
-                      <th scope="col" class="head" style="background-color: #92d04f;">Les tâches autorisées</th>
+                      <th scope="col" class="head" style="background-color: #92d04f;position: sticky; top: 0; z-index: 1;">Les tâches autorisées</th>
                     </tr>
                     </thead>
                     <tbody style="padding-bottom: 2px;">
@@ -189,12 +214,12 @@
                     </tbody>
                   </table>
                 </div>
-                <div class="col-6 ps-1 pb-0 pt-0 pe-0 " style=" overflow: scroll;height: 350px !important;border-radius: 20px;">
+                <div class="col-6 ps-1 pb-0 pt-0 pe-0" style=" overflow: scroll;height: 350px !important;border-radius: 20px;">
                   <table class="table table-striped table-hover"
                          style="height: 200px;overflow: scroll;border-bottom: 5px solid red;">
                     <thead>
                     <tr>
-                      <th scope="col" class="head"  style="background-color: red;">Les tâches non autorisées</th>
+                      <th scope="col" class="head"  style="background-color: red;position: sticky; top: 0; z-index: 1;">Les tâches non autorisées</th>
                     </tr>
                     </thead>
                     <tbody style="padding-bottom: 2px;">
@@ -264,7 +289,7 @@
               <h1 class="mt-3 fw-bold" style="color:orangered;">Pas d’habilitation requise</h1>
               <p  style="font-size: 21px;color: #57585D;">D’après ce questionnaire vous n’avez pas besoin d'une habilitation
                 electrique
-                en fonction de la norme <b>NF C18 - 510</b></p>
+                en fonction de la norme <b>NM 06.1.225 (NF C-18-510)</b></p>
             </article>
           </div>
           <div class="row w-25 mt-5 m-auto">
@@ -279,7 +304,7 @@
               <h1 class="mt-3 fw-bold" style="color:orangered;">Pas de niveau d’habilitation</h1>
               <p  style="font-size: 21px;color: #57585D;">D’après ce questionnaire vous n’avez pas pu identifier vos
                 tâches permettant de définir un niveau d’habilitation électrique
-                en fonction de la norme <b>NF C18 - 510</b></p>
+                en fonction de la norme <b>NM 06.1.225 (NF C-18-510)</b></p>
             </article>
           </div>
           <div class="row w-25 mt-5 m-auto">
@@ -291,31 +316,35 @@
 
 
       <!-- metier -->
-      <div *ngIf="onModeMetier && currentIndex=='DMetier'" class="container" style="width: 100%;height:100%;background-color: white;">
+      <div *ngIf="onModeMetier && currentIndex=='DMetier'" class="container" style="width: 100%;height:100%;background-color: white;position: absolute">
 
         <div class="container w-50 m-auto">
           <div class="row">
            <div style="margin-top: 70px;">
-             <label for="select1" class="colorPrimary"><h2>Choisis une catégorie</h2></label>
+             <label for="select1" class="colorPrimary fw-bold"><h2>Choisir une catégorie</h2></label>
              <select id="select1" (change)="getNewCat($event)" class="form-select form-select-lg mb-3"  aria-label=".form-select-lg example">
-               <option selected disabled>Catégorie de métiers…</option>
+               <option selected disabled>Catégories de métiers...</option>
                <option value="{{c.categoryName}}" *ngFor="let c of metier.categories">{{c.categoryName}}</option>
              </select>
            </div>
           </div>
-
+          <hr class="colorPrimary">
           <div class="row" *ngIf="category != null || category!= undefined">
             <div  style="margin-top: 70px;" >
-              <label for="select2" class="colorPrimary"><h2>Métiers…</h2></label>
+              <label for="select2" class="colorPrimary"><h2>Choisir un métier</h2></label>
               <select id="select2" (change)="getNewTsk($event)" class="form-select form-select-lg mb-3"aria-label=".form-select-lg example">
-                <option selected disabled>Choisis un métiers</option>
+                <option selected disabled>Métiers...</option>
                 <option value="{{task.taskName}}" *ngFor="let task of category.tasks">{{task.taskName}}</option>
               </select>
             </div>
           </div>
         </div>
+        <div style="position: relative; bottom: 0;" class="row w-25 m-auto">
+          <button mat-raised-button color="primary" class="resultButton" (click)="onRestart()">Recommencer</button>
+        </div>
 
       </div>
+
 
     </div>
   </div>

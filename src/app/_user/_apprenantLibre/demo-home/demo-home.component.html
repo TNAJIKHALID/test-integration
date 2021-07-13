@@ -4,14 +4,14 @@
   </div>
   <mat-divider></mat-divider>
 
-  <div class="row mt-5 w-100 m-auto justify-content-between">
-    <div class="col-3 " (mouseover)="tp=true" (mouseout)="tp=false">
+  <div class="row mt-sm-0 mt-lg-5 w-100 m-auto justify-content-evenly">
+    <div class="col-sm-6 col-lg-2 " (mouseover)="tp=true" (mouseout)="tp=false">
       <div class="container d">
         <h2 class="text-center url"
             (mouseover)="tp=true" (mouseout)="tp=false" >
-          <p class="url  fw-bold" [style]="tp ? 'color: orangered;': ''" routerLink="/testDashboard/positionTestLibre">
+          <p class="url  fw-bold" [style]="tp ? 'color: orangered;': ''" routerLink="/dashboard/positionTestLibre">
             Test de positionnement</p></h2>
-        <div class="m-auto mt-3 text-center" (mouseover)="tp=true" (mouseout)="tp=false" routerLink="/testDashboard/positionTestLibre">
+        <div class="m-auto mt-3 text-center" (mouseover)="tp=true" (mouseout)="tp=false" routerLink="/dashboard/positionTestLibre">
           <img  *ngIf="!tp" src="assets/images/icons/tp.png" class="w-50 h-50" alt="">
           <img  *ngIf="tp"  src="assets/images/icons/tp-h.png" class="w-50 h-50" alt="">
           <!--
@@ -26,13 +26,13 @@
       </div>
     </div>
 
-    <div class="col-3 ">
+    <div class="col-sm-6 col-lg-2 ">
       <div class="container d">
-        <h2  class="text-center url fw-bold"(mouseover)="fr=true" (mouseout)="fr=false" ><p class="url" [style]="fr? 'color: orangered;': ''"routerLink="/testDashboard/formationLibre">
+        <h2  class="text-center url fw-bold"(mouseover)="fr=true" (mouseout)="fr=false" ><p class="url" [style]="fr? 'color: orangered;': ''"routerLink="/dashboard/formationLibre">
           Formation</p></h2>
-        <div class="m-auto mt-3 text-center" (mouseover)="fr=true" (mouseout)="fr=false" routerLink="/testDashboard/formationLibre">
-          <img *ngIf="fr" routerLink="/testDashboard/formationLibre" src="assets/images/icons/fr-h.png" class="w-50 h-50 m-auto" alt="">
-          <img  *ngIf="!fr" routerLink="/testDashboard/formationLibre" src="assets/images/icons/fr.png" class="w-50 h-50 m-auto" alt="">
+        <div class="m-auto mt-3 text-center" (mouseover)="fr=true" (mouseout)="fr=false" routerLink="/dashboard/formationLibre">
+          <img *ngIf="fr" routerLink="/dashboard/formationLibre" src="assets/images/icons/fr-h.png" class="w-50 h-50 m-auto" alt="">
+          <img  *ngIf="!fr" routerLink="/dashboard/formationLibre" src="assets/images/icons/fr.png" class="w-50 h-50 m-auto" alt="">
           <!--
            <svg style="cursor: pointer;margin-top: -20px;" *ngIf="!fr"
              xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="152" height="110" viewBox="0 0 152 110">
@@ -53,13 +53,13 @@
       </div>
     </div>
 
-    <div class="col-3 ">
+    <div class="col-sm-6 col-lg-2 ">
       <div class="container d">
-        <h2  class="text-center url fw-bold" (mouseover)="en=true" (mouseout)="en=false" ><p class="url" [style]="en? 'color: orangered;': ''" routerLink="/testDashboard/entrainmentLibre">
+        <h2  class="text-center url fw-bold" (mouseover)="en=true" (mouseout)="en=false" ><p class="url" [style]="en? 'color: orangered;': ''" routerLink="/dashboard/entrainmentLibre">
           Entraînement</p></h2>
-        <div class="m-auto mt-3 text-center" (mouseover)="en=true" (mouseout)="en=false" routerLink="/testDashboard/entrainmentLibre" >
-          <img *ngIf="!en" routerLink="/testDashboard/entrainmentLibre" src="assets/images/icons/ent.png" class="w-50 h-50" alt="">
-          <img *ngIf="en"  routerLink="/testDashboard/entrainmentLibre" src="assets/images/icons/ent-h.png" class="w-50 h-50" alt="">
+        <div class="m-auto mt-3 text-center" (mouseover)="en=true" (mouseout)="en=false" routerLink="/dashboard/entrainmentLibre" >
+          <img *ngIf="!en" routerLink="/dashboard/entrainmentLibre" src="assets/images/icons/ent.png" class="w-50 h-50" alt="">
+          <img *ngIf="en"  routerLink="/dashboard/entrainmentLibre" src="assets/images/icons/ent-h.png" class="w-50 h-50" alt="">
           <!--
           <svg  style="cursor: pointer;" *ngIf="!en"
             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="113" height="110" viewBox="0 0 113 110">
@@ -80,13 +80,13 @@
       </div>
     </div>
 
-    <div class="col-3">
+    <div class="col-sm-6 col-lg-2 ">
      <div class="container d">
-       <h2  class="text-center url fw-bold" (mouseover)="ev=true" (mouseout)="ev=false" ><p class="url" [style]="ev? 'color: orangered;': ''" routerLink="/testDashboard/evaluationLibre">
+       <h2  class="text-center url fw-bold" (mouseover)="ev=true" (mouseout)="ev=false" ><p class="url" [style]="ev? 'color: orangered;': ''" routerLink="/dashboard/evaluationLibre">
          Évaluation</p></h2>
-       <div class="m-auto mt-3 text-center" (mouseover)="ev=true" (mouseout)="ev=false" routerLink="/testDashboard/evaluationLibre">
-         <img *ngIf="!ev"  routerLink="/testDashboard/evaluationLibre" src="assets/images/icons/ev.png" class="w-50 h-50 m-auto" alt="">
-         <img   *ngIf="ev" routerLink="/testDashboard/evaluationLibre" src="assets/images/icons/ev-h.png" class="w-50 h-50 m-auto" alt="">
+       <div class="m-auto mt-3 text-center" (mouseover)="ev=true" (mouseout)="ev=false" routerLink="/dashboard/evaluationLibre">
+         <img *ngIf="!ev"  routerLink="/dashboard/evaluationLibre" src="assets/images/icons/ev.png" class="w-50 h-50 m-auto" alt="">
+         <img   *ngIf="ev" routerLink="/dashboard/evaluationLibre" src="assets/images/icons/ev-h.png" class="w-50 h-50 m-auto" alt="">
 
          <!--
           <svg   style="cursor: pointer;" *ngIf="!ev"
@@ -102,6 +102,18 @@
 
        </div>
      </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-2 ">
+      <div class="container d">
+        <h2  class="text-center url fw-bold" (mouseover)="dw=true" (mouseout)="dw=false" >
+          <p class="url" [style]="dw? 'color: orangered;': ''" routerLink="/dashboard/profileLibre">
+          Téléchargement</p></h2>
+        <div class="m-auto mt-3 text-center" (mouseover)="dw=true" (mouseout)="dw=false" routerLink="/dashboard/profileLibre">
+          <img *ngIf="!dw"  routerLink="/dashboard/profileLibre" src="assets/images/icons/ev.png" class="w-50 h-50 m-auto" alt="">
+          <img   *ngIf="dw" routerLink="/dashboard/profileLibre" src="assets/images/icons/ev-h.png" class="w-50 h-50 m-auto" alt="">
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -19,7 +19,10 @@ export class TestParametersComponent implements OnInit {
   @Output() paramsEvent: EventEmitter<Params> = new EventEmitter<Params>();
   @Input() testEngineTitle: string;
   @Input() testModeInput: string;
+  @Input() level: string;
   public isOnEvaluation: boolean = false;
+
+
   levels: Array<HabilitationLevel> = new Array<HabilitationLevel>();
 
   constructor(public formBuilder:FormBuilder, public dataService:DataService) {
@@ -30,10 +33,11 @@ export class TestParametersComponent implements OnInit {
 
   ngOnInit(): void {
     this.isOnEvaluation = this.testModeInput == 'TEST_TYPE_EXAM';
+    let level= this.level == null || this.level=='NAN' ? 'B0 Exécutant': this.level;
     this.myForm = this.formBuilder.group(
       {
         testMode:[this.testModeInput,[Validators.required]],
-        habilitationLevel: ['B0 Exécutant', [Validators.required ]],
+        habilitationLevel: [level, [Validators.required ]],
         fundamentalQuestion: [1,
           [ Validators.required, Validators.max(5), Validators.min(0)]
         ],
@@ -103,10 +107,9 @@ export class TestParametersComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   themeCtrl = new FormControl();
   filteredFruits: Observable<string[]>;
-  themes: string[] = ['Shémas électriques'];
-  allThemes: string[] = []; /*['EPI- Généralités', 'Détermination des natures des opérations', 'Shémas électriques'
-    , 'Emplacements de travail à risques particuliers'];
-  */
+  themes: string[] = ['Les dangers de l\'électricité'];
+  allThemes: string[] = [];
+
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 

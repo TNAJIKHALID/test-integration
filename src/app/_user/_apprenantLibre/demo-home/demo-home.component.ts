@@ -10,6 +10,7 @@ export class DemoHomeComponent implements OnInit {
   fr : boolean = false;
   en: boolean = false;
   ev: boolean = false;
+  dw: boolean=false;
 
   constructor() { }
 

@@ -3,6 +3,10 @@ import {JwtAuthenticationService} from '../../../_service/_authentication/jwt-au
 import {ActivatedRoute, NavigationEnd, Router, RouterOutlet} from '@angular/router';
 import {MatSidenav} from "@angular/material/sidenav";
 import {AppComponent} from "../../../app.component";
+import {AppURLs} from "../../../util/URLs";
+import {ApprenantLibre} from "../../../_model/user";
+import {DataService} from "../../../_service/_util/data.service";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-demo-dashboard',
@@ -11,31 +15,32 @@ import {AppComponent} from "../../../app.component";
 
 })
 export class DemoDashboardComponent implements OnInit {
+  apprenantLibre: ApprenantLibre;
+  currentUrl: string;
+
   @ViewChild('sidenav') sidenav: MatSidenav;
-  constructor(public jwtService:JwtAuthenticationService,public route: ActivatedRoute,public router: Router) {
+  frontEnd: any;
+  constructor(public jwtService:JwtAuthenticationService,
+              public dataService:DataService,
+              public domSanitizer: DomSanitizer, public route: ActivatedRoute,
+              public router: Router) {
 
   }
-
-
-
   ngOnInit(): void {
+    this.frontEnd = AppURLs.frontEnd;
+    this.currentUrl = AppComponent.currentUrl;
+    let d;
+    this.dataService.getResource("/getApprenantLibre?appUserId="+
+      this.jwtService.userAuthenticated.id).subscribe(data=>{
+      d = data;
+      this.apprenantLibre = d;
+    });
   }
-
   logOut() {
     this.jwtService.logout();
   }
-
   getCurrentMode() {
     return AppComponent.getCurrentMode();
-    /*if(AppComponent.currentUrl.includes("entrainmentLibre")) {
-      return "entraînement"
-    }else if(AppComponent.currentUrl.includes("formationLibre")) {
-      return "formation"
-    }else if(AppComponent.currentUrl.includes("evaluationLibre")) {
-      return "évaluation"
-    } else if(AppComponent.currentUrl.includes("positionTestLibre")) {
-      return "test de positionnement"
-    } else return "";*/
   }
 
 

@@ -77,16 +77,24 @@
 
           <div *ngIf="question.type == 'ORDER'">
             <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-              <div class="example-box-drag" *ngFor="let a of question.answers" cdkDrag>
-                <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
-                <b [ngClass]="showAnswer && a.correct ? 'text-success font-weight-bold' : ''">{{a.answer}}</b>
+              <div class="row" *ngFor="let a of question.answers,let i = index;">
+                <div class="col-1">
+                  <div class="example-box-drag " ><span class="text-center m-auto colorPrimary fw-bold">{{i}}</span></div>
+                </div>
+                <div class="col-11">
+                  <div class="example-box-drag"  cdkDrag>
+                    <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+                    <b [ngClass]="showAnswer && a.correct ? 'text-success font-weight-bold' : ''">{{a.answer}}</b>
+                  </div>
+                </div>
               </div>
+
             </div>
           </div>
 
           <div *ngIf="question.type == 'FILL'" >
             <form class="form-inline">
-              <p style="font-size: 18px;">
+              <h3 style="font-size: 18px;">
                 <span class="mt-2" *ngFor="let s of strings;let i = index">
                   <span *ngIf="i>0">&nbsp;</span>
                   {{s}}
@@ -111,7 +119,7 @@
                   </span>
 
                 </span>
-              </p>
+              </h3>
             </form>
           </div>
 
@@ -137,7 +145,30 @@
               </div>
             </div>
             <div class="row mt-2" >
-              <div class="row" *ngFor="let d of data;let i = index;">
+              <div class="row" *ngFor="let d of data;let i = index;"
+
+              >
+                <div *ngIf="ids.length > 0" class="col-2">
+                  <div cdkDropList id="{{i}}" [cdkDropListData]="d"
+                       [cdkDropListConnectedTo]="idsAndAll"
+                       (cdkDropListDropped)="dropForZoneQuestions($event)"
+                       style="min-height: 20px; min-width: 20px;border-radius: 10px;background-color: #cccccc"
+                      >
+                    <div style="align-items: center;" id="boxxToDrag" class="text-center"
+                         [style]="showAnswer ? 'color:green;font-weight: bold;':''" *ngFor="let item of d" cdkDrag>{{item.answerElement}}</div>
+
+                  </div>
+                </div>
+                <div class="col-10" >
+                  <h5> {{zoneNames[i].answer}}</h5>
+                </div>
+              </div>
+
+            </div>
+
+            <!--
+             <div class="row mt-2" >
+              <div class="row" *ngFor="let d of data;let i = index;" >
                 <div *ngIf="ids.length > 0" class="col-2">
                   <div cdkDropList id="{{i}}" [cdkDropListData]="d"
                        [cdkDropListConnectedTo]="idsAndAll"
@@ -153,12 +184,20 @@
               </div>
 
             </div>
+            -->
           </div>
         </div>
         <div class="col-4">
+
+        <!--
           <img *ngIf="question.image != undefined && question.image != null"
                alt="..." class="img-fluid w-100 h-100 float-right"
                [src]="dataService.host+'/photoQuestion/'+question.id">
+          -->
+
+          <img *ngIf="question.image != undefined && question.image != null"
+               alt="..." class="img-fluid w-100 h-100 float-right"
+               [src]="domSanitizer.bypassSecurityTrustUrl('data:image/PNG;base64,' + question.picByte)">
         </div>
       </div>
       <!-- only drag images -->
@@ -194,8 +233,12 @@
                      (cdkDropListDropped)="dropForZoneQuestions($event)"
                 >
                   <div class="card-img">
-                    <img alt="..."
-                         [src]="dataService.host+'/photoSchema/'+zoneNames[i].id">
+                    <!--
+                    <img alt="..." class="mx-auto d-block" width="100px" height="100px"
+                         [src]="dataService.host+'/photoSchema/'+zoneNames[i].id">-->
+
+                    <img alt="..." class="mx-auto d-block" width="100px" height="100px"
+                         [src]="domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,'+zoneNames[i].picByte)">
                   </div>
                   <div class="card-footer">
                    <div *ngIf="idsImages.length > 0" >
@@ -223,7 +266,7 @@
           <div class="col-2">
             <!-- Valider  answerd show answer not clicked not already clicked-->
 
-            <button mat-raised-button color="primary" [disabled]="!checkIfQuestionAnswered(question)
+            <button mat-raised-button color="primary" class="float-start" [disabled]="!checkIfQuestionAnswered(question)
             || showAnswer || respondedQuestionsIds.includes(question.id)"
                     *ngIf="!onEvaluation" (click)="onValidateAnswer()"
                     style="font-size: 12px;">Valider
@@ -244,6 +287,12 @@
                     (click)="onNext()"
                     class="float-start">
               Valider<mat-icon>navigate_next</mat-icon></button>
+            <button mat-raised-button color="primary" style="font-size: 12px;"
+                    *ngIf="this.currentQuestionNumber == this.test.questions.length-1"
+                    (click)="onSubmit()"
+                    class="float-start" [ngClass]="!onEvaluation? 'ms-2':''">
+              Soumettre</button>
+
           </div>
         </div>
       <p class="text-danger text-center fw-bold mb-1" *ngIf="!noAnswer && !allowPassingQuestions" >Merci de répondre</p>
@@ -258,14 +307,26 @@
                 </button>
               </div>
               <div class="col-6 horizontal-scrollable pb-1"   >
-                <ul class="pagination " >
+                <ul *ngIf="!onEvaluation" class="pagination " >
                   <li  *ngFor="let q of test.questions;let i = index"  style="cursor: pointer;"
                        class="page-item" >
                     <a class="page-link"
                        [style]=" (checkIfQuestionAnswered(q) &&
-                       visitedQuestions.includes(q.id) && verifiedQuestions.includes(q.id)) || (checkIfQuestionAnswered(q) &&
-                       visitedQuestions.includes(q.id) && onEvaluation ) ? 'background-color: orangered;':''"
+                       visitedQuestions.includes(q.id) && verifiedQuestions.includes(q.id))  ? 'background-color: orangered;':''"
                        data-abc="true" (click)="goToQuestion(i)">{{i+1}}</a>
+                  </li>
+                </ul>
+                <ul *ngIf="onEvaluation" class="pagination " >
+                  <li  *ngFor="let q of test.questions;let i = index"  style="cursor: pointer;"
+                       class="page-item" >
+                    <a class="page-link"
+                       [style]=" (checkIfQuestionAnswered(q) &&  visitedQuestions.includes(q.id) ) ? 'background-color: orangered;':''"
+                       data-abc="true" (click)="goToQuestion(i)">{{i+1}}</a>
+                    <!--
+                     <a class="page-link"
+                       [style]=" (checkIfQuestionAnswered(q) && visitedQuestions.includes(q.id) ) ? 'background-color: orangered;':''"
+                       data-abc="true" (click)="goToQuestion(i)">{{i+1}}</a>
+                    -->
                   </li>
                 </ul>
               </div>
@@ -275,11 +336,11 @@
                         (click)="onNext()"
                         class="float-start">
                   Suivant <mat-icon>navigate_next</mat-icon></button>
-                <button mat-raised-button color="primary" style="font-size: 12px;"
+                <!--<button mat-raised-button color="primary" style="font-size: 12px;"
                         *ngIf="this.currentQuestionNumber == this.test.questions.length-1"
                         (click)="onSubmit()"
                         class="float-start">
-                  Soumettre</button>
+                  Soumettre</button>-->
               </div>
             </div>
           </div>
@@ -306,10 +367,11 @@
         <div class="row ">
           <div class="row">
             <div class="col-8 ml-3" style="padding-right: 30px;padding-left: 20px;">
-              <div class="p-3 br rounded-pill mt-3 d-flex justify-content-between">
-                <span>Niveau d'habilitation</span> <span><b class="colorPrimary">{{test?.testLevel}}</b> </span>
+              <div class="p-3  mt-3 rounded-1 shadow d-flex justify-content-between" style="border: 3px solid #FF6801">
+                <span  style="font-size: 26px;">Niveau d'habilitation</span> <span>
+                <b class="colorPrimary" style="font-size: 26px;"> {{test?.testLevel}}</b> </span>
               </div>
-              <p class="mt-2 justify-content-center" style="font-size: 20px;color: #6B6B6B;line-height: 32px;">Pendant l’exécution des travaux, l’exécutant de travaux
+              <p class="mt-5 justify-content-center" style="font-size: 20px;color: #6B6B6B;line-height: 32px;">Pendant l’exécution des travaux, l’exécutant de travaux
                 d’ordre électrique ou d’ordre non électrique doit,
                 dans le cadre des instructions reçues :</p>
             </div>

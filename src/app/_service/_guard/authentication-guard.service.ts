@@ -14,7 +14,6 @@ export class AuthenticationGuardService implements CanActivate{
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
     return new Promise((resolve, reject) => {
-        console.log(this.jwtService.isAuthenticated)
         if (!this.jwtService.isAuthenticated && this.routeURL !== '/login') {
           this.routeURL = '/login';
           this.router.navigate(['/login'], {

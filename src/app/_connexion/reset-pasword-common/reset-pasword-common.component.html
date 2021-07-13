@@ -1,0 +1,71 @@
+<div style="width: 100%;height: 100%;"
+     style="background-image:url(assets/images/body-bg.jpeg);background-size: cover;min-height: 100%;
+    height: auto !important;
+    height: 100%;">
+  <div >
+
+    <div class="ms-5 pt-5 w-50" style="height: 80%;">
+      <div class="row  " style="height: 60%;" >
+        <div class="col-4 float-start" >
+          <div class="container pt-5 rounded mt-3"
+               style="background-color: rgba(255,255,255,0.9);
+                 position: relative;min-height: 533px;min-width: 404px;">
+            <div class="m-auto justify-content-center text-center">
+              <a  href="{{frontEnd}}"><img src="assets/images/logoo.png" class="w-75 h-50 ml-5 mb-3"  alt=""></a>
+            </div>
+
+            <div class="m-auto justify-content-center text-center" style="width: 90%;">
+              <h2 class="title-head float-start" style="border-left: 4px solid orangered; padding-left: 12px;top: 50%;">Réinitialiser le mot de passe</h2>
+              <p class="float-start">Vous n'avez pas de compte ? <a class="mat-tab-link ml-2" style="color: darkorange;" routerLink="/register">Demandez un devis</a></p>
+            </div>
+
+            <form class="mb-5 mt-3 m-auto"
+                  style="margin-bottom: 20rem; width: 90%;" [formGroup]="resetPasswordForm">
+              <div class="row w-100 m-auto">
+                <mat-form-field class="mr-3">
+                  <input [type]="hide ? 'password':'text'" matInput placeholder="mot de passe" formControlName="password">
+                  <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  </button>
+                  <mat-hint>le mot de pass doit avoire entre 8 et 10 caractére.</mat-hint>
+                  <mat-error *ngIf="password.invalid && password.touched">
+                    mot de pass invalid
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="row w-100 m-auto">
+                <mat-form-field>
+                  <input [type]="hide ? 'password':'text'" matInput placeholder="mot de passe" formControlName="rePassword">
+                  <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  </button>                  <mat-error *ngIf="rePassword.invalid">Confirm Password is required</mat-error>
+                  <mat-error *ngIf="rePassword.value != password.value">
+                    les mots de pass ne se coresponds pas
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="row w-50 mt-5 m-auto justify-content-center">
+                <button mat-raised-button color="primary"
+                        [disabled]="resetPasswordForm.invalid" (click)="onResetPassword()">Réinitialiser</button>
+              </div>
+              <!--
+              <div class="row w-100 mt-3 justify-content-center">
+                <div class="m-auto text-center">
+                  <a routerLink="/login" class="mat-tab-link" >se connecter ?</a>
+                </div>
+              </div>
+              -->
+            </form>
+
+            <div class="row mb-2 " style="width: 90%;border-top: 3px solid darkorange; position: absolute; bottom: 0px;">
+              <b class="m-auto text-center">© 2021 - <span style="color: darkorange">E-Habilita</span> - Tous droits réservés</b>
+            </div>
+          </div>
+        </div>
+        <div class="col-4"></div>
+        <div class="col-4"></div>
+      </div>
+    </div>
+  </div>
+</div>
+

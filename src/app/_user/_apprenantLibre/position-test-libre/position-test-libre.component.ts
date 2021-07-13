@@ -18,22 +18,21 @@ export class PositionTestLibreComponent implements OnInit {
   constructor(public dataService:DataService,public jwtService:JwtAuthenticationService,
               private toastr: ToastrService) {
     let d;
-    this.dataService.getResource("/getApprenantLibre?appUserId="+this.jwtService.userAuthenticated.id).subscribe(data=>{
+    /*this.dataService.getResource("/getApprenantLibre?appUserId="+this.jwtService.userAuthenticated.id).subscribe(data=>{
       d = data;
       this.apprenantLibre = d;
       this.positionTestResult = this.apprenantLibre.positionTestResult;
       console.log(this.apprenantLibre);
-    })
+    })*/
   }
 
   ngOnInit(): void {
     let d;
-    this.dataService.getResource("/getApprenantLibre?appUserId="+this.jwtService.userAuthenticated.id).subscribe(data=>{
+    this.dataService.getResource("/getApprenantLibre?appUserId="+
+      this.jwtService.userAuthenticated.id).subscribe(data=>{
       d = data;
       this.apprenantLibre = d;
       this.positionTestResult = this.apprenantLibre.positionTestResult;
-      console.log("hhhhhh");
-
       console.log(this.positionTestResult);
     })
   }

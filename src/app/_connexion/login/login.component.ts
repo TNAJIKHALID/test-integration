@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {DataService} from '../../_service/_util/data.service';
 import {JwtAuthenticationService} from '../../_service/_authentication/jwt-authentication.service';
+import {AppURLs} from "../../util/URLs";
 
 @Component({
   selector: 'app-login',
@@ -18,14 +18,17 @@ export class LoginComponent implements OnInit {
               public formBuilder: FormBuilder, public activatedRoute: ActivatedRoute) {
   }
   myForm: FormGroup;
+  frontEnd: any;
+  hide: boolean = true;
   ngOnInit(): void {
+    this.frontEnd = AppURLs.frontEnd;
     this.loginFormUrl();
     this.error = false;
     this.myForm = this.formBuilder.group(
       {
         email:['',[
-          Validators.required/*,
-          Validators.email*/
+          Validators.required,
+          Validators.email
         ]],
         password:['',[
           Validators.required
@@ -54,10 +57,14 @@ export class LoginComponent implements OnInit {
       this.auth.successfulAuthentication(token);
 
       /* todo */
+
       if (this.auth.hasRole(this.auth.APP_ROLE_USER_LEARNER)){
-        this.router.navigate(['/testDashboard/'], {queryParams: {return: 'admin'} });
-      }else  this.router.navigateByUrl('/dashboard');
-      //this.router.navigateByUrl('/dash');
+        this.router.navigate(['/dashboard'], {queryParams: {return: 'admin'} });
+      } else if (this.auth.hasRole(this.auth.APP_ROLE_ENTERPRISE_ADMIN)) {
+        console.log('before redirect ......')
+        this.router.navigate(['/dashboard-Enterprise'], {queryParams: {return: 'enterprise'} });
+      }
+
     },error1 => {
       console.log(error1);
       this.error = true;

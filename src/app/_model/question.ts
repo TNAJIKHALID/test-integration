@@ -19,6 +19,7 @@ export class Question{
   answers : Array<Answer> = new Array();
   answerElements : Array<AnswerElement> = new Array();
   habilitationLevels: Array<HabilitationLevel> = new Array();
+  picByte: any;
 
 }
 

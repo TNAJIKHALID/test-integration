@@ -1,4 +1,4 @@
-<div class="container pb-3 rounded shadow mt-5 apprenantLibreDiv" style="min-width: 1300px;">
+<div class="container pb-3 rounded shadow mt-5 apprenantLibreDiv">
   <div class="card m-auto justify-content-center" style="border: 2px solid white;">
     <div  *ngIf="!isOnEvaluation" class="card-header bg-white mb-5">
       <h2  class="text-center">{{testEngineTitle}}</h2>
@@ -147,12 +147,22 @@
 
         </form>
       </div>
+
+
       <div *ngIf="isOnEvaluation" class="row" style="margin-top: 150px;">
+
+          <h2 class="m-auto mb-5 text-center" *ngIf="level != null || level == 'NAN' ;else elseBlock">D'apres le teste de positionnement votre niveau d'habilitation est {{level}}</h2>
+          <ng-template #elseBlock><h2 class="m-auto mb-5 text-center">
+            Passer <a class="colorPrimary pointer" routerLink="/dashboard/positionTestLibre" >
+            le teste de positionnement</a> pour determiner votre niveau</h2></ng-template>
+
+
+
         <form [formGroup]="myForm" >
           <div class="row w-50 m-auto">
             <div class="row float-start">
               <mat-form-field appearance="outline">
-                <mat-label>Niveau</mat-label>
+                <mat-label>Niveau d'habilitation</mat-label>
                 <mat-select formControlName="habilitationLevel">
                   <mat-option *ngFor="let level of levels" [value]="level.habilitationLevel">{{level.habilitationLevel}}</mat-option>
                 </mat-select>

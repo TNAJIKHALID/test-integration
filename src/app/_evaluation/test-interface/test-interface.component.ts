@@ -15,6 +15,7 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag
 import {ConfirmationDialogService} from '../../_service/_util/confirmation-dialog.service';
 import {noUndefined} from "@angular/compiler/src/util";
 import {ToastrService} from "ngx-toastr";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-test-interface',
@@ -90,12 +91,14 @@ export class TestInterfaceComponent implements OnInit {
               private _snackBar: MatSnackBar, public dialog: MatDialog,
               public confirmationDialogService:ConfirmationDialogService,
               private toastr: ToastrService,
-              public speakService: SpeakService, public dataStoring: DataStoringService
+              public speakService: SpeakService, public dataStoring: DataStoringService,
+              public domSanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
     this.onTest = false;
     this.onEvaluation = this.test.type == 'TEST_TYPE_EXAM';
+    //this.allowPassingQuestions = true;
     this.allowPassingQuestions = this.onEvaluation ? false : true;
     this.setDataTest();
     this.speakService.mute();
@@ -121,11 +124,14 @@ export class TestInterfaceComponent implements OnInit {
       this.response.testTime = this.test.timeSecond - this.counter;
       this.countDown.unsubscribe();
       /****************/
-      for (let key of this.response.responses.keys()) {
-        if (this.filteredResponses.has(key)){
-          this.response.responses.set(key,this.filteredResponses.get(key))
-        } else {
-          this.response.responses.set(key,[])
+      //todo
+      if(!this.onEvaluation){
+        for (let key of this.response.responses.keys()) {
+          if (this.filteredResponses.has(key)){
+            this.response.responses.set(key,this.filteredResponses.get(key))
+          } else {
+            this.response.responses.set(key,[])
+          }
         }
       }
       /****************/
@@ -151,24 +157,9 @@ export class TestInterfaceComponent implements OnInit {
       this.ma = new Map<number, Array<Answer>>();
       this.strings = this.question.question.split('<s>');
       let answers =this.question.answers;
-
       for (let i = 0; i < this.question.answers.length; i++) {
         this.ma.set(i, answers);
-        /*let answer = this.question.answers[i];
-        let order = this.question.answers[i].inOrder;
-        if (this.ma.has(order) && this.ma.get(order).indexOf(answer) == -1) {
-          let array = this.ma.get(order);
-          array.push(answer);
-          this.ma.set(order, array);
-        } else {
-          let array = new Array<Answer>();
-          array.push(answer);
-          this.ma.set(order, array);
-        }*/
       }
-
-      console.log(this.strings)
-      console.log(this.ma)
       this.strings = this.question.question.split('<s>');
     }
     else if (this.question.type == 'DRAG' || this.question.type == 'DRAG_IMAGE' ) {
@@ -181,6 +172,8 @@ export class TestInterfaceComponent implements OnInit {
       }
       this.zoneValues = this.evaluationService.shuffle(this.zoneValues);
       this.fillForZoneQuestionDrag();
+    } else if(this.question.type == 'ORDER'){
+      this.question.answers = this.evaluationService.shuffle(this.question.answers)
     }
   }
 
@@ -221,9 +214,9 @@ export class TestInterfaceComponent implements OnInit {
   onNext() {
     this.noAnswer = this.checkIfAnswered();
     if(!this.noAnswer && !this.allowPassingQuestions){
-      this.toastr.error('Merci de finaliser votre reponse', 'Erreur',{
+      this.toastr.error('Merci de finaliser votre réponse', 'Erreur',{
         timeOut: 3000,
-        positionClass: 'toast-top-right'
+        positionClass: 'toast-top-center'
       });
     }
     if (this.noAnswer || this.allowPassingQuestions) {
@@ -237,6 +230,8 @@ export class TestInterfaceComponent implements OnInit {
       this.startQuestionTimer(this.question.questionTimeSecond);
 
     }
+    console.log(this.visitedQuestions)
+    console.log(this.checkIfQuestionAnswered(this.question))
     this.showAnswer = false;
   }
 
@@ -348,14 +343,21 @@ export class TestInterfaceComponent implements OnInit {
     let b, dragDone: boolean = true, others: boolean = true, fill: boolean = true;
     let numbers1 = this.response.responses.get(question.id);
     if (question.type == 'FILL') {
-      fill = !numbers1.includes(undefined) && numbers1.length == this.ma.size && numbers1.length > 0;
-    } else if (question.type == 'DRAG' || question.type == 'DRAG_IMAGE') {
+      let ma = new Map<number, Array<Answer>>();
+      let answers = question.answers;
+      for (let i = 0; i < question.answers.length; i++) {
+        ma.set(i, answers);
+      }
+      fill = !numbers1.includes(undefined) && numbers1.length == ma.size && numbers1.length > 0;
+    }
+    else if (question.type == 'DRAG' || question.type == 'DRAG_IMAGE') {
       dragDone = !this.response.responses.get(question.id).includes(undefined) &&
         !this.response.responses.get(question.id).includes(null) &&
         this.response.responses.get(question.id).length == question.answerElements.length;
     } else if (question.type == 'ORDER') {
       others = true;
-    } else {
+    }
+    else {
       others = this.response.responses.get(question.id).length > 0;
     }
     b = others && fill && dragDone;
@@ -454,6 +456,8 @@ export class TestInterfaceComponent implements OnInit {
     this.idsAndAllImages.push('all_images');
     this.ids.forEach(i=>this.idsAndAll.push(i+''));
     this.idsImages.forEach(i=>this.idsAndAllImages.push(i+''));
+    this.done =  this.evaluationService.shuffle(this.done);
+
   }
 
   dropForZoneQuestions(event: CdkDragDrop<AnswerElement[]>) {
@@ -487,12 +491,12 @@ export class TestInterfaceComponent implements OnInit {
     if(isCorrect){
       this.toastr.success('Bravo', 'Question',{
         timeOut: 3000,
-        positionClass: 'toast-top-right'
+        positionClass: 'toast-top-center'
       });
     } else {
       this.toastr.error('Ops! c\'est raté', 'Question',{
         timeOut: 3000,
-        positionClass: 'toast-top-right'
+        positionClass: 'toast-top-center'
       });
       this.isCurrentQuestionCorrect = isCorrect;
     }

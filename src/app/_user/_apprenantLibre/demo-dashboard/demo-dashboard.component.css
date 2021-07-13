@@ -1,31 +1,57 @@
 h2:hover{
-  color: orangered;
-  cursor: pointer;
+  color: white;
+cursor: pointer;
 }
 #title{
   font-size: 28px;
   margin-right: -90px;
   font-family: Verdana;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 25px;
   margin-left: 18px;
   color: #6B6B6B;
 }
-
+.my-nav-item:focus{
+  outline: none;
+}
 .my-nav-item{
   font-weight: bold;
-  width: 98%;
+  width: 100%;
   background-color: white;
-  border-bottom: 3px solid orangered;
-  padding: 5px 5px 5px 5px;
-  margin-left: 3px;
+  /*border-left: 1px solid black;
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;*/
+
+  border-radius: 8px;
+  padding: 5px 20px 10px 10px;
+  margin-left: 5px;
   margin-bottom: 20px;
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
-  border-top-left-radius: 12px;
+}
+
+.my-nav-item:hover{
+  background-color: black;
+  transition: 0.5s;
 }
 .my-item{
   margin-left: 5px;
   padding-bottom: 10px;
 
 }
+#divSideBar{
+  min-width: 100%;
+  margin-top: 40px;
+  margin-left: 11px;
+  height: 100%;
+  position: relative;
+}
+
+
+
+.as{
+}
+
+
+.as:hover{
+  background-color: rgba(220, 220, 220, 0.7);
+}
+

@@ -1,10 +1,64 @@
 <div class="container rounded shadow mt-5 apprenantLibreDiv" >
   <div class="container w-100" style="margin-top: 50px;">
+    <div class="container mt-5" style="padding-top: 37px;">
+      <div class="row">
+        <div class="col-2">
+          <nav class="navbar bg-white " id="nav">
+            <ul class="navbar-nav">
+              <li class="nav-item li " [ngClass]="mode==1 ? 'li-active':''" (click)="mode = 1" >
+                <a  class="nav-link my-nav">Mode 1</a>
+              </li>
+              <li class="nav-item li" [ngClass]="mode==2 ? 'li-active':''"  (click)="mode = 2">
+                <a class="nav-link my-nav" >Mode 2</a>
+              </li>
+              <li class="nav-item li" [ngClass]="mode==3 ? 'li-active':''"  (click)="mode = 3">
+                <a class="nav-link my-nav">Mode 3</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div class="col-10" *ngIf="mode==1">
+          <ngx-doc-viewer
+            url="https://docs.google.com/presentation/d/1iREE0oreERrVmu3WKt4MoBE0aNhthrc-6AcgP3sFefM/preview"
+            viewer="url"
+            style="width:100%;height:500px;"
+          >
+          </ngx-doc-viewer>
+          <!--<ngx-doc-viewer
+            url="https://docs.google.com/presentation/d/1eVg8vWYMYfxvevgAnRrtmgCsfK7kqaH-AQcQLHjUMiM/preview"
+            viewer="url"
+            style="width:100%;height:500px;"
+          >
+          </ngx-doc-viewer>-->
+        </div>
+        <div class="col-10" *ngIf="mode==2">
+
+<!--          <iframe width="100%" height="500px"-->
+<!--                  src="https://drive.google.com/file/d/14f1okOsekFV8r5xJ37_5hmwJhwM98V-z/preview"></iframe>-->
+          <video width="100%" height="500px" controls>
+            <source src="assets/video/vidoe.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+
+
+        </div>
+
+        <div class="col-10" *ngIf="mode==3">
+          <video width="100%" height="500px" controls>
+            <source src="assets/video/formation.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+
+    </div>
+   <!--
     <div class="row justify-content-around">
       <div class="col-5">
         <h1 class="text-center fw-bold" style="margin-top: 90px;">Disponible prochainement...</h1>
         <hr/>
       </div>
     </div>
+   -->
   </div>
 </div>

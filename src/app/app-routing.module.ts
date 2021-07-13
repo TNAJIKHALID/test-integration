@@ -16,50 +16,79 @@ import {HomeComponent} from './_static/home/home.component';
 import {ErrorComponent} from './_static/error/error.component';
 import {PositionTestUpdatedComponent} from "./_evaluation/position-test-updated/position-test-updated.component";
 import {PositionIntegrationComponent} from "./_demos/position-integration/position-integration.component";
+import {RedirectGuardService} from "./_service/_guard/redirect-guard.service";
+import {AppURLs} from "./util/URLs";
+import {EntrepriseDashboradComponent} from "./_user/_entrepriseAdmin/entreprise-dashborad/entreprise-dashborad.component";
+import {EntrepriseHomeComponent} from "./_user/_entrepriseAdmin/entreprise-home/entreprise-home.component";
+import {AppranantLibreGuardService} from "./_service/_guard/appranant-libre-guard.service";
+import {EntrepriseGuardService} from "./_service/_guard/entreprise-guard.service";
+import {ProfileComponent} from "./_user/_apprenantLibre/profile/profile.component";
+import {AccountSettingComponent} from "./_user/_apprenantLibre/account-setting/account-setting.component";
+import {ForgotPasswordComponent} from "./_connexion/forgot-password/forgot-password.component";
+import {environment} from "../environments/environment";
+import {ResetPaswordCommonComponent} from "./_connexion/reset-pasword-common/reset-pasword-common.component";
+import {ServerErrorComponent} from "./_static/server-error/server-error.component";
+import {DashBootstratpComponent} from "./_demos/dash-bootstratp/dash-bootstratp.component";
 
 const routes: Routes = [
-  {path: '', component : HomeComponent},
-  {path: 'home', component : HomeComponent},
+ // {path: '', component : HomeComponent},
+  // {path: 'home', component : HomeComponent},
+  {path: 'home', canActivate: [RedirectGuardService],
+    component: RedirectGuardService,
+    data: {
+      externalUrl: AppURLs.frontEnd
+    }},
+  {path: '', canActivate: [RedirectGuardService],
+    component: RedirectGuardService,
+    data: {
+      externalUrl: AppURLs.frontEnd
+    }},
   {path: 'score', component : ScoreComponent, canActivate: [AuthenticationGuardService]},
 
   {path: 'test', component : TestInterfaceComponent},
   /* dev */
   {path: 'positionDemo', component : PositionTestUpdatedComponent},
   {path: 'pos', component : PositionIntegrationComponent},
+  {path: 'dash', component : DashBootstratpComponent},
   /* dev */
   {path: 'login', component : LoginComponent, canActivate: [LoggedGuardService]},
+  {path: 'forgotPassword', component : ForgotPasswordComponent, canActivate: [LoggedGuardService]},
+  {path: 'resetPassword/:id', component : ResetPaswordCommonComponent, canActivate: [LoggedGuardService]},
 
-
-  {path: 'testDashboard', component : DemoDashboardComponent, canActivate: [AuthenticationGuardService], children :[
-      {path: '', component : DemoHomeComponent,canActivate: [AuthenticationGuardService,
-          DemoDashGuardService]},
-      {path: 'score', component : ScoreComponent, canActivate: [AuthenticationGuardService],data: {animation: 'AboutPage'}},
-      {path: 'dashUser', component : DemoHomeComponent,canActivate: [AuthenticationGuardService]},
-      {path: 'positionTestLibre', component : PositionTestLibreComponent,canActivate: [AuthenticationGuardService],data: {animation: 'AboutPage'}},
-      {path: 'entrainmentLibre', component : EntrainementLibreComponent,canActivate: [AuthenticationGuardService],data: {animation: 'HomePage'}},
-      {path: 'evaluationLibre', component : EvaluationLibreComponent,canActivate: [AuthenticationGuardService],data: {animation: 'HomePage'}},
-      {path: 'formationLibre', component : FormationLibreComponent,canActivate: [AuthenticationGuardService],data: {animation: 'HomePage'}},
-    ]
-  },
 
   {path: 'dashboard', component : DemoDashboardComponent, canActivate: [AuthenticationGuardService], children :[
       {path: '', component : DemoHomeComponent,canActivate: [AuthenticationGuardService,
-          DemoDashGuardService]},
-      {path: 'dashUser', component : DemoHomeComponent,canActivate: [AuthenticationGuardService]},
-      {path: 'positionTestLibre', component : PositionTestLibreComponent,canActivate: [AuthenticationGuardService]},
-      {path: 'entrainmentLibre', component : EntrainementLibreComponent,canActivate: [AuthenticationGuardService]},
-      {path: 'evaluationLibre', component : EvaluationLibreComponent,canActivate: [AuthenticationGuardService]},
-      {path: 'formationLibre', component : FormationLibreComponent,canActivate: [AuthenticationGuardService]},
+          DemoDashGuardService,AppranantLibreGuardService]},
+      {path: 'score', component : ScoreComponent, canActivate: [AuthenticationGuardService,AppranantLibreGuardService]},
+      {path: 'dashUser', component : DemoHomeComponent,canActivate: [AuthenticationGuardService,AppranantLibreGuardService]},
+      {path: 'positionTestLibre', component : PositionTestLibreComponent,canActivate: [AuthenticationGuardService,AppranantLibreGuardService]},
+      {path: 'entrainmentLibre', component : EntrainementLibreComponent,canActivate: [AuthenticationGuardService,AppranantLibreGuardService]},
+      {path: 'evaluationLibre', component : EvaluationLibreComponent,canActivate: [AuthenticationGuardService,AppranantLibreGuardService]},
+      {path: 'formationLibre', component : FormationLibreComponent,canActivate: [AuthenticationGuardService,AppranantLibreGuardService]},
+      {path: 'profileLibre', component : ProfileComponent,canActivate: [AuthenticationGuardService,AppranantLibreGuardService]},
+      {path: 'accountSetting', component : AccountSettingComponent,canActivate: [AuthenticationGuardService,AppranantLibreGuardService]}
     ]
   },
+
+  {path: 'dashboard-Enterprise', component : EntrepriseDashboradComponent, canActivate: [AuthenticationGuardService], children :[
+      {path: '', component : EntrepriseHomeComponent,canActivate: [AuthenticationGuardService,
+          DemoDashGuardService,EntrepriseGuardService]},
+      {path: 'dashEnterprise', component : EntrepriseHomeComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]}
+    ]
+  },
+
+  /*To add dashboard for another users check guards in service + url after login*/
+
   {path: 'error', component : ErrorComponent},
+  {path: 'serverError', component : ServerErrorComponent},
   {path: '**', component : ErrorComponent},
 
 
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes,{useHash: true})],
+  imports: [RouterModule.forRoot(routes,{useHash: environment.useHash})],
+  //imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

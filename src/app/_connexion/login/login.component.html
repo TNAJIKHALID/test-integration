@@ -11,46 +11,53 @@
                  position: relative;min-height: 533px;min-width: 404px;">
 
               <div class="m-auto justify-content-center text-center">
-                <a  href="http://localhost:8082/"><img src="assets/images/logoo.png" class="w-75 h-50 ml-5 mb-3"  alt=""></a>
+                <a  href="{{frontEnd}}"><img src="assets/images/logoo.png" class="w-75 h-50 ml-5 mb-3"  alt=""></a>
               </div>
 
               <div class="m-auto justify-content-center text-center" style="width: 90%;">
-                <h2 class="title-head float-start" style="border-left: 4px solid orangered; padding-left: 12px;top: 50%;">Se connecter a votre <span>Compte</span></h2>
-                <p class="float-start">vous n'avez pas un compte ? <a class="mat-tab-link ml-2" style="color: darkorange;" routerLink="/register">Créer un compte</a></p>
+                <h2 class="title-head float-start" style="border-left: 4px solid orangered; padding-left: 12px;top: 50%;">Se connecter à votre <span>Compte</span></h2>
+                <p class="float-start">Vous n'avez pas de compte ? <a class="mat-tab-link ml-2" style="color: darkorange;" routerLink="/register">Demandez un devis</a></p>
               </div>
 
               <form class="mb-5 m-auto"
                     style="margin-bottom: 20rem; width: 90%;" [formGroup]="myForm">
-                <h3 class="mat-h2 text-danger" *ngIf="error">adresse mail ou bien le mot de pass sont incorrect</h3>
+                <h3 class="mat-h2 text-danger fw-bold" *ngIf="error">adresse mail ou mot de passe incorrectes</h3>
                 <div class="row w-100 m-auto">
                   <mat-form-field class="w-100 mt-3 m-auto" color="primary">
-                    <input matInput placeholder="email" formControlName="email">
-                    <mat-error *ngIf="email.invalid && email.touched">
-                      adresse mail invalide
+                    <input matInput placeholder="e-mail" formControlName="email">
+                    <mat-error *ngIf="email.invalid && email.touched && email.value.length>0">
+                      adresse mail incorrect
                     </mat-error>
+                    <mat-error *ngIf="email.value.length ==0 && email.touched">
+                      adresse mail est obligatoire
+                    </mat-error>
+                    <mat-icon matSuffix>alternate_email</mat-icon>
                   </mat-form-field>
                 </div>
                 <div class="row w-100 mt-0 mb-2 m-auto">
                   <mat-form-field class="w-100 mt-1 m-auto" color="primary">
-                    <input type="password" matInput placeholder="password" formControlName="password">
+                    <input [type]="hide ? 'password':'text'" matInput placeholder="mot de passe" formControlName="password">
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
                     <mat-error  *ngIf="passwordd.invalid && passwordd.touched">
-                      mot de pass invalid
+                      merci de saisir le mot de passe
                     </mat-error>
                   </mat-form-field>
                 </div>
                 <div class="row w-50 mt-0 m-auto justify-content-center">
                   <button mat-raised-button color="primary"
-                          [disabled]="myForm.invalid" (click)="onLogin()">connexion</button>
+                          [disabled]="myForm.invalid" (click)="onLogin()">Connexion</button>
                 </div>
                 <div class="row w-100 mt-3 justify-content-center">
                   <div class="m-auto text-center">
-                    <a routerLink="/forgotPassword" class="mat-tab-link" >Mot de pass oublier ?</a>
+                    <a routerLink="/forgotPassword" class="mat-tab-link" >Mot de passe oublié ?</a>
                   </div>
                 </div>
               </form>
 
               <div class="row mb-2 " style="width: 90%;border-top: 3px solid darkorange; position: absolute; bottom: 0px;">
-                <b class="m-auto text-center">© 2021 - <span style="color: darkorange">EletisConsulting</span> - Tous droits réservés</b>
+                <b class="m-auto text-center">© 2021 - <span style="color: darkorange">E-Habilita</span> - Tous droits réservés</b>
               </div>
             </div>
         </div>

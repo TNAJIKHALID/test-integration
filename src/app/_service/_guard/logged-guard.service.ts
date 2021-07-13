@@ -16,12 +16,15 @@ export class LoggedGuardService implements CanActivate{
     return new Promise((resolve, reject) => {
       console.log(this.jwtService.isAuthenticated)
       if (this.jwtService.isAuthenticated && !this.jwtService.accessTokenExpired()) {
-        this.router.navigate(['/dashboard'], {
-          queryParams: {
-            return: 'logged'
-          }
-        });
-        return resolve(false);
+
+        if (this.jwtService.hasRole(this.jwtService.APP_ROLE_USER_LEARNER)){
+          this.router.navigate(['/dashboard'], {queryParams: {return: 'admin'} });
+          return resolve(false);
+        }
+        else if (this.jwtService.hasRole(this.jwtService.APP_ROLE_ENTERPRISE_ADMIN)) {
+          this.router.navigate(['/dashboard-Enterprise'], {queryParams: {return: 'enterprise'} });
+          return resolve(false);
+        }
       } else {
         this.routeURL = this.router.url;
         return resolve(true);

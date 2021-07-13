@@ -37,6 +37,7 @@ export class Enterprise{
 export class ApprenantLibre{
   id:number;
   appUser:AppUser;
+  profilePictureBites: any;
   scores:  Array<Score>;
   positionTestResult: string;
 }

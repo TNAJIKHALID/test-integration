@@ -38,7 +38,7 @@ export class ScoreComponent implements OnInit {
   dataPerTheme : any ;
   dataPerDefficulte: any;
   dataPerFundamental: any;
-  columnNames = ['Nbr Questions', 'Correct','InCorrect'];
+  columnNames = ['Nbr Questions', 'Correctes','Incorrectes'];
   options = {
     bars: 'vertical',
     titleTextStyle: {
@@ -101,19 +101,6 @@ export class ScoreComponent implements OnInit {
       let testId = this.route.snapshot.params.testId;
       console.log('on report')
     }
-/*
-    var circle = document.querySelector('circle');
-    var radius = circle.r.baseVal.value;
-    var circumference = radius * 2 * Math.PI;
-    circle.style.strokeDasharray = `${circumference} ${circumference}`;
-    circle.style.strokeDashoffset = `${circumference}`;
-    let offset = circumference - this.score.score / 100 * circumference;
-    circle.style.strokeDashoffset = offset + '';
-
-
-*/
-
-
     this.score = EvaluationService.score;
     this.test = EvaluationService.test;
     this.dataTable = this.test.questions
@@ -161,7 +148,8 @@ export class ScoreComponent implements OnInit {
       this.test.testLevel,this.score.validate,this.score.date);
    */
 
-    this.downloadAvis();
+    //this.downloadAvis();
+    this.downloadAvis2();
   }
 
   public downloadAvis():void {
@@ -173,7 +161,7 @@ export class ScoreComponent implements OnInit {
     }
     let fullName = this.score.appUser.firstName + ' ' + this.score.appUser.lastName;
     let level = this.test.testLevel;
-    let date = this.datepipe.transform(this.score.date, 'yyyy-MM-dd');
+    let date = this.datepipe.transform(this.score.date, 'dd/MM/yyyy');
 
     var doc = new jsPDF("p", "px", "a4");
     var width = doc.internal.pageSize.getWidth();
@@ -188,6 +176,21 @@ export class ScoreComponent implements OnInit {
     doc.text(fullName, 180, 155);
     doc.save("Avis-Habilitation.pdf")
   }
+
+  public downloadAvis2():void {
+    var imgData;
+    if (this.score.validate){
+      imgData = ConstantBase64.AvisFavorable2;
+    } else {
+      imgData = ConstantBase64.AvisDeFavorable2;
+    }
+    var doc = new jsPDF("p", "px", "a4");
+    var width = doc.internal.pageSize.getWidth();
+    var height = doc.internal.pageSize.getHeight();
+    doc.addImage(imgData, 'PNG', 0, 0, width, height);
+    doc.save("Avis-Habilitation.pdf")
+  }
+
 
   fillAnalysisMap() {
     /*<theme, [crct,InCrct]>*/
@@ -416,6 +419,26 @@ export class ScoreComponent implements OnInit {
       '</div>'
 
     return html;
+  }
+
+
+  public downloadAttestation():void {
+    var imgDataAttestation;
+    if (this.score.validate){
+      imgDataAttestation = ConstantBase64.imageAttestaion;
+    } else {
+      imgDataAttestation = ConstantBase64.imageAttestaion;
+    }
+    let fullName = this.score.appUser.firstName + ' ' + this.score.appUser.lastName;
+    let level = this.test.testLevel;
+    let date = this.datepipe.transform(this.score.date, 'yyyy-MM-dd');
+
+    var doc = new jsPDF("l", "px", "a4");
+    var width = doc.internal.pageSize.getWidth();
+    var height = doc.internal.pageSize.getHeight();
+    doc.addImage(imgDataAttestation, 'PNG', 0, 0, width, height);
+
+    doc.save("Attestation.pdf")
   }
 }
 

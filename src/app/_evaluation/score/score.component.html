@@ -4,10 +4,10 @@
   <div  class="" style="min-height: 580px;position: relative;">
     <div class="card-body">
       <div class="row w-25 m-auto " style="margin-top: 0px;">
-        <h1 class="text-center fw-bold " *ngIf="!score.validate" style="color: red;font-size: 37px">Non Validee</h1>
-        <h1 class="text-center fw-bold green" *ngIf="score.validate" style="font-size: 37px">Validee</h1>
+        <h1 class="text-center fw-bold " *ngIf="!score.validate" style="color: red;font-size: 37px">NON VALIDE</h1>
+        <h1 class="text-center fw-bold green" *ngIf="score.validate" style="font-size: 37px">VALIDE</h1>
       </div>
-      <div class="card w-25 shadow border p-2 mb-3" style="margin-top: -35px;border-radius: 20px;">
+      <div  *ngIf="score != null" class="card w-25 shadow border p-2 mb-3" style="margin-top: -35px;border-radius: 20px;">
         <h3 class="text-center">Votre niveau d'habilitation</h3>
         <h2 class="text-center fw-bold colorPrimary">{{test.testLevel}}</h2>
       </div>
@@ -41,10 +41,10 @@
           <div class="card"  id="rec">
             <div class="card-body ms-2 ">
               <div *ngIf="score.score < 90">
-                <h2 class="text-center colorPrimary">Recommendations</h2>
+                <h2 class="text-center colorPrimary">Recommandations</h2>
                 <hr/>
-                <p>Pour bien amelioré vos compétances, on vous conseille de revoire
-                  les thémes suivant:</p>
+                <p>Pour mieux amelioré vos compétances, nous vous conseillons de revoir
+                  le(s) théme(s) suivant(s):</p>
                 <ul class="ml-2">
                   <b *ngFor="let d  of this.getKeysFromMap()">
                     <li *ngIf="analysisPerTheme.get(d)[1] != 0">{{d}}</li>
@@ -52,15 +52,15 @@
                 </ul>
                 <span *ngIf="fondamentalQuestions.length != correctFondamentalQuestions.length">
                   <h3 class="text-error font-weight-bold">Attention !</h3>
-                  <p> Vous avez mal ou pas répondu sur {{fondamentalQuestions.length - correctFondamentalQuestions.length}}
-                    questons fondamentales en: <b *ngFor="let t of inCorrectfondamentalQuestionsThems">{{t +', '}}</b> <br/>
-                    On vous conseille de revoire
+                  <p> Vous avez mal ou n'avez pas répondu à {{fondamentalQuestions.length - correctFondamentalQuestions.length}}
+                    question(s) fondamentale(s) en: <b *ngFor="let t of inCorrectfondamentalQuestionsThems">{{t +', '}}</b> <br/>
+                    nous vous conseillons de revoir
                     <span>{{ inCorrectfondamentalQuestionsThems.size == 1 ? 'ce theme': 'ces themes'}}</span>
                   </p>
                 </span>
               </div>
-              <div *ngIf="score.validate">
-                <h2 class="font-weight-bold">Félicitation vous avez bien validé le niveau d'habilitation</h2>
+              <div *ngIf="score.score == 100">
+                <h2 class="font-weight-bold">Félicitations, vous avez validé le niveau d'habilitation avec un score de 100%</h2>
                 <hr/>
               </div>
             </div>
@@ -90,14 +90,14 @@
             <span class="scoreInfoTextColor">Nom</span> <span><b>{{auth.userAuthenticated.firstName +' ' + auth.userAuthenticated.lastName }}</b></span>
           </div>
           <div class="p-3 rounded-pill brd  mt-3 d-flex justify-content-between">
-            <span class="scoreInfoTextColor">Temps Passer</span> <span><b>{{score?.testTime | formatTime}} / {{test?.timeSecond | formatTime}} </b></span>
+            <span class="scoreInfoTextColor">Temps écoulé</span> <span><b>{{score?.testTime | formatTime}} / {{test?.timeSecond | formatTime}} </b></span>
           </div>
           <div class="p-3 rounded-pill brd mt-3 d-flex justify-content-between">
-            <span class="scoreInfoTextColor">Nombre des questions correctes</span>
+            <span class="scoreInfoTextColor">Nombre de questions correctes</span>
             <span><b>{{score?.questions.length + '/'  + test.questions.length}}</b></span>
           </div>
           <div class="p-3 rounded-pill brd mt-3 d-flex justify-content-between">
-            <span class="scoreInfoTextColor">Questions fondamental correctes </span>
+            <span class="scoreInfoTextColor">Questions fondamentales correctes</span>
             <span>
               <b>{{correctFondamentalQuestions.length + '/' + fondamentalQuestions.length}}</b>
               <b>({{(this.correctFondamentalQuestions.length / this.fondamentalQuestions.length) | percent}})</b>
@@ -113,14 +113,18 @@
         </div>
       </div>
     </div>
-    <div class="row w-75 m-auto"    *ngIf="score!= null">
-      <div class="col-6">
-        <button class="m-auto me-2 float-end"
+    <div class="row w-50 m-auto justify-content-around"    *ngIf="score!= null">
+      <div class="col-4">
+        <button class="m-auto me-2 "
                 mat-raised-button color="primary" *ngIf="test?.type == 'TEST_TYPE_EXAM'" (click)="onDownload()">télecharger l'avis</button>
       </div>
-      <div class="col-6 float-start">
+      <div class="col-4 ">
         <button class="m-auto rounded-1"
                 mat-raised-button color="primary" (click)="downloadRepport()">télecharger le rapport</button>
+      </div>
+      <div class="col-4 align-content-center justify-content-center">
+        <button class="m-auto rounded-1" *ngIf="test?.type == 'TEST_TYPE_EXAM'"
+                mat-raised-button color="primary" (click)="downloadAttestation()">télecharger l'attestation</button>
       </div>
        <!--<button class="m-auto mr-2"
               mat-raised-button color="accent" (click)="onDownload()">télecharger l'avis</button>-->

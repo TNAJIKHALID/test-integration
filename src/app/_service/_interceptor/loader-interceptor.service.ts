@@ -8,13 +8,14 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {LoaderService} from '../_loader/loader.service';
+import {Router} from "@angular/router";
 @Injectable({
   providedIn: 'root'
 })
 export class LoaderInterceptorService implements HttpInterceptor {
   private requests: HttpRequest<any>[] = [];
 
-  constructor(private loaderService: LoaderService) { }
+  constructor(private loaderService: LoaderService,private router:Router) { }
 
   removeRequest(req: HttpRequest<any>) {
     const i = this.requests.indexOf(req);
@@ -25,11 +26,8 @@ export class LoaderInterceptorService implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
     this.requests.push(req);
-
-    console.log("No of requests--->" + this.requests.length);
-
+    //console.log("No of requests--->" + this.requests.length);
     this.loaderService.isLoading.next(true);
     return Observable.create(observer => {
       const subscription = next.handle(req)
@@ -42,6 +40,8 @@ export class LoaderInterceptorService implements HttpInterceptor {
           },
           err => {
            // alert('error' + err);
+            console.log(err.status);
+           // this.router.navigateByUrl('serverError')
             this.removeRequest(req);
             observer.error(err);
           },

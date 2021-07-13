@@ -43,6 +43,17 @@ import { PositionIntegrationComponent } from './_demos/position-integration/posi
 import {ToastrModule} from "ngx-toastr";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {IpListModule} from "./_service/_localisation/iplist";
+import {NgxDocViewerModule} from "ngx-doc-viewer";
+import {RedirectGuardService} from "./_service/_guard/redirect-guard.service";
+import { EntrepriseDashboradComponent } from './_user/_entrepriseAdmin/entreprise-dashborad/entreprise-dashborad.component';
+import { EntrepriseHomeComponent } from './_user/_entrepriseAdmin/entreprise-home/entreprise-home.component';
+import {NgbDatepickerModule, NgbDropdownModule, NgbTooltipModule} from "@ng-bootstrap/ng-bootstrap";
+import { ProfileComponent } from './_user/_apprenantLibre/profile/profile.component';
+import { AccountSettingComponent } from './_user/_apprenantLibre/account-setting/account-setting.component';
+import { ForgotPasswordComponent } from './_connexion/forgot-password/forgot-password.component';
+import { ResetPaswordCommonComponent } from './_connexion/reset-pasword-common/reset-pasword-common.component';
+import { ServerErrorComponent } from './_static/server-error/server-error.component';
+import { DashBootstratpComponent } from './_demos/dash-bootstratp/dash-bootstratp.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +74,15 @@ import {IpListModule} from "./_service/_localisation/iplist";
     ConfirmationDialogComponent,
     PositionTestUpdatedComponent,
     ErrorComponent,
-    PositionIntegrationComponent
+    PositionIntegrationComponent,
+    EntrepriseDashboradComponent,
+    EntrepriseHomeComponent,
+    ProfileComponent,
+    AccountSettingComponent,
+    ForgotPasswordComponent,
+    ResetPaswordCommonComponent,
+    ServerErrorComponent,
+    DashBootstratpComponent
   ],
     imports: [
         BrowserModule,
@@ -89,9 +108,14 @@ import {IpListModule} from "./_service/_localisation/iplist";
         MatSnackBarModule,
         MatSidenavModule,
 
-        IpListModule
+        IpListModule,
+        NgxDocViewerModule,
+        NgbDropdownModule,
+        NgbTooltipModule,
+        NgbDatepickerModule
     ],
   providers: [
+    RedirectGuardService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptorService,

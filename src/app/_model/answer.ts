@@ -5,4 +5,5 @@ export class Answer{
   answer: string;
   correct : boolean;
   inOrder: number;
+  picByte: any;
 }

@@ -15,7 +15,11 @@ export class DemoDashGuardService implements CanActivate {
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
     return new Promise((resolve, reject) => {
       if (this.jwtService.hasRole(this.jwtService.APP_ROLE_USER_LEARNER)){
-        this.router.navigate(['/testDashboard/dashUser'], {queryParams: {return: 'admin'} });
+        this.router.navigate(['/dashboard/dashUser'], {queryParams: {return: 'admin'} });
+        return resolve(false);
+      }
+      else if (this.jwtService.hasRole(this.jwtService.APP_ROLE_ENTERPRISE_ADMIN)) {
+        this.router.navigate(['/dashboard-Enterprise/dashEnterprise'], {queryParams: {return: 'enterprise'} });
         return resolve(false);
       }
       else {

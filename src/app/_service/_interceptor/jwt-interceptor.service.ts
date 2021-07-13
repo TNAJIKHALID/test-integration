@@ -22,10 +22,15 @@ export class JwtInterceptorService implements HttpInterceptor {
     }
     return next.handle(request).pipe(
       catchError(err => {
-      if ([401, 404].includes(err.status)) {
+        console.log(err.status)
+        if ([401, 404].includes(err.status)) {
         this.router.navigateByUrl('/error')
+      }  else if([403].includes(err.status)) {
+          console.log('goood to be here');
+          this.jwtService.logout();
+         //this.router.navigateByUrl('/login');
       }
-      else if([403]) this.router.navigateByUrl('/login')
+       else if([500, 0].includes(err.status)) this.router.navigateByUrl('/serverError')
       return throwError(err);
     })
     );

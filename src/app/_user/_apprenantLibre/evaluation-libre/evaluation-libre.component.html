@@ -1,13 +1,14 @@
 <div class="m-auto mt-5" *ngIf="!onTest">
   <app-test-parameters (paramsEvent)="getParams($event)"
                        [testEngineTitle]="'Paramétrer votre évaluation'"
+                       [level]="apprenantLibre.positionTestResult"
                         [testModeInput]="'TEST_TYPE_EXAM'"></app-test-parameters>
 </div>
 
 <div *ngIf="onTest">
   <app-test-interface
     [test]="test" [submitScoreUrl]="'/getEvaluationScoreForApprenantLibre'"
-    [routerScoreUrl]="'/testDashboard/score'"
+    [routerScoreUrl]="'/dashboard/score'"
   ></app-test-interface>
 <!--  <app-test-only [test]="test" [submitScoreUrl]="'/getEvaluationScoreForApprenantLibre'"></app-test-only>-->
 </div>

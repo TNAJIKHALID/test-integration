@@ -87,9 +87,11 @@ export class AppComponent {
       return "évaluation"
     } else if(AppComponent.currentUrl.includes("positionTestLibre")) {
       return "test de positionnement"
-    }else if(AppComponent.currentUrl.includes("score")) {
+    } else if(AppComponent.currentUrl.includes("score")) {
       return "rapport du test"
-    } else return "";
+    } else if(AppComponent.currentUrl.includes("profileLibre")) {
+      return "Téléchargements"
+    }    else return "";
   }
 }
 
