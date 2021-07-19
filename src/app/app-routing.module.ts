@@ -28,7 +28,9 @@ import {ForgotPasswordComponent} from "./_connexion/forgot-password/forgot-passw
 import {environment} from "../environments/environment";
 import {ResetPaswordCommonComponent} from "./_connexion/reset-pasword-common/reset-pasword-common.component";
 import {ServerErrorComponent} from "./_static/server-error/server-error.component";
-import {DashBootstratpComponent} from "./_demos/dash-bootstratp/dash-bootstratp.component";
+import {HabilitationsComponent} from "./_user/_entrepriseAdmin/habilitations/habilitations.component";
+import {ManagePositionTestComponent} from "./_user/_entrepriseAdmin/manage-position-test/manage-position-test.component";
+import {AddHabilitationComponent} from "./_user/_entrepriseAdmin/add-habilitation/add-habilitation.component";
 
 const routes: Routes = [
  // {path: '', component : HomeComponent},
@@ -49,7 +51,9 @@ const routes: Routes = [
   /* dev */
   {path: 'positionDemo', component : PositionTestUpdatedComponent},
   {path: 'pos', component : PositionIntegrationComponent},
-  {path: 'dash', component : DashBootstratpComponent},
+
+
+
   /* dev */
   {path: 'login', component : LoginComponent, canActivate: [LoggedGuardService]},
   {path: 'forgotPassword', component : ForgotPasswordComponent, canActivate: [LoggedGuardService]},
@@ -73,7 +77,10 @@ const routes: Routes = [
   {path: 'dashboard-Enterprise', component : EntrepriseDashboradComponent, canActivate: [AuthenticationGuardService], children :[
       {path: '', component : EntrepriseHomeComponent,canActivate: [AuthenticationGuardService,
           DemoDashGuardService,EntrepriseGuardService]},
-      {path: 'dashEnterprise', component : EntrepriseHomeComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]}
+      {path: 'dashEnterprise', component : EntrepriseHomeComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]},
+      {path: 'MesSessions', component : HabilitationsComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]},
+      {path: 'PositionTest', component : ManagePositionTestComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]},
+      {path: 'addSession', component : AddHabilitationComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]}
     ]
   },
 

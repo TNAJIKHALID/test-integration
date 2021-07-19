@@ -137,13 +137,19 @@ export class JwtAuthenticationService implements OnInit{
     return isExpired;
   }
 
-  public refreshAccessToken(){
-    let refreshToken = localStorage.getItem('jwtRefreshToken');
-    this.dataService.postResource('/refreshToken',refreshToken).subscribe(d=>{
-      this.successfulAuthentication(d);
-    }, error => {
-      console.log(error);
-    })
+  public  refreshAccessToken():void {
+    if (this.refreshTokenExpired()) {
+      this.logout();
+    } else {
+      let refreshToken = localStorage.getItem('jwtRefreshToken');
+      this.dataService.postResource('/refreshToken',refreshToken).subscribe(d=>{
+        this.successfulAuthentication(d);
+      }, error => {
+        console.log(error);
+      })
+
+    }
   }
+
 }
 

@@ -16,7 +16,7 @@ export class Employees{
   constructor() {
   }
 }
-/*
+
 export class HabilitatingParams{
   public enterpriseAppUserId: number;
   public testParams: TestParams;
@@ -24,4 +24,11 @@ export class HabilitatingParams{
   constructor() {
   }
 }
-*/
+
+export class TestParams {
+  time: any;
+  admissionBarrier: any;
+  numberOfQuestions: any;
+  constructor() {
+  }
+}

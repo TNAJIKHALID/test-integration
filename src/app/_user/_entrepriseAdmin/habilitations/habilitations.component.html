@@ -1,0 +1,51 @@
+<div *ngIf="!onHabilitiation" class="container w-100 min-vh-100">
+
+    <h1 mat-header-row >Mes session d'habilitation </h1>
+    <div class="row ms-2 mt-2 mb-2">
+      <button class="col-2 float-start" mat-raised-button color="accent" routerLink="/dashboard-Enterprise/addSession">Ajouter<mat-icon aria-hidden="true" aria-label="Example home icon">add</mat-icon>
+      </button>
+    </div>
+    <div *ngIf="enterprise!= null && enterprise?.habilitations?.length != 0" >
+      <!-- Actions Buttons -->
+      <div class="row w-100 justify-content-between m-auto mt-lg-5 ml-3" *ngIf="selectedHabilitations.size > 0">
+        <button class="col-3" mat-raised-button><mat-icon color="warn" style="cursor: pointer" class="mr-2" >delete</mat-icon></button>
+        <button mat-raised-button color="primary" class="ml-3 col-3" >Exporter les attestations<mat-icon>download</mat-icon></button>
+        <button mat-raised-button color="green" class="ml-3 col-3" >Exporter les Rapports<mat-icon>download</mat-icon></button>
+      </div>
+      <table class="table table-hover mt-2">
+        <thead class="thead-light">
+        <tr>
+          <th>
+            <mat-checkbox class="ml-2" color="primary" value= "All" (change)="addToSelected($event)"
+                          [checked]="this.selectedHabilitations.size == enterprise.habilitations.length"
+            ></mat-checkbox>
+          </th>
+          <th>Tests d'habilitation</th>
+          <th>Nombre d'invités</th>
+          <th>Terminés</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let habilitation of enterprise.habilitations">
+          <td>
+            <mat-checkbox class="ml-2" color="primary" [checked]="this.selectedHabilitations.has(habilitation.id)"
+                          (change)="addToSelected($event)" value= "{{habilitation.id}}" ></mat-checkbox>
+          </td>
+          <td (click)="onDisplay(habilitation)" style="cursor: pointer;"><span>{{habilitation.test.testName}}</span></td>
+          <td (click)="onDisplay(habilitation)" style="cursor: pointer;">{{habilitation.enterpriseEmployees.length}}</td>
+          <td (click)="onDisplay(habilitation)" style="cursor: pointer;" >{{getEnded(habilitation)}}
+          <td>
+            <mat-icon color="warn" style="cursor: pointer" class="mr-2" (click)="onDeteleHabilitation(habilitation)">delete</mat-icon>
+            <mat-icon color="primary" style="cursor: pointer">update</mat-icon>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+</div >
+
+<div *ngIf="onHabilitiation">
+  <app-habilitation [habilitation]="habilitation" [enterprise]="enterprise" (allEvent)="allEnventReciever($event)"></app-habilitation>
+</div>

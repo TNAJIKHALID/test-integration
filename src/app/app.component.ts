@@ -1,4 +1,4 @@
-import {Component, EventEmitter} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, EventEmitter, OnInit} from '@angular/core';
 import {LoaderService} from './_service/_loader/loader.service';
 import {Subscription} from 'rxjs';
 import {NavigationEnd, NavigationStart, Router} from '@angular/router';
@@ -6,6 +6,7 @@ import {slideInAnimation} from "./util/animation";
 import {IpList} from "./_service/_localisation/iplist";
 import {async} from "rxjs/internal/scheduler/async";
 import {ToastrService} from "ngx-toastr";
+import {JwtAuthenticationService} from "./_service/_authentication/jwt-authentication.service";
 
 export let browserRefresh = false;
 export let refreshEvent : EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -17,7 +18,7 @@ export let refreshEvent : EventEmitter<boolean> = new EventEmitter<boolean>();
     slideInAnimation
   ]
 })
-export class AppComponent {
+export class AppComponent implements AfterViewChecked{
   public static currentUrl: string = "";
 
   title = 'testApplication';
@@ -26,7 +27,11 @@ export class AppComponent {
   public ip: string;
   public country:string;
 
-  constructor(public loaderService:LoaderService,private router: Router, private toastr: ToastrService,
+  constructor(public loaderService:LoaderService,
+              private router: Router,
+              private cdRef:ChangeDetectorRef,
+              private toastr: ToastrService,
+              private jwtService:JwtAuthenticationService,
               public iplist$: IpList) {
     this.router.events.subscribe((event) => {
       if(event instanceof NavigationEnd ){
@@ -38,7 +43,7 @@ export class AppComponent {
    //this.getIp();
    //this.getCountry();
 
-   this.loaderService.isLoading.subscribe((v) => {
+    this.loaderService.isLoading.subscribe((v) => {
       console.log(v);
       this.loading = v;
     });
@@ -51,6 +56,19 @@ export class AppComponent {
         }
       }
     });
+
+
+  }
+
+  ngAfterViewChecked(): void {
+    this.cdRef.detectChanges();
+
+    console.log(this.jwtService.accessTokenExpired());
+    //todo refresh token handling;
+    /*
+    if (this.jwtService.accessTokenExpired()) {
+      this.jwtService.refreshAccessToken();
+    }*/
   }
 
   async getIp(){
@@ -91,8 +109,25 @@ export class AppComponent {
       return "rapport du test"
     } else if(AppComponent.currentUrl.includes("profileLibre")) {
       return "Téléchargements"
-    }    else return "";
+    }
+
+    else if(AppComponent.currentUrl.includes("MesSessions")||
+      AppComponent.currentUrl.includes("addSession")) {
+      return "Sessions"
+    }  else if(AppComponent.currentUrl.includes("PositionTest")) {
+      return "Position Gestion"
+    }else if(AppComponent.currentUrl.includes("dashEnterprise")) {
+      return "dashboard Admin Enterprise"
+    }
+
+
+    else return "";
   }
+
+
+
+
+
 }
 
 

@@ -56,6 +56,24 @@ export class FormService {
     });
   }
 
+  public employeeFilledForm(firstName,lastName,email): FormGroup{
+    return this.formBuilder.group({
+      firstName: [firstName,[
+        Validators.required
+      ]],
+      lastName:[lastName,[
+        Validators.required
+      ]],
+      email: [email, [
+        Validators.email,
+        Validators.required
+      ]
+      ]
+    }, {
+      validators: this.checkEmailIsUnique.bind(this)
+    });
+  }
+
   checkEmailIsUnique(formGroup: FormGroup) {
     return null;
   }

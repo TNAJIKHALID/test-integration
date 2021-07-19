@@ -1,5 +1,6 @@
 import {PositionTestResult, Test} from './test';
 import {Score} from './response';
+import {HabilitationLevel} from "./question";
 
 export class User{
   firstName: string;
@@ -63,6 +64,9 @@ export class Habilitation{
   id:number;
   test: Test;
   enterpriseEmployees: Array<EnterpriseEmployee>;
+  habilitationLevel:HabilitationLevel = null;
+
+
 }
 
 export class AddEnterpriseForm {

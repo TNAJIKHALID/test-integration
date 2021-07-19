@@ -53,7 +53,14 @@ import { AccountSettingComponent } from './_user/_apprenantLibre/account-setting
 import { ForgotPasswordComponent } from './_connexion/forgot-password/forgot-password.component';
 import { ResetPaswordCommonComponent } from './_connexion/reset-pasword-common/reset-pasword-common.component';
 import { ServerErrorComponent } from './_static/server-error/server-error.component';
-import { DashBootstratpComponent } from './_demos/dash-bootstratp/dash-bootstratp.component';
+import { HabilitationsComponent } from './_user/_entrepriseAdmin/habilitations/habilitations.component';
+import { ManagePositionTestComponent } from './_user/_entrepriseAdmin/manage-position-test/manage-position-test.component';
+import {DataTablesModule} from "angular-datatables";
+import { HabilitationComponent } from './_user/_entrepriseAdmin/habilitation/habilitation.component';
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import { AddHabilitationComponent } from './_user/_entrepriseAdmin/add-habilitation/add-habilitation.component';
+import {MatStepperModule} from "@angular/material/stepper";
+import {MatExpansionModule} from "@angular/material/expansion";
 
 @NgModule({
   declarations: [
@@ -82,38 +89,47 @@ import { DashBootstratpComponent } from './_demos/dash-bootstratp/dash-bootstrat
     ForgotPasswordComponent,
     ResetPaswordCommonComponent,
     ServerErrorComponent,
-    DashBootstratpComponent
-  ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        FormsModule,
-        ToastrModule.forRoot(),
-        ReactiveFormsModule,
-        HttpClientModule,
-        BrowserAnimationsModule,
-        MatButtonModule,
-        MatProgressBarModule,
-        MatIconModule,
-        MatChipsModule,
-        MatDividerModule,
-        DragDropModule,
-        MatProgressSpinnerModule,
-        GoogleChartsModule,
-        MatSelectModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatAutocompleteModule,
-        MatDialogModule,
-        MatSnackBarModule,
-        MatSidenavModule,
+    HabilitationsComponent,
+    ManagePositionTestComponent,
+    HabilitationComponent,
+    AddHabilitationComponent
 
-        IpListModule,
-        NgxDocViewerModule,
-        NgbDropdownModule,
-        NgbTooltipModule,
-        NgbDatepickerModule
-    ],
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    ToastrModule.forRoot(),
+    ReactiveFormsModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatProgressBarModule,
+    MatIconModule,
+    MatChipsModule,
+    MatDividerModule,
+    DragDropModule,
+    MatProgressSpinnerModule,
+    GoogleChartsModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatDialogModule,
+    MatSnackBarModule,
+    MatSidenavModule,
+
+    IpListModule,
+    NgxDocViewerModule,
+    NgbDropdownModule,
+    NgbTooltipModule,
+    NgbDatepickerModule,
+
+    DataTablesModule,
+    MatCheckboxModule,
+    MatStepperModule,
+    MatExpansionModule
+  ],
   providers: [
     RedirectGuardService,
     {

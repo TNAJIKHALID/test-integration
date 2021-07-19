@@ -79,6 +79,9 @@ export class TestInterfaceComponent implements OnInit {
 
   public numberOfFondamentalQuestions:number = 0;
   public numberOfThemes: number = 0;
+
+
+  public timeEnded: boolean = false;
   @HostListener("window:beforeunload", ["$event"])
   unloadHandler(event: Event) {
     console.log("Processing beforeunload...");
@@ -119,7 +122,7 @@ export class TestInterfaceComponent implements OnInit {
 
   onSubmit() {
     this.noAnswer = this.checkIfAnswered();
-    if (this.noAnswer || this.allowPassingQuestions) {
+    if (this.noAnswer || this.allowPassingQuestions || this.timeEnded) {
       EvaluationService.test = this.test;
       this.response.testTime = this.test.timeSecond - this.counter;
       this.countDown.unsubscribe();
@@ -137,6 +140,8 @@ export class TestInterfaceComponent implements OnInit {
       /****************/
       this.evaluationService.getScoreFromURL(this.response,this.submitScoreUrl,this.routerScoreUrl);
     }
+
+    this.countDown.unsubscribe();
   }
 
   startTimer(testTime: number) {
@@ -147,6 +152,7 @@ export class TestInterfaceComponent implements OnInit {
         --this.counter;
         if (this.counter == 0) {
           console.log('end');
+          this.timeEnded = true;
           this.onSubmit();
         }
       })
