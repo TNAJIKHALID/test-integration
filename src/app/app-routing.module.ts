@@ -31,6 +31,17 @@ import {ServerErrorComponent} from "./_static/server-error/server-error.componen
 import {HabilitationsComponent} from "./_user/_entrepriseAdmin/habilitations/habilitations.component";
 import {ManagePositionTestComponent} from "./_user/_entrepriseAdmin/manage-position-test/manage-position-test.component";
 import {AddHabilitationComponent} from "./_user/_entrepriseAdmin/add-habilitation/add-habilitation.component";
+import {TestQuestionDataBaseParamsComponent} from "./_demos/test-question-data-base-params/test-question-data-base-params.component";
+import {SessionsComponent} from "./_user/_entrepriseAdmin/_demo/sessions/sessions.component";
+import {PositionTestManageComponent} from "./_user/_entrepriseAdmin/_demo/position-test-manage/position-test-manage.component";
+import {AddEmployeeComponent} from "./_user/_entrepriseAdmin/_demo/add-employee/add-employee.component";
+import {AbonnementComponent} from "./_user/_entrepriseAdmin/static/abonnement/abonnement.component";
+import {EmailsComponent} from "./_user/_entrepriseAdmin/static/emails/emails.component";
+import {SupportComponent} from "./_user/_entrepriseAdmin/static/support/support.component";
+import {SettingComponent} from "./_user/_entrepriseAdmin/static/setting/setting.component";
+import {FacturationComponent} from "./_user/_entrepriseAdmin/static/facturation/facturation.component";
+import {DownloadsComponent} from "./_user/_entrepriseAdmin/static/downloads/downloads.component";
+import {AddSessionComponent} from "./_user/_entrepriseAdmin/_demo/add-session/add-session.component";
 
 const routes: Routes = [
  // {path: '', component : HomeComponent},
@@ -51,6 +62,7 @@ const routes: Routes = [
   /* dev */
   {path: 'positionDemo', component : PositionTestUpdatedComponent},
   {path: 'pos', component : PositionIntegrationComponent},
+  {path: 'NosQuestions', component : TestQuestionDataBaseParamsComponent},
 
 
 
@@ -78,9 +90,28 @@ const routes: Routes = [
       {path: '', component : EntrepriseHomeComponent,canActivate: [AuthenticationGuardService,
           DemoDashGuardService,EntrepriseGuardService]},
       {path: 'dashEnterprise', component : EntrepriseHomeComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]},
+
+      /****** Static ********/
+      {path: 'abonnement', component : AbonnementComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]},
+      {path: 'emails', component : EmailsComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]},
+      {path: 'support', component : SupportComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]},
+      {path: 'parametres', component : SettingComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]},
+      {path: 'facturations', component : FacturationComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]},
+      {path: 'telelchargements', component : DownloadsComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]},
+
+
+
+      /*
       {path: 'MesSessions', component : HabilitationsComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]},
       {path: 'PositionTest', component : ManagePositionTestComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]},
-      {path: 'addSession', component : AddHabilitationComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]}
+      {path: 'addSession', component : AddHabilitationComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]},
+      */
+
+      {path: 'MesSessions', component : SessionsComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]},
+      {path: 'PositionTest', component : PositionTestManageComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]},
+      {path: 'addSession', component : AddEmployeeComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]},
+      {path: 'NouvelleSession', component : AddSessionComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]},
+
     ]
   },
 

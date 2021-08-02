@@ -11,6 +11,7 @@ export class User{
   }
 }
 export class AppUser{
+  id:number;
   firstName: string;
   lastName: string;
   username: string;

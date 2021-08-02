@@ -29,6 +29,9 @@
   padding-bottom: 10px;
 
 }
+.bottomLink{
+  position: absolute;bottom: 0;width: 100%;cursor: pointer;  padding-right: 2px;  padding-left: 5px;
+}
 #navbar{
   background-color: #FBFBFB;
   border-bottom: 3px solid #E4E5E9;
@@ -39,8 +42,8 @@
 }
 
 #sidebar{
-  background-color: #fcfcfc;
-  /*background-color: #d7d7d7;*/
+  background-color: #eef3ff;
+  /*background-color: #d7d7d7;fcfcfc*/
 
   box-shadow: 1px 4px 3px 0px rgb(0 0 0/20%),
   -20px 3px 24px 2px rgb(0 0 0/14%),
@@ -57,4 +60,7 @@ mat-drawer:not(.mat-drawer-opened) {
 
 mat-drawer:not(.mat-drawer-opened) .img{
   display: none;
+}
+mat-drawer:not(.mat-drawer-opened){
+  border-right: 2px solid lightgray;
 }

@@ -1,29 +1,28 @@
 import {Component, HostListener, Input, OnInit} from '@angular/core';
-import {Test} from '../../_model/test';
-import {AnswerElement, Question} from '../../_model/question';
-import {Response} from '../../_model/response';
-import {Subscription, timer} from 'rxjs';
-import {Answer} from '../../_model/answer';
-import {DataService} from '../../_service/_util/data.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {EvaluationService} from '../../_service/_util/evaluation.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {MatDialog} from '@angular/material/dialog';
-import {SpeakService} from '../../_service/_util/speak.service';
-import {DataStoringService} from '../../_service/_util/data-storing.service';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
-import {ConfirmationDialogService} from '../../_service/_util/confirmation-dialog.service';
-import {noUndefined} from "@angular/compiler/src/util";
+import {Test} from "../../_model/test";
+import {AnswerElement, Question} from "../../_model/question";
+import {Response} from "../../_model/response";
+import {Subscription, timer} from "rxjs";
+import {Answer} from "../../_model/answer";
+import {DataService} from "../../_service/_util/data.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {EvaluationService} from "../../_service/_util/evaluation.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatDialog} from "@angular/material/dialog";
+import {ConfirmationDialogService} from "../../_service/_util/confirmation-dialog.service";
 import {ToastrService} from "ngx-toastr";
-import {DomSanitizer} from "@angular/platform-browser";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {SpeakService} from "../../_service/_util/speak.service";
+import {DataStoringService} from "../../_service/_util/data-storing.service";
+import {DomSanitizer} from "@angular/platform-browser";
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
 
 @Component({
-  selector: 'app-test-interface',
-  templateUrl: './test-interface.component.html',
-  styleUrls: ['./test-interface.component.css']
+  selector: 'app-test-question-data-base',
+  templateUrl: './test-question-data-base.component.html',
+  styleUrls: ['./test-question-data-base.component.css']
 })
-export class TestInterfaceComponent implements OnInit {
+export class TestQuestionDataBaseComponent implements OnInit {
   /** Data variables */
   @Input() public test: Test;
   @Input() public submitScoreUrl:string;
@@ -53,8 +52,7 @@ export class TestInterfaceComponent implements OnInit {
   public currentQuestionNumber: number = 0;
   checkedArray: Array<number> = new Array<number>();
   isChecked: boolean;
-  public countDown: Subscription;
-  public counter: number;
+
   public showAnswer: boolean = false;
   public allowPassingQuestions: boolean = false;
   public numberOfQuestionsToLoad: number = 5;
@@ -70,29 +68,16 @@ export class TestInterfaceComponent implements OnInit {
   public done: Array<AnswerElement> = [];
   public ids: Array<String> = [];
   public idsImages: Array<String> = [];
-
   public noNeedForGet : boolean = false;
   public questionTimeInSecond: number;
   public QuestionCountDown;
-
   public idsAndAll: Array<string> = new Array<string>();
   public idsAndAllImages: Array<string> = new Array<string>();
-
   public numberOfFondamentalQuestions:number = 0;
   public numberOfThemes: number = 0;
-
-
   public timeEnded: boolean = false;
-
   public picByteToDisplay: any;
 
-  @HostListener("window:beforeunload", ["$event"])
-  unloadHandler(event: Event) {
-    console.log("Processing beforeunload...");
-    //this.saveState();
-    return event.returnValue = false;
-    //return 'null';
-  }
   constructor(public dataService: DataService, public router: Router,
               public evaluationService: EvaluationService, public route: ActivatedRoute,
               private _snackBar: MatSnackBar, public dialog: MatDialog,
@@ -106,7 +91,6 @@ export class TestInterfaceComponent implements OnInit {
   ngOnInit(): void {
     this.onTest = false;
     this.onEvaluation = this.test.type == 'TEST_TYPE_EXAM';
-    //this.allowPassingQuestions = true;
     this.allowPassingQuestions = this.onEvaluation ? false : true;
     this.setDataTest();
     this.speakService.mute();
@@ -117,50 +101,7 @@ export class TestInterfaceComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    console.log('on destroy.....')
-    if(this.countDown != null){
-      this.countDown.unsubscribe();
-    }
-
     this.speakService.mute();
-  }
-
-  onSubmit() {
-    this.noAnswer = this.checkIfAnswered();
-    if (this.noAnswer || this.allowPassingQuestions || this.timeEnded) {
-      EvaluationService.test = this.test;
-      this.response.testTime = this.test.timeSecond - this.counter;
-      this.countDown.unsubscribe();
-      /****************/
-      //todo
-      if(!this.onEvaluation){
-        for (let key of this.response.responses.keys()) {
-          if (this.filteredResponses.has(key)){
-            this.response.responses.set(key,this.filteredResponses.get(key))
-          } else {
-            this.response.responses.set(key,[])
-          }
-        }
-      }
-      /****************/
-      this.evaluationService.getScoreFromURL(this.response,this.submitScoreUrl,this.routerScoreUrl);
-    }
-
-    this.countDown.unsubscribe();
-  }
-
-  startTimer(testTime: number) {
-    //this.counter = testTime * 60;
-    this.counter = testTime;
-    this.countDown = timer(0, 1000)
-      .subscribe(() => {
-        --this.counter;
-        if (this.counter == 0) {
-          console.log('end');
-          this.timeEnded = true;
-          this.onSubmit();
-        }
-      })
   }
 
   prePareDataForCurrentQuestion() {
@@ -193,7 +134,6 @@ export class TestInterfaceComponent implements OnInit {
     this.question = this.test.questions[this.currentQuestionNumber];
     this.onTest = true;
     let time: number = this.test.timeSecond;
-    this.startTimer(time);
     this.prePareDataForCurrentQuestion();
     this.visitedQuestions.push(this.question.id);
     this.speakService.readText(this.question.question + '\n\n' + this.question.instruction);
@@ -209,26 +149,12 @@ export class TestInterfaceComponent implements OnInit {
     this.speakService.readText(this.question.question + '\n\n' + this.question.instruction);
   }
 
-  startQuestionTimer(qTime: number) {
-    this.questionTimeInSecond = qTime;
-    if (this.QuestionCountDown != undefined) this.QuestionCountDown.unsubscribe();
-    this.QuestionCountDown = timer(0, 1000)
-      .subscribe(() => {
-        --this.questionTimeInSecond;
-        console.log(this.questionTimeInSecond)
-        if (this.questionTimeInSecond == 0) {
-          console.log('end');
-        }
-      })
-  }
-
   onNext() {
     this.noAnswer = this.checkIfAnswered();
     if(!this.noAnswer && !this.allowPassingQuestions){
       this.toastr.error('Merci de finaliser votre réponse', 'Erreur',{
         timeOut: 3000,
-        positionClass: 'toast-top-center',
-        closeButton: true,
+        positionClass: 'toast-top-center'
       });
     }
     if (this.noAnswer || this.allowPassingQuestions) {
@@ -239,8 +165,6 @@ export class TestInterfaceComponent implements OnInit {
       this.visitedQuestions.push(this.question.id);
       this.speakService.readText(this.question.question + '\n\n' + this.question.instruction);
       //todo
-      this.startQuestionTimer(this.question.questionTimeSecond);
-
     }
     console.log(this.visitedQuestions)
     console.log(this.checkIfQuestionAnswered(this.question))
@@ -418,18 +342,6 @@ export class TestInterfaceComponent implements OnInit {
     this.respondedQuestionsIds.push(this.question.id);
   }
 
-  ngClassQuestion(question: Question, index: number): string {
-    let classy: string = 'step';
-    if (index == this.currentQuestionNumber) {
-      classy += ' step-active';
-    } else if (this.questionIsCorrect(question) && index < this.currentQuestionNumber) {
-      classy += ' step-success';
-    } else if (!this.questionIsCorrect(question) && index < this.currentQuestionNumber) {
-      classy += ' step-error';
-    }
-    return classy;
-  }
-
   setDataTest() {
     this.response.testId = this.test.id;
     for (let i = 0; i < this.test.questions.length; i++) {
@@ -503,19 +415,22 @@ export class TestInterfaceComponent implements OnInit {
     if(isCorrect){
       this.toastr.success('Bravo', 'Question',{
         timeOut: 3000,
-        positionClass: 'toast-top-center',
-        closeButton: true
+        positionClass: 'toast-top-center'
       });
     } else {
       this.toastr.error('Ops! c\'est raté', 'Question',{
         timeOut: 3000,
-        positionClass: 'toast-top-center',
-        closeButton: true,
+        positionClass: 'toast-top-center'
       });
       this.isCurrentQuestionCorrect = isCorrect;
     }
-  }
 
+    /* this._snackBar.open(isCorrect ? 'Bravo...' : 'Ops! C\'est Raté', '', {
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+      duration: 2000
+    });*/
+  }
 
   open(content,picByteToDisplay) {
     this.picByteToDisplay = picByteToDisplay;
@@ -528,4 +443,3 @@ export class TestInterfaceComponent implements OnInit {
   }
 
 }
-

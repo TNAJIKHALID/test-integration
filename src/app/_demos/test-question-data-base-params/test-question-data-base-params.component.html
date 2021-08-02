@@ -1,0 +1,25 @@
+<div *ngIf="!isTestLoaded " class="container pb-3 rounded shadow mt-5 apprenantLibreDiv">
+
+  <form class="mt-5" *ngIf="themes!=null" [formGroup]="myForm" >
+    <div  class="row mt-5 m-auto w-50">
+      <div class="row mt-5">
+        <mat-form-field appearance="outline">
+          <mat-label>theme</mat-label>
+          <mat-select formControlName="theme">
+            <mat-option *ngFor="let theme of themes" [value]="theme">{{theme}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="themeForm.invalid && themeForm.touched">
+            merci de choisir un niveaux
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row w-25 mt-5 m-auto">
+      <button class=" btn btn-outline-secondary" [disabled]="myForm.invalid" (click)="onLoad()">Charger</button>
+    </div>
+  </form>
+
+</div>
+<div *ngIf="isTestLoaded">
+  <app-test-question-data-base [test]="test"></app-test-question-data-base>
+</div>

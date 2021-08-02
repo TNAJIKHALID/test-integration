@@ -1,0 +1,40 @@
+<div class="container w-100 min-vh-100">
+  <button mat-raised-button color="primary"
+          (click)="onBackEvent.emit(true)"
+          class="mb-2"><mat-icon class="me-2">arrow_back</mat-icon>Retour</button>
+
+  <main class="card rounded-3 shadow-sm">
+    <div class="card-header text-decoration-none">
+      <h1 class="mt-2"><strong>{{level}}</strong></h1>
+    </div>
+    <div class="card-body">
+      <table class="table table-hover mb-0" >
+        <thead>
+        <tr>
+          <th scope="col" class="text-center">
+            <mat-checkbox class="ml-2" color="primary" value= "All" (change)="addToSelected($event)"
+                          [checked]="this.selected.size == xEmployees.length"
+            ></mat-checkbox>
+          </th>
+          <th scope="col">#</th>
+          <th scope="col">First</th>
+          <th scope="col">Last</th>
+          <th scope="col">Handle</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let employe of xEmployees;let i= index;">
+          <td class="text-center">
+            <mat-checkbox class="ml-2" color="primary" [checked]="this.selected.has(employe.id)"
+                          (change)="addToSelected($event)" value= "{{employe.id}}" ></mat-checkbox>
+          </td>
+          <th scope="row">{{i+1}}</th>
+          <td>{{employe.appUser.firstName}}</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>

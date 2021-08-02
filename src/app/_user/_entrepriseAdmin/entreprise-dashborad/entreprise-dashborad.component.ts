@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
-import {MatSidenav} from "@angular/material/sidenav";
+import {MatDrawer, MatSidenav} from "@angular/material/sidenav";
 import {JwtAuthenticationService} from "../../../_service/_authentication/jwt-authentication.service";
 import {ActivatedRoute, Router, RouterOutlet} from "@angular/router";
 import {AppComponent} from "../../../app.component";
@@ -14,8 +14,8 @@ export class EntrepriseDashboradComponent implements OnInit {
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
 
+  @ViewChild('drawer') drawer: MatDrawer;
 
-  @ViewChild('sidenav') sidenav: MatSidenav;
   constructor(public jwtService:JwtAuthenticationService,
               media: MediaMatcher,changeDetectorRef: ChangeDetectorRef,
               public route: ActivatedRoute,public router: Router) {
@@ -37,10 +37,14 @@ export class EntrepriseDashboradComponent implements OnInit {
   }
 
   close(reason: string) {
-    this.sidenav.close();
+    this.drawer.close();
   }
 
   prepareRoute(outlet: RouterOutlet) {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation;
+  }
+
+  toggle() {
+    this.drawer.toggle();
   }
 }

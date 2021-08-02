@@ -187,16 +187,15 @@
             -->
           </div>
         </div>
-        <div class="col-4">
-
+        <div class="col-4" >
         <!--
           <img *ngIf="question.image != undefined && question.image != null"
                alt="..." class="img-fluid w-100 h-100 float-right"
                [src]="dataService.host+'/photoQuestion/'+question.id">
           -->
-
           <img *ngIf="question.image != undefined && question.image != null"
-               alt="..." class="img-fluid w-100 h-100 float-right"
+               (click)="open(content,question.picByte)"
+               alt="..." class="img-fluid w-100 h-100 float-right fig"
                [src]="domSanitizer.bypassSecurityTrustUrl('data:image/PNG;base64,' + question.picByte)">
         </div>
       </div>
@@ -232,12 +231,12 @@
                      [cdkDropListConnectedTo]="idsAndAllImages"
                      (cdkDropListDropped)="dropForZoneQuestions($event)"
                 >
-                  <div class="card-img">
+                  <div class="card-img" (click)="open(content,zoneNames[i].picByte)">
                     <!--
                     <img alt="..." class="mx-auto d-block" width="100px" height="100px"
                          [src]="dataService.host+'/photoSchema/'+zoneNames[i].id">-->
 
-                    <img alt="..." class="mx-auto d-block" width="100px" height="100px"
+                    <img alt="..." class="mx-auto d-block fig" width="100px" height="100px"
                          [src]="domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,'+zoneNames[i].picByte)">
                   </div>
                   <div class="card-footer">
@@ -403,3 +402,15 @@
       </div>
 
 </div>
+
+
+<ng-template #content let-modal>
+  <a  class="btn btn-close float-end" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true"></span>
+  </a>
+  <div class="modal-body">
+    <img
+         alt="..." class="img-fluid w-100 h-100" style="min-width :200px;min-height:150px;max-height: 300px;"
+         [src]="domSanitizer.bypassSecurityTrustUrl('data:image/PNG;base64,' + picByteToDisplay)">
+  </div>
+</ng-template>

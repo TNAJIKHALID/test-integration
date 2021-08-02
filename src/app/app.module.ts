@@ -47,7 +47,7 @@ import {NgxDocViewerModule} from "ngx-doc-viewer";
 import {RedirectGuardService} from "./_service/_guard/redirect-guard.service";
 import { EntrepriseDashboradComponent } from './_user/_entrepriseAdmin/entreprise-dashborad/entreprise-dashborad.component';
 import { EntrepriseHomeComponent } from './_user/_entrepriseAdmin/entreprise-home/entreprise-home.component';
-import {NgbDatepickerModule, NgbDropdownModule, NgbTooltipModule} from "@ng-bootstrap/ng-bootstrap";
+import {NgbDatepickerModule, NgbDropdownModule, NgbToastModule, NgbTooltipModule} from "@ng-bootstrap/ng-bootstrap";
 import { ProfileComponent } from './_user/_apprenantLibre/profile/profile.component';
 import { AccountSettingComponent } from './_user/_apprenantLibre/account-setting/account-setting.component';
 import { ForgotPasswordComponent } from './_connexion/forgot-password/forgot-password.component';
@@ -61,6 +61,21 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import { AddHabilitationComponent } from './_user/_entrepriseAdmin/add-habilitation/add-habilitation.component';
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatExpansionModule} from "@angular/material/expansion";
+import { TestQuestionDataBaseComponent } from './_demos/test-question-data-base/test-question-data-base.component';
+import { TestQuestionDataBaseParamsComponent } from './_demos/test-question-data-base-params/test-question-data-base-params.component';
+import { SessionsComponent } from './_user/_entrepriseAdmin/_demo/sessions/sessions.component';
+import { PositionTestManageComponent } from './_user/_entrepriseAdmin/_demo/position-test-manage/position-test-manage.component';
+import { AddEmployeeComponent } from './_user/_entrepriseAdmin/_demo/add-employee/add-employee.component';
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
+import { SettingComponent } from './_user/_entrepriseAdmin/static/setting/setting.component';
+import { SupportComponent } from './_user/_entrepriseAdmin/static/support/support.component';
+import { EmailsComponent } from './_user/_entrepriseAdmin/static/emails/emails.component';
+import { DownloadsComponent } from './_user/_entrepriseAdmin/static/downloads/downloads.component';
+import { FacturationComponent } from './_user/_entrepriseAdmin/static/facturation/facturation.component';
+import { AbonnementComponent } from './_user/_entrepriseAdmin/static/abonnement/abonnement.component';
+import { AddSessionComponent } from './_user/_entrepriseAdmin/_demo/add-session/add-session.component';
+import { OneSessionComponent } from './_user/_entrepriseAdmin/_demo/one-session/one-session.component';
 
 @NgModule({
   declarations: [
@@ -92,8 +107,20 @@ import {MatExpansionModule} from "@angular/material/expansion";
     HabilitationsComponent,
     ManagePositionTestComponent,
     HabilitationComponent,
-    AddHabilitationComponent
-
+    AddHabilitationComponent,
+    TestQuestionDataBaseComponent,
+    TestQuestionDataBaseParamsComponent,
+    SessionsComponent,
+    PositionTestManageComponent,
+    AddEmployeeComponent,
+    SettingComponent,
+    SupportComponent,
+    EmailsComponent,
+    DownloadsComponent,
+    FacturationComponent,
+    AbonnementComponent,
+    AddSessionComponent,
+    OneSessionComponent
   ],
   imports: [
     BrowserModule,
@@ -128,7 +155,10 @@ import {MatExpansionModule} from "@angular/material/expansion";
     DataTablesModule,
     MatCheckboxModule,
     MatStepperModule,
-    MatExpansionModule
+    MatExpansionModule,
+    NgbToastModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
     RedirectGuardService,

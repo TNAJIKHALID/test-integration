@@ -18,7 +18,9 @@ export let refreshEvent : EventEmitter<boolean> = new EventEmitter<boolean>();
     slideInAnimation
   ]
 })
-export class AppComponent implements AfterViewChecked{
+export class AppComponent //implements AfterViewChecked
+{
+
   public static currentUrl: string = "";
 
   title = 'testApplication';
@@ -111,13 +113,28 @@ export class AppComponent implements AfterViewChecked{
       return "Téléchargements"
     }
 
-    else if(AppComponent.currentUrl.includes("MesSessions")||
-      AppComponent.currentUrl.includes("addSession")) {
+    else if(AppComponent.currentUrl.includes("MesSessions") && !AppComponent.currentUrl.includes("addSession") ) {
       return "Sessions"
-    }  else if(AppComponent.currentUrl.includes("PositionTest")) {
+    } else if(!AppComponent.currentUrl.includes("MesSessions") && AppComponent.currentUrl.includes("addSession") ) {
+      return "Ajouter"
+    } else if(AppComponent.currentUrl.includes("NouvelleSession")  ) {
+      return "Nouvelle Session"
+    } else if(AppComponent.currentUrl.includes("PositionTest")) {
       return "Position Gestion"
-    }else if(AppComponent.currentUrl.includes("dashEnterprise")) {
+    } else if(AppComponent.currentUrl.includes("dashEnterprise")) {
       return "dashboard Admin Enterprise"
+    } else if(AppComponent.currentUrl.includes("abonnement")) {
+      return "Abonnement"
+    } else if(AppComponent.currentUrl.includes("emails")) {
+      return "Emails"
+    } else if(AppComponent.currentUrl.includes("support")) {
+      return "Support"
+    } else if(AppComponent.currentUrl.includes("parametres")) {
+      return "Parametres"
+    } else if(AppComponent.currentUrl.includes("facturations")) {
+      return "Facturations"
+    } else if(AppComponent.currentUrl.includes("telelchargements")) {
+      return "Télélchargements"
     }
 
 

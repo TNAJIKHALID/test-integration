@@ -35,7 +35,7 @@ export class FormService {
   public employeesForm(): FormGroup{
     return this.formBuilder.group({
       employees: this.formBuilder.array([])
-    });;
+    });
   }
 
   public employeeForm(): FormGroup{
