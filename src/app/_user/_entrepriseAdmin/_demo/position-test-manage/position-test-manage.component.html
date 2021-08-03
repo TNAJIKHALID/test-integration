@@ -1,0 +1,205 @@
+<div class="container w-100 min-vh-100" *ngIf="!onAddToTestPosition && positionTestDataTables.length > 0 ">
+  <div class="row-cols-2">
+    <button class="w-25 btn btn-outline-dark"
+            (click)="onAddToTestPosition = true">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+      </svg>
+      <span class="ms-2">Inviter d'autres salariées</span></button>
+  </div>
+  <div class="card rounded-3 shadow-sm mt-3">
+
+    <div *ngIf="selected.size>0" class="row justify-content-center w-75 m-auto mb-2 mt-2"  label="actions on table">
+      <button class="btn btn-outline-secondary col-1 me-1">Inviter</button>
+      <button class="btn btn-outline-secondary col-2 me-1">Relancer</button>
+      <button class="btn btn-danger col-2 me-1">Suprimer</button>
+    </div>
+
+    <table class="table table-hover table-striped mb-0">
+      <thead style="border-bottom: 2px solid #ff6801;">
+      <tr>
+        <th scope="col" class="text-center">
+          <mat-checkbox class="ml-2" color="primary" value= "All" (change)="addToSelected($event)"
+                        [checked]="this.selected.size == positionTestDataTables.length && selected.size > 0"
+          ></mat-checkbox>
+        </th>
+        <th scope="col">#</th>
+        <th scope="col">Nom complet</th>
+        <th scope="col">Email</th>
+        <th scope="col">Résultat</th>
+        <th scope="col">action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let d of positionTestDataTables;let i=index;">
+        <td class="text-center">
+          <mat-checkbox class="ml-2" color="primary" [checked]="this.selected.has(d.positionTestId)"
+                        (change)="addToSelected($event)" value= "{{d.positionTestId}}" ></mat-checkbox>
+        </td>
+        <th scope="row" >{{i+1}}</th>
+        <td>{{d.nomComplet}}</td>
+        <td>{{d.mail}}</td>
+        <td>{{d.result}}</td>
+        <td>
+          <mat-icon color="warn" style="cursor: pointer;"
+                    aria-hidden="true" aria-label="Example home icon"
+                    (click)="removeFromPositionTest()"
+          >delete</mat-icon>
+          <mat-icon class="pointer" >settings</mat-icon>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+</div>
+
+<div class="container w-100 min-vh-100" *ngIf="positionTestDataTables.length == 0 && !onAddToTestPosition ">
+  <div class="card p-5 rounded-3 shadow-sm mt-5 ms-2">
+    <h2>Inviter vos vos salariés dont vous ne connaissiez pas le niveau d'habilitation</h2>
+    <button class="w-25 btn btn-outline-dark"
+            (click)="onAddToTestPosition = true">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+      </svg>
+      <span class="ms-2">Inviter</span></button>
+  </div>
+</div>
+
+<div class="container w-100 min-vh-100" *ngIf="onAddToTestPosition">
+  <div class="container-fluid">
+    <button class="btn btn-outline-dark col-3" (click)="open(content)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-spreadsheet-fill" viewBox="0 0 16 16">
+        <path d="M6 12v-2h3v2H6z"/>
+        <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM3 9h10v1h-3v2h3v1h-3v2H9v-2H6v2H5v-2H3v-1h2v-2H3V9z"/>
+      </svg>
+      <strong class="ms-2">importer depuis excel</strong>
+    </button>
+  </div>
+  <form [formGroup]="myForm" >
+    <div class="container-fluid mt-3" formArrayName="employees">
+
+      <div class="card w-100 shadow-sm rounded-3 mb-2 pb-3"  *ngFor="let employee of employees.controls; let i=index" [formGroupName]="i">
+        <div class="row mt-3 w-100 mb-3 ms-2" >
+
+          <div class="row mt-5  w-100 m-auto">
+            <mat-form-field class="col-3" >
+              <input matInput placeholder="nom" formControlName="firstName">
+              <mat-error *ngIf="employee.get('firstName').invalid && employee.get('firstName').touched">
+                le nom est obligatoire
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-3">
+              <input matInput placeholder="prénom" formControlName="lastName">
+              <mat-error *ngIf="employee.get('lastName').invalid && employee.get('lastName').touched">
+                le prénom est obligatoire
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-3">
+              <input type="email" matInput placeholder="email" formControlName="email">
+              <mat-hint >
+                l'adresse mail doit être sous la forme <b>nom@example.com</b>
+              </mat-hint>
+              <mat-error *ngIf="employee.get('email').invalid && employee.get('email').touched
+                      && employee.get('email').value.length > 0">
+                adresse mail invalid
+              </mat-error>
+
+              <mat-error *ngIf="employee.get('email').touched && employee.get('email').value.length == 0">
+                adresse mail obligatoire
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-3">
+              <input type="tel" matInput placeholder="téléphone" formControlName="telephone">
+              <mat-error *ngIf="employee.get('telephone').invalid && employee.get('telephone').touched">
+                num est obligatoire
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="row w-100 mt-5 m-auto">
+            <div class="col-4 ">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Poste</mat-label>
+                <mat-select formControlName="poste" >
+                  <mat-option [value]="'B1'">B1</mat-option>
+                  <mat-option [value]="'B3'">H1</mat-option>
+                  <mat-option [value]="'B2'">BC</mat-option>
+                </mat-select>
+                <mat-error *ngIf="employee.get('poste').invalid && employee.get('poste').touched">Champ obligatoire</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-4">
+              <mat-form-field class="w-100" appearance="fill">
+                <mat-label>date de naissance</mat-label>
+                <input matInput formControlName="dateNaissance" [matDatepicker]="picker">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-hint><strong>jj/mm/aaaa</strong></mat-hint>
+                <mat-error *ngIf="employee.get('dateNaissance').invalid && employee.get('dateNaissance').touched">
+                  cette date est invalide, il doit respecter cette forme <strong>"jj/mm/aaaa"</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-4">
+              <mat-form-field class="w-100" appearance="fill">
+                <mat-label>date d'embauche</mat-label>
+                <input  matInput formControlName="dateEmbauche" [matDatepicker]="picker1">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+                <mat-hint><strong>jj/mm/aaaa</strong></mat-hint>
+                <mat-error *ngIf="employee.get('dateEmbauche').invalid && employee.get('dateEmbauche').touched">
+                  cette date est invalide, il doit respecter cette forme <strong>"jj/mm/aaaa"</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <button class="col-2" mat-button color="primary" (click)="deleteEmployee(i)">Supprimer</button>
+        </div>
+      </div>
+
+
+
+      <div class="row w-100 justify-content-end m-auto">
+        <button class="col-2" mat-raised-button color="primary"
+                [disabled]="employees.controls[employees.controls.length-1].invalid"  (click)="addEmployee()">Ajouter</button>
+      </div>
+      <div class="row w-100 m-auto mt-4 justify-content-end">
+        <button class="col-2 btn btn-outline-danger me-2"  (click)="onAddToTestPosition = false" >Annuler</button>
+        <button class="col-2" mat-raised-button color="accent"
+                [disabled]="formIsInValid()" (click)="onSave()">Enregister</button>
+
+      </div>
+    </div>
+  </form>
+</div>
+
+
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h1 class="modal-title text-center" id="modal-basic-title">Importer depuis excel</h1>
+    <span class="float-end pointer" style="margin-top: -37px;"><mat-icon (click)="modal.dismiss('Cross click')">close</mat-icon></span>
+  </div>
+  <div class="modal-body">
+    <h3 class="text-info fw-bolder alert-info ps-3">Exemple de fichier excel<a href="assets/canva.xlsx" class="link-primary ms-3">télécharger le model ?</a></h3>
+    <img class="mx-auto d-block mb-5 boderPrimary" src="assets/images/canvas/canva%20excel.png" height="200" width="90%">
+    <form>
+      <div class="form-group">
+        <div class="input-group">
+          <input id="file" class="form-control"
+                 name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                 type="file" (change)="handleFileInput($event)">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Annuler')">Annuler</button>
+    <button type="button" class="btn btn-dark" [disabled]="fileToUpload == null" (click)="onImportExcel()">Importer</button>
+  </div>
+</ng-template>

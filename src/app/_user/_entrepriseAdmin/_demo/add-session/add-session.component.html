@@ -1,0 +1,189 @@
+<div class="container w-100 min-vh-100">
+  <mat-horizontal-stepper [linear]="true" #stepper>
+    <mat-step [stepControl]="habForm"  label="Habilitations Params">
+      <ng-template matStepLabel>Habilitations Params</ng-template>
+      <form [formGroup]="habForm" style="min-height: 500px">
+        <div class="container" label="parametres avancées">
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title class="w-100">
+                Parametres Générales
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="row w-100 pb-3">
+              <div class="col-6 ">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Niveau</mat-label>
+                  <mat-select matNativeControl formControlName="level" required>
+                    <mat-option *ngFor="let level of levels" [value]="level.habilitationLevel">
+                      {{level.habilitationLevel}}
+                    </mat-option>
+                    <mat-option [value]="'unknown'"><strong>Niveau inconu</strong></mat-option>
+                  </mat-select>
+                  <mat-error>
+                    le niveau d'habilitation est obligatoire
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel label="Avancées" *ngIf="level.value != 'unknown'" >
+            <mat-expansion-panel-header>
+              <mat-panel-title class="w-100">
+                Parametres Avancées
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel label="formation" *ngIf="level.value != 'unknown'" >
+            <mat-expansion-panel-header>
+              <mat-panel-title class="w-100">
+                Parametres de formation
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+        </div>
+        <div class="container m-auto mt-lg-5">
+          <button mat-button routerLink="/dashboard/habils">Annuler</button>
+          <button mat-raised-button  color="primary" [disabled]="habForm.invalid" matStepperNext>Suivant</button>
+        </div>
+      </form>
+
+    </mat-step>
+
+
+    <mat-step [stepControl]="myForm" label="Inviter">
+      <form [formGroup]="myForm" style="min-height: 500px">
+        <div class="" formArrayName="employees">
+          <div class="card w-100 shadow-sm rounded-3 mb-2 pb-3" *ngFor="let employee of employees.controls; let i=index" [formGroupName]="i">
+
+            <div class="row mt-5  w-100 m-auto">
+              <mat-form-field class="col-3" >
+                <input matInput placeholder="nom" formControlName="firstName">
+                <mat-error *ngIf="employee.get('firstName').invalid && employee.get('firstName').touched">
+                  le nom est obligatoire
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field class="col-3">
+                <input matInput placeholder="prénom" formControlName="lastName">
+                <mat-error *ngIf="employee.get('lastName').invalid && employee.get('lastName').touched">
+                  le prénom est obligatoire
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field class="col-3">
+                <input type="email" matInput placeholder="email" formControlName="email">
+                <mat-hint >
+                  l'adresse mail doit être sous la forme <b>nom@example.com</b>
+                </mat-hint>
+                <mat-error *ngIf="employee.get('email').invalid && employee.get('email').touched
+                      && employee.get('email').value.length > 0">
+                  adresse mail invalid
+                </mat-error>
+
+                <mat-error *ngIf="employee.get('email').touched && employee.get('email').value.length == 0">
+                  adresse mail obligatoire
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field class="col-3">
+                <input type="tel" matInput placeholder="téléphone" formControlName="telephone">
+                <mat-error *ngIf="employee.get('telephone').invalid && employee.get('telephone').touched">
+                  num est obligatoire
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div *ngIf="level.value!='unknown'" class="row w-100 mt-5 m-auto">
+              <mat-form-field class="m-auto w-25" appearance="outline">
+                <mat-label>Type</mat-label>
+                <mat-select matNativeControl formControlName="type" required>
+                  <mat-option [value]="true">initial</mat-option>
+                  <mat-option [value]="false">recyclage</mat-option>
+                </mat-select>
+                <mat-error *ngIf="employee.get('type').invalid && employee.get('type').touched">
+                  le type est obligatoire
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="row w-100 mt-5 m-auto">
+              <div class="col-4 ">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Poste</mat-label>
+                  <mat-select formControlName="poste" >
+                    <mat-option [value]="'B1'">B1</mat-option>
+                    <mat-option [value]="'B3'">H1</mat-option>
+                    <mat-option [value]="'B2'">BC</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="employee.get('poste').invalid && employee.get('poste').touched">Champ obligatoire</mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="col-4">
+                <mat-form-field class="w-100" appearance="fill">
+                  <mat-label>date de naissance</mat-label>
+                  <input matInput formControlName="dateNaissance" [matDatepicker]="picker">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <mat-hint><strong>jj/mm/aaaa</strong></mat-hint>
+                  <mat-error *ngIf="employee.get('dateNaissance').invalid && employee.get('dateNaissance').touched">
+                    cette date est invalide, il doit respecter cette forme <strong>"jj/mm/aaaa"</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="col-4">
+                <mat-form-field class="w-100" appearance="fill">
+                  <mat-label>date d'embauche</mat-label>
+                  <input  matInput formControlName="dateEmbauche" [matDatepicker]="picker1">
+                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+                  <mat-hint><strong>jj/mm/aaaa</strong></mat-hint>
+                  <mat-error *ngIf="employee.get('dateEmbauche').invalid && employee.get('dateEmbauche').touched">
+                    cette date est invalide, il doit respecter cette forme <strong>"jj/mm/aaaa"</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row justify-content-between mt-2 w-100">
+              <button class="col-2 float-start ms-4" mat-raised-button color="primary" (click)="deleteEmployee(i)">Supprimer</button>
+
+            </div>
+          </div>
+
+          <div class="row justify-content-end">
+            <button class="mt-2 me-3 col-2 float-start" mat-raised-button color="primary"
+                    [disabled]="employees.controls[employees.controls.length-1].invalid"
+                    (click)="addEmployee()">Ajouter</button>
+          </div>
+
+          <div class="row w-100 justify-content-end">
+            <button class="mt-3 mb-2 col-2 float-start" mat-raised-button matStepperPrevious>Retour</button>
+            <button class="mt-3 mb-2 ms-2 me-0 col-2 float-end " mat-raised-button color="accent"
+                    [disabled]="employees.controls[employees.controls.length-1].invalid"
+                    matStepperNext >Suivant</button>
+          </div>
+        </div>
+      </form>
+    </mat-step>
+
+
+    <mat-step label="Sauvgarder" >
+      <ng-template matStepLabel>Sauvgarder</ng-template>
+      <h2 *ngIf="level.value != 'unknown'">Inviter les employees pour passer l'habilitation</h2>
+      <h2 *ngIf="level.value == 'unknown'">Inviter les employees pour passer le test de positionnement</h2>
+      <div class="row w-75 m-auto justify-content-between">
+        <button  class="col-3 mt-5 mb-2 " mat-raised-button matStepperPrevious>Retour</button>
+        <button class="col-3 mt-5 mb-2 " mat-raised-button (click)="stepper.reset()">Annuler</button>
+        <button class="col-3 mt-5 mb-2 " mat-raised-button color="accent"
+                (click)="inviteTest()" >Enregister</button>
+
+      </div>
+    </mat-step>
+
+
+  </mat-horizontal-stepper>
+
+</div>
+

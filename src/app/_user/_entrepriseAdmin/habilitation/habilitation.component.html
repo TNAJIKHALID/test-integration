@@ -1,0 +1,86 @@
+<div class="container w-100 min-vh-100">
+  <button mat-raised-button color="accent" class="mb-2"  (click)="allEvent.emit(false)">Tous</button>
+  <div class="card" *ngIf="!onAddEmployeesToThisHabilitation"><!--onHabilitiation = false -->
+    <div class="card-header">
+      <h1>{{habilitation.test.testName}}</h1>
+      <div class="row">
+        <button color="primary" class="btn btn-outline-dark ml-3 col-3 float-start"
+                (click)="onAddEmployeesToHabilitation()">Ajouter d'autres salariées</button>
+      </div>
+    </div>
+    <div class="card-body">
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>Nom complet</th>
+          <th>Email</th>
+          <th>Etat d'avancement</th>
+          <th>Score</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let employee of habilitation.enterpriseEmployees">
+          <td>
+            <span *ngIf="getScoreForEmployee(habilitation.test,employee) != undefined"><a (click)="goToScore(habilitation.test.id,employee)" style="cursor: pointer;">
+              {{employee.appUser.firstName + ' ' + employee.appUser.lastName}}
+            </a>
+            </span>
+            <span *ngIf="getScoreForEmployee(habilitation.test,employee) == undefined">
+              {{employee.appUser.firstName + ' ' + employee.appUser.lastName}}
+            </span>
+          </td>
+          <td>{{employee.appUser.username}}</td>
+          <td>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar"
+                   style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </td>
+          <td>
+            <span *ngIf="getScoreForEmployee(habilitation.test,employee) != undefined" >{{getScoreForEmployee(habilitation.test,employee) +'%'}}</span>
+            <span *ngIf="getScoreForEmployee(habilitation.test,employee) == undefined" >N'a pas encore passé le test</span>
+          </td>
+          <td>
+            <mat-icon color="warn" style="cursor: pointer" class="mr-2"
+                      (click)="removeEnterpriseEmployee(employee,habilitation)">delete</mat-icon>
+            <mat-icon color="primary" style="cursor: pointer">update</mat-icon>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div *ngIf="onAddEmployeesToThisHabilitation" class="container-fluid">
+    <form [formGroup]="myForm" >
+      <div class="ml-5" formArrayName="employees">
+        <div class="row mt-1" *ngFor="let employee of employees.controls; let i=index" [formGroupName]="i">
+          <mat-form-field class="col-3" >
+            <input matInput placeholder="nom" formControlName="firstName">
+          </mat-form-field>
+          <mat-form-field class="col-3">
+            <input matInput placeholder="prénom" formControlName="lastName">
+          </mat-form-field>
+          <mat-form-field class="col-4">
+            <input type="email" matInput placeholder="email" formControlName="email">
+            <mat-error *ngIf="employee.get('email').invalid && employee.get('email').touched">
+              adress mail invalid
+            </mat-error>
+          </mat-form-field>
+          <button class="col-2" mat-button color="primary" (click)="deleteEmployee(i)">Supprimer</button>
+        </div>
+        <div class="row justify-content-end">
+          <button class="mt-5 mb-2 float-end col-2" mat-raised-button color="primary"
+                  [disabled]="employees.controls[employees.controls.length-1].invalid"  (click)="addEmployee()">Ajouter</button>
+        </div>
+
+        <div class="row justify-content-end">
+          <button class="mt-5 mb-2 mr-2 col-3 float-end" mat-button (click)="onAddEmployeesToThisHabilitation = false" >Annuler</button>
+
+          <button class="mt-5 mb-2 ml-2 col-3 float-end " mat-raised-button color="accent"
+                  [disabled]="employees.controls[employees.controls.length-1].invalid "
+                  (click)="onSave(habilitation)">Enregister</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

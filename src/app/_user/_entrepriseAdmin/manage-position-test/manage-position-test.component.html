@@ -1,0 +1,93 @@
+<div class="container w-100 min-vh-100" *ngIf="!onAddToTestPosition">
+  <div class="row">
+    <button class="col-4 btn btn-outline-dark" (click)="onAddToTestPosition = true">Inviter d'autres salariées</button>
+  </div>
+  <div   class="row mt-3">
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="table table-hover">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nom complet</th>
+        <th scope="col">Email</th>
+        <th scope="col">Résultat</th>
+        <th scope="col">action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let d of positionTestDataTables;let i=index;">
+        <th scope="row" >{{i+1}}</th>
+        <td>{{d.nomComplet}}</td>
+        <td>{{d.mail}}</td>
+        <td>{{d.result}}</td>
+        <td>
+          <mat-icon color="warn" style="cursor: pointer;"
+                    aria-hidden="true" aria-label="Example home icon"
+                    (click)="removeFromPositionTest()"
+          >delete</mat-icon>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="container w-100 min-vh-100" *ngIf="onAddToTestPosition">
+  <div class="row">
+    <button class="btn btn-outline-dark col-3" (click)="open(content)">importer depuis excel</button>
+  </div>
+  <form [formGroup]="myForm" >
+    <div class="container-fluid mt-3" formArrayName="employees">
+      <div class="row mt-1" *ngFor="let employee of employees.controls; let i=index" [formGroupName]="i">
+        <mat-form-field class="col-3" >
+          <input matInput placeholder="nom" formControlName="firstName">
+        </mat-form-field>
+        <mat-form-field class="col-3">
+          <input matInput placeholder="prénom" formControlName="lastName">
+        </mat-form-field>
+        <mat-form-field class="col-4">
+          <input type="email" matInput placeholder="email" formControlName="email">
+          <mat-error *ngIf="employee.get('email').invalid && employee.get('email').touched">
+            adress mail invalid
+          </mat-error>
+        </mat-form-field>
+        <button class="col-2" mat-button color="primary" (click)="deleteEmployee(i)">Supprimer</button>
+      </div>
+
+      <div class="row w-75 justify-content-end m-auto">
+        <button class="col-3" mat-raised-button color="primary"
+                [disabled]="employees.controls[employees.controls.length-1].invalid"  (click)="addEmployee()">Ajouter</button>
+        </div>
+      <div class="row mt-3 justify-content-end">
+        <button class="col-2 btn btn-outline-danger me-2"  (click)="onAddToTestPosition = false" >Annuler</button>
+        <button class="col-2" mat-raised-button color="accent"
+                [disabled]="formIsInValid()" (click)="onSave()">Enregister</button>
+
+      </div>
+    </div>
+  </form>
+</div>
+
+
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h1 class="modal-title text-center" id="modal-basic-title">Importer depuis excel</h1>
+    <span class="float-end pointer" style="margin-top: -37px;"><mat-icon (click)="modal.dismiss('Cross click')">close</mat-icon></span>
+  </div>
+  <div class="modal-body">
+    <h3 class="text-info fw-bolder alert-info ps-3">Exemple de fichier excel</h3>
+    <img class="mx-auto d-block mb-5 boderPrimary" src="assets/images/canvas/canva%20excel.png" height="200" width="90%">
+    <form>
+      <div class="form-group">
+        <div class="input-group">
+          <input id="file" class="form-control"
+                 name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                 type="file" (change)="handleFileInput($event)">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Annuler')">Annuler</button>
+    <button type="button" class="btn btn-dark" [disabled]="fileToUpload == null" (click)="onImportExcel()">Importer</button>
+  </div>
+</ng-template>

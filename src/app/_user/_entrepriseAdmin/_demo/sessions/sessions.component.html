@@ -1,0 +1,60 @@
+<div *ngIf="!onSessionInfos" class="container w-100 min-vh-100">
+  <h1 class="ms-4" mat-header-row >Mes session d'habilitation </h1>
+  <div class="row ms-4 mt-2 mb-2">
+    <button class="col-2 float-start" mat-raised-button color="accent"
+            routerLink="/dashboard-Enterprise/NouvelleSession">Ajouter
+      <mat-icon aria-hidden="true"  aria-label="Example home icon">add</mat-icon>
+    </button>
+  </div>
+
+  <main class="container-fluid" *ngIf="sessionMap.size>0 || fillForPositionTestSession()>0">
+    <div  class="card rounded-3 shadow-sm mt-3">
+      <table class="table table-hover table-striped mb-0">
+        <thead style="border-bottom: 2px solid #ff6801;">
+        <tr>
+          <th scope="col" class="text-center">
+            <mat-checkbox class="ml-2" color="primary" value= "All" (change)="addToSelected($event)"
+                          [checked]="this.selected.size == sessionsTable.length && this.selected.size>0"
+            ></mat-checkbox>
+          </th>
+          <th scope="col">#</th>
+          <th scope="col">Niveau</th>
+          <th scope="col">Nombre d'invités</th>
+          <th scope="col">Résultat</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let session of sessionsTable;let i=index;">
+          <td class="text-center">
+            <mat-checkbox class="ml-2" color="primary" [checked]="this.selected.has(session.level)"
+                          (change)="addToSelected($event)" value= "{{session.level}}" ></mat-checkbox>
+          </td>
+          <th scope="row" >{{i+1}}</th>
+          <td class="link-primary pointer-event pointer" (click)="onGoToSessionInfos(session)" >{{session.level}}</td>
+          <td>{{session.total}}</td>
+          <td>hello</td>
+        </tr>
+
+        <tr *ngIf="fillForPositionTestSession()>0">
+          <td class="text-center">
+            <mat-checkbox class="ml-2" color="primary" [disabled]="true"></mat-checkbox>
+          </td>
+          <th scope="row" >{{sessionsTable.length+2}}</th>
+          <td class="link-primary pointer-event pointer" routerLink="/dashboard-Enterprise/PositionTest" >Niveau inconu</td>
+          <td>{{fillForPositionTestSession()}}</td>
+          <td>hello</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+
+</div>
+
+<main *ngIf="onSessionInfos">
+  <app-one-session [level]="sessionToDisplay.level"
+                   [xEmployees]="sessionMap.get(sessionToDisplay.level)"
+                   (onBackEvent)="onRecieveEventBackToSessions($event)"
+                   [session]="sessionToDisplay"></app-one-session>
+</main>
