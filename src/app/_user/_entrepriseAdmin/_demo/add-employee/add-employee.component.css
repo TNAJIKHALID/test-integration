@@ -1,0 +1,22 @@
+.form-group{
+  display: flex;
+  flex-direction: column;
+}
+
+::ng-deep .mat-step-header{
+  width: 50%;
+  background-color: rgba(199, 200, 203, 0.52);
+}
+
+::ng-deep .mat-step-header[aria-selected="true"] {
+  width: 50%;
+  background-color: #FF6801;
+
+}
+
+::ng-deep .mat-step-text-label {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-size: larger;
+}
+

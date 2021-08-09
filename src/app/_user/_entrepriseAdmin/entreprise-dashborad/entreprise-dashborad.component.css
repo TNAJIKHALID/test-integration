@@ -64,3 +64,19 @@ mat-drawer:not(.mat-drawer-opened) .img{
 mat-drawer:not(.mat-drawer-opened){
   border-right: 2px solid lightgray;
 }
+
+#collapse{
+  /*
+  background-color: rgba(215, 221, 236, 0.93);
+  */
+  background-color: transparent;
+
+  padding: 0;
+  margin:0;
+  width: 107%;
+  border-radius: unset;
+  box-shadow: none;
+}
+.colapsItms{
+  margin-left: -36px;margin-right: -24px
+}

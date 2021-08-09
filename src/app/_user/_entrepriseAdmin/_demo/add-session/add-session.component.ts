@@ -7,6 +7,8 @@ import {FormService} from "../../../../_service/_util/form.service";
 import {Employee, Employees, HabilitatingParams, TestParams} from "../../../_model/employee";
 import {HabilitationLevel} from "../../../../_model/question";
 import {AddSessionForm, AddXEmployeeForm, AddXEmployeeFrom} from "../forms";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ExcelService} from "../../../../_service/_util/excel.service";
 
 @Component({
   selector: 'app-add-session',
@@ -18,9 +20,12 @@ export class AddSessionComponent implements OnInit {
   public habForm: FormGroup;
   onInvite: boolean = false;
   levels: Array<HabilitationLevel> = new Array<HabilitationLevel>();
+  public fileToUpload: File;
 
 
-  constructor(public formBuilder: FormBuilder, public router: Router, public jwtService:JwtAuthenticationService,
+  constructor(public formBuilder: FormBuilder,
+              private modalService: NgbModal,public excelService:ExcelService,
+              public router: Router, public jwtService:JwtAuthenticationService,
               public dataService:DataService) {
   }
 
@@ -81,6 +86,72 @@ export class AddSessionComponent implements OnInit {
 
   }
 
+  open(content) {
+    let closeResult;
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      closeResult = `Dismissed...`;
+    });
+  }
+
+
+  handleFileInput(event) {
+    //todo handle level unknown template
+    this.fileToUpload = event;
+  }
+
+  async onImportExcel() {
+    var data = await this.excelService.getData(this.fileToUpload);
+    //todo handle level unknown template
+    for (let datum of data) {
+      let firstName = datum[0];
+      let lastName= datum[1];
+      let email= datum[2];
+      let telephone= datum[3];
+      let poste= datum[4];
+      let dateNaissance= datum[5];
+      let dateEmbauche= datum[6];
+      /* todo was done :) */let type =  this.level.value == 'unknown' && datum[7] == 'initial';
+      const employee  = this.addFilledEmployee(firstName,
+        lastName, email, telephone, poste, dateNaissance, dateEmbauche,type);
+    }
+    this.modalService.dismissAll();
+  }
+
+
+  addFilledEmployee(firstName, lastName, email, telephone, poste, dateNaissance, dateEmbauche,type){
+    const employee = this.formBuilder.group({
+      firstName: [firstName,[
+        Validators.required
+      ]],
+      lastName:[lastName,[
+        Validators.required
+      ]],
+      email: [email, [
+        Validators.email,
+        Validators.required
+      ],],
+      telephone: [telephone, [
+        Validators.required
+      ],],
+      poste: [poste, [
+        Validators.required
+      ],],
+      dateNaissance: [dateNaissance, [
+        Validators.required
+      ],],
+      dateEmbauche: [dateEmbauche, [
+        Validators.required
+      ],],
+      type: [type, [
+        Validators.required
+      ],]
+    });
+    this.employees.push(employee);
+  }
+
+
   addEmployee(){
     const employee = this.formBuilder.group({
       firstName: ['',[
@@ -112,7 +183,11 @@ export class AddSessionComponent implements OnInit {
     this.employees.push(employee);
   }
 
-  deleteEmployee(i){ this.employees.removeAt(i); }
+  deleteEmployee(i){
+    console.log(this.employees.controls[0].invalid)
+    console.log(this.employees.controls.length)
+    this.employees.removeAt(i);
+  }
 
   get employees(){ return this.myForm.get('employees') as FormArray; }
 

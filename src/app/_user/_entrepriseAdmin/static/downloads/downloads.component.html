@@ -1,4 +1,86 @@
 <div class="container w-100 min-vh-100">
+  <div class="row mt-4">
+    <div class="col-md-9">
+      <h1 style=" border-left: 4px solid orangered; padding-left: 12px; top: 50%;">Téléchargements</h1>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group form-inline w-100">
+         <input  class="form-control float-end" type="text" name="searchTerm"
+                placeholder="rechercher" style="width: 100%"/>
+      </div>
+    </div>
+  </div>
+  <div class="card rounded-3 shadow-sm mt-3">
+    <form class="ms-2 me-2">
+        <table class="table table-striped table-hover pb-0 ">
+          <thead style="border-bottom: 2px solid #ff6801;">
+          <tr >
+            <th scope="col" class="text-center"  ><mat-icon >crop_din</mat-icon></th>
+            <th scope="col" class="text-center" >Nom et prénom</th>
+            <th scope="col" class="text-center" >
+              <select class="form-select border border-danger  custom-select custom-select-lg " name="">
+                <optgroup label="niveau" data-max-options="5">
+                  <option>Niveau BC</option>
+                  <option>Niveau BC</option>
+                  <option>Niveau BC</option>
+                  <option>Niveau BC</option>
+                </optgroup>
+              </select>
+            </th>
+            <th scope="col" class="text-center" >
+              <p class="pb-0 mb-0">Rapport d'entraînement</p>
+              <mat-icon class="mt-0">cloud_download</mat-icon>
+            </th>
+            <th scope="col" class="text-center" >
+              <p class="pb-0 mb-0">Rapport d'évaluation</p>
+              <mat-icon class="mt-0">cloud_download</mat-icon>
+            </th>
+            <th scope="col" class="text-center" >
+              <p class="pb-0 mb-0">Attestation de formation</p>
+              <mat-icon class="mt-0">cloud_download</mat-icon>
+            </th>
+          </tr>
+          </thead>
 
-<p>downloads works!</p>
+          <tbody class="pb-0">
+          <tr >
+            <td class="text-center"> <mat-icon>crop_din</mat-icon></td>
+            <td scope="row" style="color: #E65100" class="text-center fw-bold"> Ait Aydi Moustapha</td>
+            <td class="text-center" ><h4>B0 Chargé de chantier</h4></td>
+            <td class="text-center"><mat-icon color="primary">cloud_download</mat-icon></td>
+            <td class="text-center"><mat-icon>cloud_download</mat-icon></td>
+            <td class="text-center"><mat-icon>cloud_download</mat-icon> </td>
+          </tr>
+          <tr >
+            <td class="text-center"> <mat-icon>crop_din</mat-icon></td>
+            <td scope="row" style="color: #E65100" class="text-center fw-bold"> Ait Aydi Moustapha</td>
+            <td class="text-center" ><h4>B0 Chargé de chantier</h4></td>
+            <td class="text-center"><mat-icon >cloud_download</mat-icon></td>
+            <td class="text-center"><mat-icon color="primary">cloud_download</mat-icon></td>
+            <td class="text-center"><mat-icon color="primary">cloud_download</mat-icon> </td>
+          </tr>
+          <tr >
+            <td class="text-center"> <mat-icon>crop_din</mat-icon></td>
+            <td scope="row" style="color: #E65100" class="text-center fw-bold"> Ait Aydi Moustapha</td>
+            <td class="text-center" ><h4>B0 Chargé de chantier</h4></td>
+            <td class="text-center"><mat-icon color="primary">cloud_download</mat-icon></td>
+            <td class="text-center"><mat-icon >cloud_download</mat-icon></td>
+            <td class="text-center"><mat-icon color="primary">cloud_download</mat-icon> </td>
+          </tr>
+          </tbody>
+
+
+        </table>
+      <div class="d-flex justify-content-between p-2">
+        <ngb-pagination></ngb-pagination>
+
+        <select class="custom-select" style="width: auto" name="pageSize">
+          <option [ngValue]="2">2 items per page</option>
+          <option [ngValue]="4">4 items per page</option>
+          <option [ngValue]="6">6 items per page</option>
+        </select>
+      </div>
+
+    </form>
+  </div>
 </div>

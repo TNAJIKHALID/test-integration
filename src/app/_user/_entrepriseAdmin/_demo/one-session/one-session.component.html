@@ -3,16 +3,16 @@
           (click)="onBackEvent.emit(true)"
           class="mb-2"><mat-icon class="me-2">arrow_back</mat-icon>Retour</button>
 
-  <main class="card rounded-3 shadow-sm">
+  <main class="card rounded-3 shadow-sm m-0">
     <div class="card-header text-decoration-none">
       <h1 class="mt-2"><strong>{{level}}</strong></h1>
     </div>
-    <div class="card-body">
-      <table class="table table-hover mb-0" >
+    <div class="card-body m-0">
+      <table class="table table-hover table-striped m-0 mb-0" >
         <thead>
         <tr>
           <th scope="col" class="text-center">
-            <mat-checkbox class="ml-2" color="primary" value= "All" (change)="addToSelected($event)"
+            <mat-checkbox placement="top" ngbTooltip="selectionner tous" class="ml-2" color="primary" value= "All" (change)="addToSelected($event)"
                           [checked]="this.selected.size == xEmployees.length"
             ></mat-checkbox>
           </th>
@@ -29,9 +29,14 @@
                           (change)="addToSelected($event)" value= "{{employe.id}}" ></mat-checkbox>
           </td>
           <th scope="row">{{i+1}}</th>
-          <td>{{employe.appUser.firstName}}</td>
+          <td><a class="mat-tab-link" (click)="onEmployeeDetails(employe)">{{employe.appUser.firstName}}</a></td>
           <td>Otto</td>
-          <td>@mdo</td>
+          <td>
+            <mat-icon color="warn" style="cursor: pointer;"
+                      aria-hidden="true" aria-label="Example home icon"
+            >delete</mat-icon>
+            <mat-icon class="pointer" >settings</mat-icon>
+          </td>
         </tr>
         </tbody>
       </table>

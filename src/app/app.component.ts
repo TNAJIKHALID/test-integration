@@ -135,6 +135,12 @@ export class AppComponent //implements AfterViewChecked
       return "Facturations"
     } else if(AppComponent.currentUrl.includes("telelchargements")) {
       return "Télélchargements"
+    }else if(AppComponent.currentUrl.includes("historique")) {
+      return "Historique"
+    } else if(AppComponent.currentUrl.includes("payemment")) {
+      return "Payemment"
+    } else if(AppComponent.currentUrl.includes("cartes")) {
+      return "Cartes"
     }
 
 

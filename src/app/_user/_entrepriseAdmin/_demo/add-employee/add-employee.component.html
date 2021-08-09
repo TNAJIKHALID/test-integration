@@ -1,7 +1,11 @@
 <div class="container w-100 min-vh-100">
   <mat-horizontal-stepper class="min-vh-100" [linear]="true" #stepper>
     <mat-step [stepControl]="myForm" label="Informations personnels">
+      <!--<ng-template matStepLabel>
+        <h2 class="fw-bold" style="margin-top: 16px;color: white">Informations personnels</h2>
+      </ng-template>-->
       <form [formGroup]="myForm" >
+        <!--
         <div class="row mt-5 m-auto">
           <mat-form-field class="col-3" >
             <input matInput placeholder="nom" formControlName="firstName">
@@ -75,6 +79,91 @@
             </mat-form-field>
           </div>
         </div>
+-->
+        <div class="row mt-1  w-100 m-auto">
+          <div class="form-group col-md-3">
+            <label class="col-form-label" for="nom" style="color: #000000">Nom*</label>
+            <mat-form-field  appearance="outline">
+              <input matInput id="nom" formControlName="firstName">
+              <mat-error *ngIf="firstName.invalid && firstName.touched">
+                le nom est obligatoire
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group col-md-3">
+            <label class="col-form-label" for="prenom" style="color: #000000">Prénom*</label>
+            <mat-form-field  appearance="outline">
+              <input matInput id="prenom" formControlName="lastName">
+              <mat-error *ngIf="lastName.invalid && lastName.touched">
+                le prénom est obligatoire
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group col-md-3">
+            <label class="col-form-label" for="email" style="color: #000000">Email*</label>
+            <mat-form-field  appearance="outline">
+              <input type="email" id="email" placeholder="nom@example.com" matInput formControlName="email">
+              <mat-error *ngIf="email.invalid && email.touched
+                      && email.value.length > 0">
+                adresse mail invalid
+              </mat-error>
+              <mat-error *ngIf="email.touched && email.value.length == 0">
+                adresse mail est obligatoire
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group col-md-3">
+            <label class="col-form-label" for="tele" style="color: #000000">Téléphone*</label>
+            <mat-form-field  appearance="outline">
+              <input type="tel" id="tele" matInput formControlName="telephone">
+              <!--                  <h3 style="margin-top: 0px" matPrefix>+212 &nbsp;</h3>-->
+              <mat-error *ngIf="telephone.invalid && telephone.touched">
+                num est obligatoire
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row mt-1  w-100 m-auto">
+          <div class="form-group col-md-6">
+            <label class="col-form-label" for="poste" style="color: #000000">Poste*</label>
+            <mat-form-field  appearance="outline">
+              <mat-select id="poste" formControlName="poste" >
+                <mat-option [value]="'B1'">B1</mat-option>
+                <mat-option [value]="'B3'">H1</mat-option>
+                <mat-option [value]="'B2'">BC</mat-option>
+              </mat-select>
+              <mat-error *ngIf="poste.invalid && poste.touched">Champ obligatoire</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row mt-1  w-100 m-auto">
+          <div class="form-group col-md-6">
+            <label class="col-form-label" for="dateN" style="color: #000000">Date de naissance*</label>
+            <mat-form-field  appearance="outline">
+              <input placeholder="jj/mm/aaaa" matInput id="dateN" formControlName="dateNaissance" [matDatepicker]="picker">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error *ngIf="dateNaissance.invalid && dateNaissance.touched">
+                cette date est invalide, il doit respecter cette forme <strong>"jj/mm/aaaa"</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="col-form-label" for="dateE" style="color: #000000">Date d'embauche*</label>
+            <mat-form-field  appearance="outline">
+              <input placeholder="jj/mm/aaaa" matInput id="dateE" formControlName="dateEmbauche" [matDatepicker]="picker1">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+              <mat-error *ngIf="dateEmbauche.invalid && dateEmbauche.touched">
+                cette date est invalide, il doit respecter cette forme <strong>"jj/mm/aaaa"</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+        </div>
 
         <div class="container w-100 m-auto mt-lg-5">
           <button mat-raised-button color="warn" routerLink="/dashboard-Enterprise/MesSessions">Annuler</button>
@@ -83,13 +172,23 @@
       </form>
     </mat-step>
 
+
+
     <mat-step [stepControl]="habForm" label="Parametres d'habilitations">
+      <!--<ng-template matStepLabel>
+        <h2 class="fw-bold" style="margin-top: 16px;color: white">Parametres d'habilitations</h2>
+      </ng-template>-->
       <form [formGroup]="habForm">
-        <div class="container" >
+        <!--<div class="container" >
           <mat-expansion-panel   [expanded]="true">
             <mat-expansion-panel-header>
               <mat-panel-title class="w-100">Parametres Générales</mat-panel-title>
             </mat-expansion-panel-header>
+            <p *ngIf="level.value == 'unknown'">
+              <ngb-alert [dismissible]="false" >
+                <strong>Info !</strong> Inviter ce salarie a passer le teste de positionement.
+              </ngb-alert>
+            </p>
             <div class="row w-100 pb-5">
               <div class="col-lg-6 col-sm-12 ">
                 <mat-form-field class="w-100" appearance="outline">
@@ -98,10 +197,11 @@
                     <mat-option *ngFor="let level of levels" [value]="level.habilitationLevel">
                       {{level.habilitationLevel}}
                     </mat-option>
+                    <mat-option [value]="'unknown'"><strong>Niveau inconu</strong></mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
-              <div class="col-lg-6 col-sm-12 ">
+              <div *ngIf="level.value != 'unknown'" class="col-lg-6 col-sm-12 ">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Type</mat-label>
                   <mat-select matNativeControl formControlName="type" required>
@@ -112,13 +212,13 @@
               </div>
             </div>
           </mat-expansion-panel>
-          <mat-expansion-panel  >
+          <mat-expansion-panel *ngIf="level.value != 'unknown'" >
             <mat-expansion-panel-header>
               <mat-panel-title class="w-100">
                 Parametres Avancées
               </mat-panel-title>
             </mat-expansion-panel-header>
-           <!-- <div class="row w-100 pb-5">
+           &lt;!&ndash; <div class="row w-100 pb-5">
               <div class = "col-6 mt-3">
                 <mat-form-field  class="w-100">
                   <input type="number" matInput placeholder="temp de teste" formControlName="time">
@@ -148,9 +248,180 @@
                   <mat-hint>5-20</mat-hint>
                 </mat-form-field>
               </div>
-            </div>-->
+            </div>&ndash;&gt;
           </mat-expansion-panel>
+        </div>-->
+
+        <div class="container" >
+          <!--Start Parametres generaux -->
+          <mat-expansion-panel [expanded]="true" class="mt-2">
+            <mat-expansion-panel-header class=" w-100" style="background-color:#c7cbd0">
+              <mat-panel-title class="w-100" style="color: #fff">
+                Parametres generaux
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="row w-100 mt-3">
+              <p *ngIf="level.value == 'unknown'">
+                <ngb-alert [dismissible]="false" >
+                  <strong>Info !</strong> Inviter ce salarie a passer le teste de positionement.
+                </ngb-alert>
+              </p>
+            </div>
+
+            <div label="niveau" class="row mt-3">
+              <div class="col-md-4">Choisir le niveau d'habilitations</div>
+              <div class="col-md-4">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Niveau</mat-label>
+                  <mat-select matNativeControl formControlName="level" required>
+                    <mat-option *ngFor="let level of levels" [value]="level.habilitationLevel">
+                      {{level.habilitationLevel}}
+                    </mat-option>
+                    <mat-option [value]="'unknown'"><strong>Niveau inconu</strong></mat-option>
+                  </mat-select>
+                  <mat-error>
+                    le niveau d'habilitation est obligatoire
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4" *ngIf="level.value!='unknown'">
+                <mat-form-field  appearance="outline">
+                  <mat-label>type d'habilitation</mat-label>
+                  <mat-select id="type" matNativeControl placeholder="type" formControlName="type" required>
+                    <mat-option [value]="true">initial</mat-option>
+                    <mat-option [value]="false">recyclage</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="type.invalid && type.touched">
+                    le type est obligatoire
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div *ngIf="level.value != 'unknown'">
+              <div class="row">
+                <div class="col-md-4">Duree d'acees</div>
+                <div class="col-md-4">
+                  <input type="date" class="form-control" id="date1">
+                </div>
+                <div class="col-md-4">
+                  <input type="date" class="form-control" id="date2">
+                </div>
+              </div>
+
+              <div class="row mt-3 w-25">
+                <div class="col-md-7"> Acces accordes
+                </div>
+                <div class="col-md-5">
+                  <mat-slide-toggle style="color: lightseagreen"></mat-slide-toggle>
+                </div>
+              </div>
+
+              <!-- -->
+              <div class="row mt-3">
+                <div class="col-md-3">
+                  <label>Test de positionement</label>
+                  <input style=" margin: .4rem;" type="checkbox">
+                </div>
+                <div class="col-md-3">Formation
+                  <input style=" margin: .4rem;" type="checkbox">
+                </div>
+                <div class="col-md-3">Entrainement
+                  <input style=" margin: .4rem;" type="checkbox">
+                </div>
+                <div class="col-md-3">Evaluation
+                  <input style=" margin: .4rem;" type="checkbox">
+                </div>
+              </div>
+
+              <!-- -->
+              <div class="row mt-3">
+                <div class="col-md-3">Telechargement:</div>
+                <div class="col-md-3">Rapport d'entrainement
+                  <input style=" margin: .4rem;" type="checkbox">
+                </div>
+                <div class="col-md-3">Rapport d'evaluation
+                  <input style=" margin: .4rem;" type="checkbox">
+                </div>
+                <div class="col-md-3">Attestation de formation
+                  <input style=" margin: .4rem;" type="checkbox">
+                </div>
+              </div>
+            </div>
+
+
+          </mat-expansion-panel>
+          <!--End Parametres generaux -->
+
+          <!-- Start Parametres Evaluation -->
+          <mat-expansion-panel *ngIf="level.value != 'unknown'" [expanded]="true" class="mt-2">
+            <mat-expansion-panel-header class="" style="background-color:#c7cbd0">
+              <mat-panel-title class="w-100" style="color: #fff">
+                Parametres Evaluation
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <!-- -->
+            <div class="row mt-3">
+              <div class="col-md-12">
+                <button type="button" class="btn ms-0 me-2" style="color:#fff ;background-color:#FF6801">Par defaut</button>
+                <button type="button" class="btn " style="color:#fff ;background-color:#FF6801">Parametres avances</button>
+              </div>
+            </div>
+
+            <!-- -->
+            <div class="row mt-3" style="background-color: #f5f8f9ed">
+
+              <div class="col-md-3 mt-4">Rapport finaal</div>
+              <div class="col-md-3 mt-4">Rapport finaal</div>
+              <div class="col-md-3 mt-4">Rapport finaal</div>
+              <div class="col-md-3 mt-4">Rapport finaal</div>
+
+              <div class="col-md-3 mt-4 mb-4">Rapport finaal</div>
+              <div class="col-md-3 mt-4 mb-4">Rapport finaal</div>
+              <div class="col-md-3 mt-4 mb-4">Rapport finaal</div>
+              <div class="col-md-3 mt-4 mb-4">Rapport finaal</div>
+
+            </div>
+
+          </mat-expansion-panel>
+          <!--End Parametres Evaluation -->
+
+          <!-- Start Parametres Formations -->
+          <mat-expansion-panel *ngIf="level.value != 'unknown'" [expanded]="true" class="mt-2">
+            <mat-expansion-panel-header class="" style="background-color:#c7cbd0 ;">
+              <mat-panel-title class="w-100" style="color: #fff">
+                Parametres Formations
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="row mt-3">
+              <div class="col-md-6">
+                <h3>Frequence de la formation:</h3>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                Limitee
+                <input style=" margin: .4rem;" type="checkbox">
+              </div>
+              <div class="col-md-6">
+                Ilimitee
+                <input style=" margin: .4rem;" type="checkbox">
+                <input type="number">
+              </div>
+            </div>
+
+          </mat-expansion-panel>
+          <!--End Parametres Formations-->
         </div>
+
+
+
+
+
         <div class="container w-100 m-auto mt-lg-5 justify-content-end">
           <button mat-button routerLink="/dashboard-Enterprise/MesSessions">Annuler</button>
           <button mat-raised-button  class="float-end me-2" color="primary" [disabled]="habForm.invalid" (click)="onInvite()" matStepperNext>Inviter</button>
@@ -158,7 +429,5 @@
         </div>
       </form>
     </mat-step>
-
-
   </mat-horizontal-stepper>
 </div>

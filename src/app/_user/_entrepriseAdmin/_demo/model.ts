@@ -22,6 +22,7 @@ export class XEmployeeEntreprise {
 
 export class XPositionTest {
   id: number;
+  enable: boolean ;
   habilitationLevel: HabilitationLevel;
 }
 

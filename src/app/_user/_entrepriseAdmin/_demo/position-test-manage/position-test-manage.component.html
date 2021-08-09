@@ -1,18 +1,32 @@
 <div class="container w-100 min-vh-100" *ngIf="!onAddToTestPosition && positionTestDataTables.length > 0 ">
-  <div class="row-cols-2">
+  <!--<div class="row-cols-2">
     <button class="w-25 btn btn-outline-dark"
             (click)="onAddToTestPosition = true">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
       </svg>
       <span class="ms-2">Inviter d'autres salariées</span></button>
+  </div>-->
+  <div class="row mt-4">
+    <div class="col-md-9">
+      <h1 style=" border-left: 4px solid orangered; padding-left: 12px; top: 50%;">Teste de Positionnement</h1>
+    </div>
+    <div class="col-md-3">
+      <button type="button" color="primary" mat-raised-button class="float-end"
+              (click)="onAddToTestPosition = true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+        </svg>
+        <span class="ms-2 ">Ajouter d'autres salariées</span></button>
+    </div>
   </div>
   <div class="card rounded-3 shadow-sm mt-3">
 
-    <div *ngIf="selected.size>0" class="row justify-content-center w-75 m-auto mb-2 mt-2"  label="actions on table">
-      <button class="btn btn-outline-secondary col-1 me-1">Inviter</button>
-      <button class="btn btn-outline-secondary col-2 me-1">Relancer</button>
-      <button class="btn btn-danger col-2 me-1">Suprimer</button>
+    <div *ngIf="selected.size>0"
+         class="row justify-content-md-center justify-content-sm-start w-100 m-auto mb-2 mt-2"  label="actions on table">
+      <button class="btn btn-outline-secondary col-md-2 me-1" (click)="onInviteToPosition()">Inviter</button>
+      <button class="btn btn-outline-secondary col-md-2 me-1">Relancer</button>
+      <button class="btn btn-danger col-md-2 me-1" (click)="removeSelectedFromPositionTest()">Suprimer</button>
     </div>
 
     <table class="table table-hover table-striped mb-0">
@@ -37,15 +51,18 @@
                         (change)="addToSelected($event)" value= "{{d.positionTestId}}" ></mat-checkbox>
         </td>
         <th scope="row" >{{i+1}}</th>
-        <td>{{d.nomComplet}}</td>
+        <td><a class="mat-tab-link" >{{d.nomComplet}}</a></td>
         <td>{{d.mail}}</td>
         <td>{{d.result}}</td>
         <td>
-          <mat-icon color="warn" style="cursor: pointer;"
+          <mat-icon *ngIf="!d.enabled" class="pointer"
+                    (click)="onInviteSingleOne(d.positionTestId)"
+                    ngbTooltip="Inviter" placement="top">add</mat-icon>
+          <mat-icon color="warn" style="cursor: pointer;" ngbTooltip="Supprimer" placement="top"
                     aria-hidden="true" aria-label="Example home icon"
-                    (click)="removeFromPositionTest()"
+                    (click)="removeFromPositionTest(d.positionTestId)"
           >delete</mat-icon>
-          <mat-icon class="pointer" >settings</mat-icon>
+          <mat-icon class="pointer" ngbTooltip="Modifier" placement="top">settings</mat-icon>
         </td>
       </tr>
       </tbody>
@@ -56,7 +73,7 @@
 </div>
 
 <div class="container w-100 min-vh-100" *ngIf="positionTestDataTables.length == 0 && !onAddToTestPosition ">
-  <div class="card p-5 rounded-3 shadow-sm mt-5 ms-2">
+  <div class="card p-5 rounded-3 shadow-sm ms-2">
     <h2>Inviter vos vos salariés dont vous ne connaissiez pas le niveau d'habilitation</h2>
     <button class="w-25 btn btn-outline-dark"
             (click)="onAddToTestPosition = true">
@@ -78,95 +95,151 @@
     </button>
   </div>
   <form [formGroup]="myForm" >
-    <div class="container-fluid mt-3" formArrayName="employees">
+    <div class="container-fluid mt-1" formArrayName="employees">
 
       <div class="card w-100 shadow-sm rounded-3 mb-2 pb-3"  *ngFor="let employee of employees.controls; let i=index" [formGroupName]="i">
-        <div class="row mt-3 w-100 mb-3 ms-2" >
 
-          <div class="row mt-5  w-100 m-auto">
-            <mat-form-field class="col-3" >
-              <input matInput placeholder="nom" formControlName="firstName">
-              <mat-error *ngIf="employee.get('firstName').invalid && employee.get('firstName').touched">
-                le nom est obligatoire
-              </mat-error>
-            </mat-form-field>
-            <mat-form-field class="col-3">
-              <input matInput placeholder="prénom" formControlName="lastName">
-              <mat-error *ngIf="employee.get('lastName').invalid && employee.get('lastName').touched">
-                le prénom est obligatoire
-              </mat-error>
-            </mat-form-field>
-            <mat-form-field class="col-3">
-              <input type="email" matInput placeholder="email" formControlName="email">
-              <mat-hint >
-                l'adresse mail doit être sous la forme <b>nom@example.com</b>
-              </mat-hint>
-              <mat-error *ngIf="employee.get('email').invalid && employee.get('email').touched
+          <div class="row mt-1  w-100 m-auto">
+            <div class="form-group col-md-3">
+              <label class="col-form-label" for="nom" style="color: #000000">Nom*</label>
+              <mat-form-field  appearance="outline">
+                <input matInput id="nom" formControlName="firstName">
+                <mat-error *ngIf="employee.get('firstName').invalid && employee.get('firstName').touched">
+                  le nom est obligatoire
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-group col-md-3">
+              <label class="col-form-label" for="prenom" style="color: #000000">Prénom*</label>
+              <mat-form-field  appearance="outline">
+                <input matInput id="prenom" formControlName="lastName">
+                <mat-error *ngIf="employee.get('lastName').invalid && employee.get('lastName').touched">
+                  le prénom est obligatoire
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-group col-md-3">
+              <label class="col-form-label" for="email" style="color: #000000">Email*</label>
+              <mat-form-field  appearance="outline">
+                <input type="email" id="email" placeholder="nom@example.com" matInput formControlName="email">
+                <mat-error *ngIf="employee.get('email').invalid && employee.get('email').touched
                       && employee.get('email').value.length > 0">
-                adresse mail invalid
-              </mat-error>
-
-              <mat-error *ngIf="employee.get('email').touched && employee.get('email').value.length == 0">
-                adresse mail obligatoire
-              </mat-error>
-            </mat-form-field>
-            <mat-form-field class="col-3">
-              <input type="tel" matInput placeholder="téléphone" formControlName="telephone">
-              <mat-error *ngIf="employee.get('telephone').invalid && employee.get('telephone').touched">
-                num est obligatoire
-              </mat-error>
-            </mat-form-field>
-          </div>
-
-          <div class="row w-100 mt-5 m-auto">
-            <div class="col-4 ">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Poste</mat-label>
-                <mat-select formControlName="poste" >
-                  <mat-option [value]="'B1'">B1</mat-option>
-                  <mat-option [value]="'B3'">H1</mat-option>
-                  <mat-option [value]="'B2'">BC</mat-option>
-                </mat-select>
-                <mat-error *ngIf="employee.get('poste').invalid && employee.get('poste').touched">Champ obligatoire</mat-error>
+                  adresse mail invalid
+                </mat-error>
               </mat-form-field>
             </div>
+            <div class="form-group col-md-3">
+              <label class="col-form-label" for="tele" style="color: #000000">Téléphone*</label>
+              <mat-form-field  appearance="outline">
+                <input type="tel" id="tele" matInput formControlName="telephone">
+                <!--                  <h3 style="margin-top: 0px" matPrefix>+212 &nbsp;</h3>-->
+                <span matPrefix class="mb-2">+212 &nbsp;</span>
 
-            <div class="col-4">
-              <mat-form-field class="w-100" appearance="fill">
-                <mat-label>date de naissance</mat-label>
-                <input matInput formControlName="dateNaissance" [matDatepicker]="picker">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-                <mat-hint><strong>jj/mm/aaaa</strong></mat-hint>
-                <mat-error *ngIf="employee.get('dateNaissance').invalid && employee.get('dateNaissance').touched">
-                  cette date est invalide, il doit respecter cette forme <strong>"jj/mm/aaaa"</strong>
+                <mat-error *ngIf="employee.get('telephone').invalid && employee.get('telephone').touched">
+                  num est obligatoire
                 </mat-error>
               </mat-form-field>
             </div>
 
-            <div class="col-4">
-              <mat-form-field class="w-100" appearance="fill">
-                <mat-label>date d'embauche</mat-label>
-                <input  matInput formControlName="dateEmbauche" [matDatepicker]="picker1">
-                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                <mat-datepicker #picker1></mat-datepicker>
-                <mat-hint><strong>jj/mm/aaaa</strong></mat-hint>
-                <mat-error *ngIf="employee.get('dateEmbauche').invalid && employee.get('dateEmbauche').touched">
-                  cette date est invalide, il doit respecter cette forme <strong>"jj/mm/aaaa"</strong>
-                </mat-error>
-              </mat-form-field>
-            </div>
+            <!-- <mat-form-field class="col-3"  appearance="outline">
+               <input matInput placeholder="nom" formControlName="firstName">
+               <mat-error *ngIf="employee.get('firstName').invalid && employee.get('firstName').touched">
+                 le nom est obligatoire
+               </mat-error>
+             </mat-form-field>
+             <mat-form-field class="col-3" appearance="outline">
+               <input matInput placeholder="prénom" formControlName="lastName">
+               <mat-error *ngIf="employee.get('lastName').invalid && employee.get('lastName').touched">
+                 le prénom est obligatoire
+               </mat-error>
+             </mat-form-field>
+             <mat-form-field class="col-3">
+               <input type="email" matInput placeholder="email" formControlName="email">
+               <mat-hint >
+                 l'adresse mail doit être sous la forme <b>nom@example.com</b>
+               </mat-hint>
+               <mat-error *ngIf="employee.get('email').invalid && employee.get('email').touched
+                     && employee.get('email').value.length > 0">
+                 adresse mail invalid
+               </mat-error>
+
+               <mat-error *ngIf="employee.get('email').touched && employee.get('email').value.length == 0">
+                 adresse mail obligatoire
+               </mat-error>
+             </mat-form-field>
+             <mat-form-field class="col-3">
+               <input type="tel" matInput placeholder="téléphone" formControlName="telephone">
+               <mat-error *ngIf="employee.get('telephone').invalid && employee.get('telephone').touched">
+                 num est obligatoire
+               </mat-error>
+             </mat-form-field>-->
           </div>
 
-          <button class="col-2" mat-button color="primary" (click)="deleteEmployee(i)">Supprimer</button>
+        <div class="row mt-1  w-100 m-auto">
+
+          <div class="form-group col-md-6">
+            <label class="col-form-label" for="poste" style="color: #000000">Poste*</label>
+            <mat-form-field appearance="outline">
+              <mat-select id="poste" formControlName="poste">
+                  <mat-optgroup label="cadre" >
+                    <mat-option [value]="'B1'">B1</mat-option>
+                    <mat-option [value]="'B3'">H1</mat-option>
+                    <mat-option [value]="'B2'">BC</mat-option>
+                  </mat-optgroup>
+
+                <mat-optgroup label="ouverier" >
+                    <mat-option [value]="'B1'">B1</mat-option>
+                    <mat-option [value]="'B3'">H1</mat-option>
+                    <mat-option [value]="'B2'">BC</mat-option>
+                  </mat-optgroup>
+
+              </mat-select>
+              <mat-error *ngIf="employee.get('poste').invalid && employee.get('poste').touched">Champ obligatoire
+              </mat-error>
+            </mat-form-field>
+          </div>
         </div>
+
+        <div class="row mt-1  w-100 m-auto">
+          <div class="form-group col-md-6">
+            <label class="col-form-label" for="dateN" style="color: #000000">Date de naissance*</label>
+            <mat-form-field appearance="outline">
+              <input placeholder="jj/mm/aaaa" matInput id="dateN" formControlName="dateNaissance"
+                     [matDatepicker]="picker">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error *ngIf="employee.get('dateNaissance').invalid && employee.get('dateNaissance').touched">
+                cette date est invalide, il doit respecter cette forme <strong>"jj/mm/aaaa"</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="col-form-label" for="dateE" style="color: #000000">Date d'embauche*</label>
+            <mat-form-field appearance="outline">
+              <input placeholder="jj/mm/aaaa" matInput id="dateE" formControlName="dateEmbauche"
+                     [matDatepicker]="picker1">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+              <mat-error *ngIf="employee.get('dateEmbauche').invalid && employee.get('dateEmbauche').touched">
+                cette date est invalide, il doit respecter cette forme <strong>"jj/mm/aaaa"</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+
+        <div class="row justify-content-between mt-2 w-100">
+          <button class="col-2 float-start ms-4" mat-raised-button color="primary" (click)="deleteEmployee(i)">Supprimer</button>
+        </div>
+
       </div>
 
 
 
       <div class="row w-100 justify-content-end m-auto">
         <button class="col-2" mat-raised-button color="primary"
-                [disabled]="employees.controls[employees.controls.length-1].invalid"  (click)="addEmployee()">Ajouter</button>
+                [disabled]="employees.controls.length>0 && employees.controls[employees.controls.length-1].invalid"  (click)="addEmployee()">Ajouter</button>
       </div>
       <div class="row w-100 m-auto mt-4 justify-content-end">
         <button class="col-2 btn btn-outline-danger me-2"  (click)="onAddToTestPosition = false" >Annuler</button>

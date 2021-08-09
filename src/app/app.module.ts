@@ -47,7 +47,13 @@ import {NgxDocViewerModule} from "ngx-doc-viewer";
 import {RedirectGuardService} from "./_service/_guard/redirect-guard.service";
 import { EntrepriseDashboradComponent } from './_user/_entrepriseAdmin/entreprise-dashborad/entreprise-dashborad.component';
 import { EntrepriseHomeComponent } from './_user/_entrepriseAdmin/entreprise-home/entreprise-home.component';
-import {NgbDatepickerModule, NgbDropdownModule, NgbToastModule, NgbTooltipModule} from "@ng-bootstrap/ng-bootstrap";
+import {
+    NgbAlertModule,
+    NgbDatepickerModule,
+    NgbDropdownModule, NgbPaginationModule,
+    NgbToastModule,
+    NgbTooltipModule
+} from "@ng-bootstrap/ng-bootstrap";
 import { ProfileComponent } from './_user/_apprenantLibre/profile/profile.component';
 import { AccountSettingComponent } from './_user/_apprenantLibre/account-setting/account-setting.component';
 import { ForgotPasswordComponent } from './_connexion/forgot-password/forgot-password.component';
@@ -67,7 +73,7 @@ import { SessionsComponent } from './_user/_entrepriseAdmin/_demo/sessions/sessi
 import { PositionTestManageComponent } from './_user/_entrepriseAdmin/_demo/position-test-manage/position-test-manage.component';
 import { AddEmployeeComponent } from './_user/_entrepriseAdmin/_demo/add-employee/add-employee.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatNativeDateModule} from "@angular/material/core";
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 import { SettingComponent } from './_user/_entrepriseAdmin/static/setting/setting.component';
 import { SupportComponent } from './_user/_entrepriseAdmin/static/support/support.component';
 import { EmailsComponent } from './_user/_entrepriseAdmin/static/emails/emails.component';
@@ -76,6 +82,14 @@ import { FacturationComponent } from './_user/_entrepriseAdmin/static/facturatio
 import { AbonnementComponent } from './_user/_entrepriseAdmin/static/abonnement/abonnement.component';
 import { AddSessionComponent } from './_user/_entrepriseAdmin/_demo/add-session/add-session.component';
 import { OneSessionComponent } from './_user/_entrepriseAdmin/_demo/one-session/one-session.component';
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import { CartesComponent } from './_user/_entrepriseAdmin/static/cartes/cartes.component';
+import { HistoriqueComponent } from './_user/_entrepriseAdmin/static/historique/historique.component';
+import { PayementComponent } from './_user/_entrepriseAdmin/static/payement/payement.component';
+import {MatListModule} from "@angular/material/list";
+import {MY_DATE_FORMATS} from "./util/formats";
+import { OneEmlpoyeeComponent } from './_user/_entrepriseAdmin/_demo/one-emlpoyee/one-emlpoyee.component';
+
 
 @NgModule({
   declarations: [
@@ -120,7 +134,11 @@ import { OneSessionComponent } from './_user/_entrepriseAdmin/_demo/one-session/
     FacturationComponent,
     AbonnementComponent,
     AddSessionComponent,
-    OneSessionComponent
+    OneSessionComponent,
+    CartesComponent,
+    HistoriqueComponent,
+    PayementComponent,
+    OneEmlpoyeeComponent
   ],
   imports: [
     BrowserModule,
@@ -158,7 +176,11 @@ import { OneSessionComponent } from './_user/_entrepriseAdmin/_demo/one-session/
     MatExpansionModule,
     NgbToastModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    NgbAlertModule,
+    MatSlideToggleModule,
+    NgbPaginationModule,
+    MatListModule
   ],
   providers: [
     RedirectGuardService,
@@ -173,7 +195,11 @@ import { OneSessionComponent } from './_user/_entrepriseAdmin/_demo/one-session/
     }
     , DatePipe,
     PercentPipe,
-    FormatTimePipe
+    FormatTimePipe,
+    // {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    // {provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS},
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
+
   ],
   bootstrap: [AppComponent]
 })

@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {MatDrawer, MatSidenav} from "@angular/material/sidenav";
 import {JwtAuthenticationService} from "../../../_service/_authentication/jwt-authentication.service";
 import {ActivatedRoute, Router, RouterOutlet} from "@angular/router";
@@ -15,17 +15,19 @@ export class EntrepriseDashboradComponent implements OnInit {
   private _mobileQueryListener: () => void;
 
   @ViewChild('drawer') drawer: MatDrawer;
+  collapsed: boolean = false;
 
   constructor(public jwtService:JwtAuthenticationService,
               media: MediaMatcher,changeDetectorRef: ChangeDetectorRef,
               public route: ActivatedRoute,public router: Router) {
-    this.mobileQuery = media.matchMedia('(max-width: 600px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this._mobileQueryListener);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    if (event.target.innerWidth < 1200) { this.drawer.close(); }
   }
 
   ngOnInit(): void {
-
   }
 
   logOut() {

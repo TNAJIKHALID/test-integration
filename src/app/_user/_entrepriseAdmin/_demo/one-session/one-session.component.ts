@@ -2,6 +2,8 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SessionDataTable} from "../dataTables";
 import {MatCheckboxChange} from "@angular/material/checkbox";
 import {XEmployeeEntreprise} from "../model";
+import {MatDialog} from "@angular/material/dialog";
+import {OneEmlpoyeeComponent} from "../one-emlpoyee/one-emlpoyee.component";
 
 @Component({
   selector: 'app-one-session',
@@ -19,7 +21,7 @@ export class OneSessionComponent implements OnInit {
   public selected: Set<number> = new Set<number>();
 
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
@@ -36,4 +38,18 @@ export class OneSessionComponent implements OnInit {
 
   }
 
+  onEmployeeDetails(employe: XEmployeeEntreprise) {
+    const dialogRef = this.dialog.open(OneEmlpoyeeComponent, {
+      data: {
+        employee : employe
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(employeeToUpdate => {
+      //todo
+      console.log(employeeToUpdate)
+    });
+
+
+  }
 }

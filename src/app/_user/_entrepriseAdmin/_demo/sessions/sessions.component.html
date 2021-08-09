@@ -1,14 +1,28 @@
 <div *ngIf="!onSessionInfos" class="container w-100 min-vh-100">
-  <h1 class="ms-4" mat-header-row >Mes session d'habilitation </h1>
+  <!--<h1 class="ms-4" mat-header-row >Mes session d'habilitation </h1>
   <div class="row ms-4 mt-2 mb-2">
     <button class="col-2 float-start" mat-raised-button color="accent"
             routerLink="/dashboard-Enterprise/NouvelleSession">Ajouter
       <mat-icon aria-hidden="true"  aria-label="Example home icon">add</mat-icon>
     </button>
+  </div>-->
+
+  <div class="row mt-4">
+    <div class="col-md-9">
+      <h1 style=" border-left: 4px solid orangered; padding-left: 12px; top: 50%;">Mes Session</h1>
+    </div>
+    <div class="col-md-3">
+      <button type="button" routerLink="/dashboard-Enterprise/NouvelleSession"
+              class="btn float-end w-75" style="color:#fff ;background-color:#FF6801">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+        </svg>
+        <span class="ms-2">Ajouter</span></button>
+    </div>
   </div>
 
-  <main class="container-fluid" *ngIf="sessionMap.size>0 || fillForPositionTestSession()>0">
-    <div  class="card rounded-3 shadow-sm mt-3">
+  <main class="card rounded-3 shadow-sm mt-3" *ngIf="sessionMap.size>0 || fillForPositionTestSession()>0">
+
       <table class="table table-hover table-striped mb-0">
         <thead style="border-bottom: 2px solid #ff6801;">
         <tr>
@@ -19,8 +33,10 @@
           </th>
           <th scope="col">#</th>
           <th scope="col">Niveau</th>
-          <th scope="col">Nombre d'invités</th>
-          <th scope="col">Résultat</th>
+          <th scope="col">Nb de participante</th>
+          <th scope="col">Terminer</th>
+          <th scope="col">Date de creation</th>
+          <th scope="col">Appliquer</th>
         </tr>
         </thead>
         <tbody>
@@ -30,9 +46,11 @@
                           (change)="addToSelected($event)" value= "{{session.level}}" ></mat-checkbox>
           </td>
           <th scope="row" >{{i+1}}</th>
-          <td class="link-primary pointer-event pointer" (click)="onGoToSessionInfos(session)" >{{session.level}}</td>
-          <td>{{session.total}}</td>
-          <td>hello</td>
+          <td label="niveau" class="link-primary pointer-event pointer" (click)="onGoToSessionInfos(session)" >{{session.level}}</td>
+          <td label="totale">{{session.total}}</td>
+          <td label="date creation">hello</td>
+          <td label="date creation">hello</td>
+          <td label="appliquer">hello</td>
         </tr>
 
         <tr *ngIf="fillForPositionTestSession()>0">
@@ -43,10 +61,12 @@
           <td class="link-primary pointer-event pointer" routerLink="/dashboard-Enterprise/PositionTest" >Niveau inconu</td>
           <td>{{fillForPositionTestSession()}}</td>
           <td>hello</td>
+          <td>hello</td>
+          <td>hello</td>
         </tr>
         </tbody>
       </table>
-    </div>
+
   </main>
 
 

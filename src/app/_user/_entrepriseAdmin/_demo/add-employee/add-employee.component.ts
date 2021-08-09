@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {JwtAuthenticationService} from "../../../../_service/_authentication/jwt-authentication.service";
 import {DataService} from "../../../../_service/_util/data.service";
-import {AddXEmployeeForm} from "../forms";
+import {AddXEmployeeForm, AddXEmployeeFrom} from "../forms";
 import {HabilitationLevel} from "../../../../_model/question";
 import {XSapAdminEntreprise} from "../model";
 import {MatDrawer} from "@angular/material/sidenav";
@@ -58,15 +58,28 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   onInvite() {
-    console.log('here Im......')
-    console.log(this.getEmploye());
+    let employees:Array<AddXEmployeeFrom> = new  Array<AddXEmployeeFrom>();
+
     let d;
     let id = this.jwtService.userAuthenticated.id;
-    this.dataService.postResource('/inviteEmployeeToSession?appUserId='+id,this.getEmploye()).subscribe(data=>{
-      console.log(data);
-      d = data;
-      this.router.navigateByUrl('/dashboard-Enterprise/MesSessions')
-    },error => {console.log(error)})
+    if (this.level.value == 'unknown') {
+      //invite to position test
+      employees.push(this.getEmploye());
+      this.dataService.postResource('/inviteToPositionTest?appUserId='+id,employees).subscribe(d=>{
+
+        this.router.navigateByUrl('/dashboard-Enterprise/MesSessions')
+      },error => console.log(error));
+
+    }
+    else {
+      //invite to session
+      this.dataService.postResource('/inviteEmployeeToSession?appUserId='+id,this.getEmploye()).subscribe(data=>{
+        console.log(data);
+        d = data;
+        this.router.navigateByUrl('/dashboard-Enterprise/MesSessions')
+      },error => {console.log(error)})
+
+    }
   }
 
   constructForms() {

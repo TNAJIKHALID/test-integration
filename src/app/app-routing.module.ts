@@ -42,6 +42,9 @@ import {SettingComponent} from "./_user/_entrepriseAdmin/static/setting/setting.
 import {FacturationComponent} from "./_user/_entrepriseAdmin/static/facturation/facturation.component";
 import {DownloadsComponent} from "./_user/_entrepriseAdmin/static/downloads/downloads.component";
 import {AddSessionComponent} from "./_user/_entrepriseAdmin/_demo/add-session/add-session.component";
+import {HistoriqueComponent} from "./_user/_entrepriseAdmin/static/historique/historique.component";
+import {PayementComponent} from "./_user/_entrepriseAdmin/static/payement/payement.component";
+import {CartesComponent} from "./_user/_entrepriseAdmin/static/cartes/cartes.component";
 
 const routes: Routes = [
  // {path: '', component : HomeComponent},
@@ -98,6 +101,10 @@ const routes: Routes = [
       {path: 'parametres', component : SettingComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]},
       {path: 'facturations', component : FacturationComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]},
       {path: 'telelchargements', component : DownloadsComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]},
+
+      {path: 'historique', component : HistoriqueComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]},
+      {path: 'payemment', component : PayementComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]},
+      {path: 'cartes', component : CartesComponent,canActivate: [AuthenticationGuardService,EntrepriseGuardService]},
 
 
 

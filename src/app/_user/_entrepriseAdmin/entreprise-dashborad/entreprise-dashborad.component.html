@@ -8,22 +8,24 @@
                    style="height: 30px; width: 150px;"  alt="">
               <hr style="margin-top: 20px;">
 
-              <div label="Dashboard" class="row mt-3 my-nav-item"
+              <div  label="Dashboard" class="row mt-3 my-nav-item"
                    [ngClass]="getCurrentMode() == 'dashboard Admin Enterprise' ? 'active-item': ''"
                    routerLink="/dashboard-Enterprise/dashEnterprise">
                 <div class="col-2">
-                  <mat-icon [color]="getCurrentMode() == 'dashboard Admin Enterprise' ? 'primary': ''" style="margin-top: 4px;">home</mat-icon>
+                  <mat-icon *ngIf="!drawer.opened" ngbTooltip="Accueil" placement="right" container="body" [color]="getCurrentMode() == 'dashboard Admin Enterprise' ? 'primary': ''" style="margin-top: 4px;">home</mat-icon>
+                  <mat-icon *ngIf="drawer.opened" [color]="getCurrentMode() == 'dashboard Admin Enterprise' ? 'primary': ''" style="margin-top: 4px;">home</mat-icon>
                 </div>
                 <div class="col-10 mx-auto" *ngIf="drawer.opened">
-                  <h2 class="m-auto ms-2 fw-light">Accueil</h2>
+                  <h2  class="m-auto ms-2 fw-light">Accueil</h2>
                 </div>
               </div>
 
-              <div label="Abonnement" class="row mt-2 my-nav-item"
+              <div  label="Abonnement" class="row mt-2 my-nav-item"
                    [ngClass]="getCurrentMode() == 'Abonnement' ? 'active-item': ''"
                    routerLink="/dashboard-Enterprise/abonnement">
                 <div class="col-2">
-                  <mat-icon [color]="getCurrentMode() == 'Abonnement' ? 'primary': ''" style="margin-top: 4px;">card_membership</mat-icon>
+                  <mat-icon *ngIf="!drawer.opened" ngbTooltip="Abonnement" placement="right" container="body" [color]="getCurrentMode() == 'Abonnement' ? 'primary': ''" style="margin-top: 4px;">card_membership</mat-icon>
+                  <mat-icon *ngIf="drawer.opened" [color]="getCurrentMode() == 'Abonnement' ? 'primary': ''" style="margin-top: 4px;">card_membership</mat-icon>
                 </div>
                 <div class="col-10 mx-auto" *ngIf="drawer.opened">
                   <h2 class="m-auto ms-2 fw-light">Abonnement</h2>
@@ -34,7 +36,10 @@
                    [ngClass]="getCurrentMode()=='Ajouter' ? 'active-item': ''"
                    routerLink="/dashboard-Enterprise/addSession">
                 <div class="col-2">
-                  <mat-icon
+                  <mat-icon  *ngIf="!drawer.opened" ngbTooltip="Nouveau Candidat" placement="right" container="body"
+                    [color]="getCurrentMode()=='Ajouter' ? 'primary': ''"
+                    style="margin-top: 4px;">add</mat-icon>
+                  <mat-icon  *ngIf="drawer.opened"
                     [color]="getCurrentMode()=='Ajouter' ? 'primary': ''"
                     style="margin-top: 4px;">add</mat-icon>
                 </div>
@@ -47,7 +52,11 @@
                    [ngClass]="getCurrentMode()=='Sessions' ? 'active-item': ''"
                    routerLink="/dashboard-Enterprise/MesSessions">
                 <div class="col-2">
-                  <mat-icon
+                  <mat-icon  *ngIf="!drawer.opened" ngbTooltip="Sessions" placement="right" container="body"
+                    [color]="getCurrentMode()=='Sessions' ? 'primary': ''"
+                    style="margin-top: 4px;">summarize</mat-icon>
+
+                  <mat-icon *ngIf="drawer.opened"
                     [color]="getCurrentMode()=='Sessions' ? 'primary': ''"
                     style="margin-top: 4px;">summarize</mat-icon>
                 </div>
@@ -56,11 +65,15 @@
                 </div>
               </div>
 
-              <div label="Position Test" class="row mt-2 my-nav-item"
+              <div label="Position Test"  class="row mt-2 my-nav-item"
                    [ngClass]="getCurrentMode() == 'Position Gestion' ? 'active-item': ''"
                    routerLink="/dashboard-Enterprise/PositionTest">
                 <div class="col-2">
-                  <mat-icon [color]= "getCurrentMode() == 'Position Gestion' ? 'primary': ''"
+                  <mat-icon  *ngIf="!drawer.opened" ngbTooltip="Positions" placement="right" container="body"
+                    [color]= "getCurrentMode() == 'Position Gestion' ? 'primary': ''"
+                            style="margin-top: 4px;">help_center</mat-icon>
+
+                  <mat-icon *ngIf="drawer.opened" [color]= "getCurrentMode() == 'Position Gestion' ? 'primary': ''"
                             style="margin-top: 4px;">help_center</mat-icon>
                 </div>
                 <div class="col-10 mx-auto" *ngIf="drawer.opened">
@@ -72,14 +85,18 @@
                    [ngClass]="getCurrentMode() == 'Télélchargements' ? 'active-item': ''"
                    routerLink="/dashboard-Enterprise/telelchargements">
                 <div class="col-2">
-                  <mat-icon [color]= "getCurrentMode() == 'Télélchargements' ? 'primary': ''"
+                  <mat-icon  *ngIf="!drawer.opened" ngbTooltip="Télélchargements" placement="right" container="body"
+                    [color]= "getCurrentMode() == 'Télélchargements' ? 'primary': ''"
+                            style="margin-top: 4px;">download</mat-icon>
+
+                  <mat-icon *ngIf="drawer.opened" [color]= "getCurrentMode() == 'Télélchargements' ? 'primary': ''"
                             style="margin-top: 4px;">download</mat-icon>
                 </div>
                 <div class="col-10 mx-auto" *ngIf="drawer.opened">
                   <h2 class="m-auto ms-2 fw-light">Télélchargements</h2>
                 </div>
               </div>
-
+              <!--
               <div label="Facturations" class="row mt-2 my-nav-item"
                    [ngClass]="getCurrentMode() == 'Facturations' ? 'active-item': ''"
                    routerLink="/dashboard-Enterprise/facturations">
@@ -91,12 +108,16 @@
                   <h2 class="m-auto ms-2 fw-light">Facturation</h2>
                 </div>
               </div>
-
+              -->
               <div label="Paramètres" class="row mt-2 my-nav-item"
                    [ngClass]="getCurrentMode() == 'Parametres' ? 'active-item': ''"
                    routerLink="/dashboard-Enterprise/parametres">
                 <div class="col-2">
-                  <mat-icon [color]= "getCurrentMode() == 'Parametres' ? 'primary': ''"
+                  <mat-icon  *ngIf="!drawer.opened" ngbTooltip="Paramètres" placement="right" container="body"
+                    [color]= "getCurrentMode() == 'Parametres' ? 'primary': ''"
+                            style="margin-top: 4px;">settings</mat-icon>
+
+                  <mat-icon *ngIf="drawer.opened" [color]= "getCurrentMode() == 'Parametres' ? 'primary': ''"
                             style="margin-top: 4px;">settings</mat-icon>
                 </div>
                 <div class="col-10 mx-auto" *ngIf="drawer.opened">
@@ -108,7 +129,11 @@
                    [ngClass]="getCurrentMode() == 'Emails' ? 'active-item': ''"
                    routerLink="/dashboard-Enterprise/emails">
                 <div class="col-2">
-                  <mat-icon [color]= "getCurrentMode() == 'Emails' ? 'primary': ''"
+                  <mat-icon  *ngIf="!drawer.opened" ngbTooltip="Email" placement="right" container="body"
+                    [color]= "getCurrentMode() == 'Emails' ? 'primary': ''"
+                            style="margin-top: 4px;">mail</mat-icon>
+
+                  <mat-icon *ngIf="drawer.opened" [color]= "getCurrentMode() == 'Emails' ? 'primary': ''"
                             style="margin-top: 4px;">mail</mat-icon>
                 </div>
                 <div class="col-10 mx-auto" *ngIf="drawer.opened">
@@ -120,7 +145,11 @@
                    [ngClass]="getCurrentMode() == 'Support' ? 'active-item': ''"
                    routerLink="/dashboard-Enterprise/support">
                 <div class="col-2">
-                  <mat-icon [color]= "getCurrentMode() == 'Support' ? 'primary': ''"
+                  <mat-icon  *ngIf="!drawer.opened" ngbTooltip="Support" placement="right" container="body"
+                    [color]= "getCurrentMode() == 'Support' ? 'primary': ''"
+                            style="margin-top: 4px;">help_center</mat-icon>
+
+                  <mat-icon *ngIf="drawer.opened" [color]= "getCurrentMode() == 'Support' ? 'primary': ''"
                             style="margin-top: 4px;">help_center</mat-icon>
                 </div>
                 <div class="col-10 mx-auto" *ngIf="drawer.opened">
@@ -128,7 +157,71 @@
                 </div>
               </div>
 
-              <div label="Guide" class="row mt-2 bottomLink"
+              <mat-expansion-panel [expanded]="false" id="collapse"
+                                   (closed)="collapsed=false"
+                                   [style]="collapsed ? 'background-color: rgba(215, 221, 236, 0.93);':''"
+                                   (opened)="collapsed=true" [hideToggle]="!drawer.opened">
+                <mat-expansion-panel-header class="mt-2" style="padding: 0 4px;height: 37px;">
+                  <div label="Facturations" class="row my-nav-item-collapse">
+                    <div class="col-2">
+                      <mat-icon  *ngIf="!drawer.opened" ngbTooltip="Facturation" placement="right" container="body"
+                        style="margin-top: 4px;">request_quote</mat-icon>
+                      <mat-icon *ngIf="drawer.opened" style="margin-top: 4px;">request_quote</mat-icon>
+                    </div>
+                    <div class="col-10 mx-auto" *ngIf="drawer.opened">
+                      <h2 class="m-auto ms-2 fw-light">Facturation</h2>
+                    </div>
+                  </div>
+                </mat-expansion-panel-header>
+                <div label="Historique" class="row my-nav-item colapsItms"
+                     [ngClass]="getCurrentMode() == 'Historique' ? 'active-item': ''"
+                     routerLink="/dashboard-Enterprise/historique">
+                  <div class="col-2">
+                    <mat-icon  *ngIf="!drawer.opened" ngbTooltip="Historique" placement="right" container="body"
+                      [color]= "getCurrentMode() == 'Historique' ? 'primary': ''"
+                              style="margin-top: 4px;">history</mat-icon>
+
+                    <mat-icon *ngIf="drawer.opened" [color]= "getCurrentMode() == 'Historique' ? 'primary': ''"
+                              style="margin-top: 4px;">history</mat-icon>
+                  </div>
+                  <div class="col-10 mx-auto" *ngIf="drawer.opened">
+                    <h2 class="m-auto ms-2 fw-light">Historique</h2>
+                  </div>
+                </div>
+                <div label="Payemnt" class="row mt-2 my-nav-item colapsItms"
+                     [ngClass]="getCurrentMode() == 'Payemment' ? 'active-item': ''"
+                     routerLink="/dashboard-Enterprise/payemment">
+                  <div class="col-2">
+                    <mat-icon  *ngIf="!drawer.opened" ngbTooltip="Payer" placement="right" container="body"
+                      [color]= "getCurrentMode() == 'Payemment' ? 'primary': ''"
+                              style="margin-top: 4px;">point_of_sale</mat-icon>
+
+                    <mat-icon *ngIf="drawer.opened" [color]= "getCurrentMode() == 'Payemment' ? 'primary': ''"
+                              style="margin-top: 4px;">point_of_sale</mat-icon>
+                  </div>
+                  <div class="col-10 mx-auto" *ngIf="drawer.opened">
+                    <h2 class="m-auto ms-2 fw-light">Payer</h2>
+                  </div>
+                </div>
+                <div label="Cards" class="row mt-2 my-nav-item colapsItms"
+                     [ngClass]="getCurrentMode() == 'Cartes' ? 'active-item': ''"
+                     routerLink="/dashboard-Enterprise/cartes">
+                  <div class="col-2">
+                    <mat-icon  *ngIf="!drawer.opened" ngbTooltip="Mes Cartes" placement="right" container="body"
+                      [color]= "getCurrentMode() == 'Cartes' ? 'primary': ''"
+                              style="margin-top: 4px;">style</mat-icon>
+
+                    <mat-icon *ngIf="drawer.opened" [color]= "getCurrentMode() == 'Cartes' ? 'primary': ''"
+                              style="margin-top: 4px;">style</mat-icon>
+                  </div>
+                  <div class="col-10 mx-auto" *ngIf="drawer.opened">
+                    <h2 class="m-auto ms-2 fw-light">Mes Cartes</h2>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+
+
+              <div label="Guide" class="row mt-2 bottomLink__"
                    routerLink="/dashboard-Enterprise/support">
                 <div class="col-2">
                   <mat-icon color="primary" style="margin-top: 4px;">live_help</mat-icon>

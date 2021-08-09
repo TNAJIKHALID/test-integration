@@ -4,7 +4,7 @@
       <ng-template matStepLabel>Habilitations Params</ng-template>
       <form [formGroup]="habForm" style="min-height: 500px">
         <div class="container" label="parametres avancées">
-          <mat-expansion-panel [expanded]="true">
+         <!-- <mat-expansion-panel [expanded]="true">
             <mat-expansion-panel-header>
               <mat-panel-title class="w-100">
                 Parametres Générales
@@ -26,27 +26,157 @@
                 </mat-form-field>
               </div>
             </div>
-          </mat-expansion-panel>
+          </mat-expansion-panel>-->
 
-          <mat-expansion-panel label="Avancées" *ngIf="level.value != 'unknown'" >
-            <mat-expansion-panel-header>
-              <mat-panel-title class="w-100">
-                Parametres Avancées
+          <!--Start Parametres generaux -->
+          <mat-expansion-panel [expanded]="true" class="mt-2">
+            <mat-expansion-panel-header class=" w-100" style="background-color:#c7cbd0">
+              <mat-panel-title class="w-100" style="color: #fff">
+                Parametres generaux
               </mat-panel-title>
             </mat-expansion-panel-header>
-          </mat-expansion-panel>
 
-          <mat-expansion-panel label="formation" *ngIf="level.value != 'unknown'" >
-            <mat-expansion-panel-header>
-              <mat-panel-title class="w-100">
-                Parametres de formation
+            <div label="niveau" class="row mt-3">
+              <div class="col-md-4">Choisir le niveau d'habilitations</div>
+              <div class="col-md-4">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Niveau</mat-label>
+                  <mat-select matNativeControl formControlName="level" required>
+                    <mat-option *ngFor="let level of levels" [value]="level.habilitationLevel">
+                      {{level.habilitationLevel}}
+                    </mat-option>
+                    <mat-option [value]="'unknown'"><strong>Niveau inconu</strong></mat-option>
+                  </mat-select>
+                  <mat-error>
+                    le niveau d'habilitation est obligatoire
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div *ngIf="level.value != 'unknown'">
+              <div class="row">
+                <div class="col-md-4">Duree d'acees</div>
+                <div class="col-md-4">
+                  <input type="date" class="form-control" id="date1">
+                </div>
+                <div class="col-md-4">
+                  <input type="date" class="form-control" id="date2">
+                </div>
+              </div>
+
+              <div class="row mt-3 w-25">
+                <div class="col-md-7"> Acces accordes
+                </div>
+                <div class="col-md-5">
+                  <mat-slide-toggle style="color: lightseagreen"></mat-slide-toggle>
+                </div>
+              </div>
+
+              <!-- -->
+              <div class="row mt-3">
+                <div class="col-md-3">
+                  <label>Test de positionement</label>
+                  <input style=" margin: .4rem;" type="checkbox">
+                </div>
+                <div class="col-md-3">Formation
+                  <input style=" margin: .4rem;" type="checkbox">
+                </div>
+                <div class="col-md-3">Entrainement
+                  <input style=" margin: .4rem;" type="checkbox">
+                </div>
+                <div class="col-md-3">Evaluation
+                  <input style=" margin: .4rem;" type="checkbox">
+                </div>
+              </div>
+
+              <!-- -->
+              <div class="row mt-3">
+                <div class="col-md-3">Telechargement:</div>
+                <div class="col-md-3">Rapport d'entrainement
+                  <input style=" margin: .4rem;" type="checkbox">
+                </div>
+                <div class="col-md-3">Rapport d'evaluation
+                  <input style=" margin: .4rem;" type="checkbox">
+                </div>
+                <div class="col-md-3">Attestation de formation
+                  <input style=" margin: .4rem;" type="checkbox">
+                </div>
+              </div>
+            </div>
+
+
+          </mat-expansion-panel>
+          <!--End Parametres generaux -->
+
+          <!-- Start Parametres Evaluation -->
+          <mat-expansion-panel *ngIf="level.value != 'unknown'" [expanded]="true" class="mt-2">
+            <mat-expansion-panel-header class="" style="background-color:#c7cbd0">
+              <mat-panel-title class="w-100" style="color: #fff">
+                Parametres Evaluation
               </mat-panel-title>
             </mat-expansion-panel-header>
+
+            <!-- -->
+            <div class="row mt-3">
+              <div class="col-md-12">
+                <button type="button" class="btn ms-0 me-2" style="color:#fff ;background-color:#FF6801">Par defaut</button>
+                <button type="button" class="btn " style="color:#fff ;background-color:#FF6801">Parametres avances</button>
+              </div>
+            </div>
+
+            <!-- -->
+            <div class="row mt-3" style="background-color: #f5f8f9ed">
+
+              <div class="col-md-3 mt-4">Rapport finaal</div>
+              <div class="col-md-3 mt-4">Rapport finaal</div>
+              <div class="col-md-3 mt-4">Rapport finaal</div>
+              <div class="col-md-3 mt-4">Rapport finaal</div>
+
+              <div class="col-md-3 mt-4 mb-4">Rapport finaal</div>
+              <div class="col-md-3 mt-4 mb-4">Rapport finaal</div>
+              <div class="col-md-3 mt-4 mb-4">Rapport finaal</div>
+              <div class="col-md-3 mt-4 mb-4">Rapport finaal</div>
+
+            </div>
+
           </mat-expansion-panel>
+          <!--End Parametres Evaluation -->
+
+          <!-- Start Parametres Formations -->
+          <mat-expansion-panel *ngIf="level.value != 'unknown'" [expanded]="true" class="mt-2">
+            <mat-expansion-panel-header class="" style="background-color:#c7cbd0 ;">
+              <mat-panel-title class="w-100" style="color: #fff">
+                Parametres Formations
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="row mt-3">
+              <div class="col-md-6">
+                <h3>Frequence de la formation:</h3>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                Limitee
+                <input style=" margin: .4rem;" type="checkbox">
+              </div>
+              <div class="col-md-6">
+                Ilimitee
+                <input style=" margin: .4rem;" type="checkbox">
+                <input type="number">
+              </div>
+            </div>
+
+          </mat-expansion-panel>
+          <!--End Parametres Formations-->
         </div>
-        <div class="container m-auto mt-lg-5">
-          <button mat-button routerLink="/dashboard/habils">Annuler</button>
-          <button mat-raised-button  color="primary" [disabled]="habForm.invalid" matStepperNext>Suivant</button>
+
+
+        <div class="container row w-100 justify-content-between m-auto mt-2 m-2">
+          <button mat-raised-button color="accent" class="col-2" routerLink="/dashboard/habils">Annuler</button>
+          <button mat-raised-button  color="primary" class="col-2" [disabled]="habForm.invalid" matStepperNext>Suivant</button>
         </div>
       </form>
 
@@ -54,18 +184,65 @@
 
 
     <mat-step [stepControl]="myForm" label="Inviter">
+      <div class="card w-100 bg-transparent mb-1 pt-1" style="border: none">
+        <button type="button" class="btn btn-outline-secondary col-lg-4 col-md-6 col-sm-12" (click)="open(content)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-spreadsheet-fill" viewBox="0 0 16 16">
+            <path d="M6 12v-2h3v2H6z"/>
+            <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM3 9h10v1h-3v2h3v1h-3v2H9v-2H6v2H5v-2H3v-1h2v-2H3V9z"/>
+          </svg>
+          <strong class="ms-2">importer depuis excel</strong>
+        </button>
+      </div>
       <form [formGroup]="myForm" style="min-height: 500px">
         <div class="" formArrayName="employees">
           <div class="card w-100 shadow-sm rounded-3 mb-2 pb-3" *ngFor="let employee of employees.controls; let i=index" [formGroupName]="i">
+              <div class="row mt-1  w-100 m-auto">
+              <div class="form-group col-md-3">
+                <label class="col-form-label" for="nom" style="color: #000000">Nom*</label>
+                <mat-form-field  appearance="outline">
+                  <input matInput id="nom" formControlName="firstName">
+                  <mat-error *ngIf="employee.get('firstName').invalid && employee.get('firstName').touched">
+                    le nom est obligatoire
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group col-md-3">
+                <label class="col-form-label" for="prenom" style="color: #000000">Prénom*</label>
+                <mat-form-field  appearance="outline">
+                  <input matInput id="prenom" formControlName="lastName">
+                  <mat-error *ngIf="employee.get('lastName').invalid && employee.get('lastName').touched">
+                    le prénom est obligatoire
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group col-md-3">
+                <label class="col-form-label" for="email" style="color: #000000">Email*</label>
+                <mat-form-field  appearance="outline">
+                  <input type="email" id="email" placeholder="nom@example.com" matInput formControlName="email">
+                  <mat-error *ngIf="employee.get('email').invalid && employee.get('email').touched
+                      && employee.get('email').value.length > 0">
+                    adresse mail invalid
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group col-md-3">
+                <label class="col-form-label" for="tele" style="color: #000000">Téléphone*</label>
+                <mat-form-field  appearance="outline">
+                  <input type="tel" id="tele" matInput formControlName="telephone">
+<!--                  <h3 style="margin-top: 0px" matPrefix>+212 &nbsp;</h3>-->
+                  <mat-error *ngIf="employee.get('telephone').invalid && employee.get('telephone').touched">
+                    num est obligatoire
+                  </mat-error>
+                </mat-form-field>
+              </div>
 
-            <div class="row mt-5  w-100 m-auto">
-              <mat-form-field class="col-3" >
+             <!-- <mat-form-field class="col-3"  appearance="outline">
                 <input matInput placeholder="nom" formControlName="firstName">
                 <mat-error *ngIf="employee.get('firstName').invalid && employee.get('firstName').touched">
                   le nom est obligatoire
                 </mat-error>
               </mat-form-field>
-              <mat-form-field class="col-3">
+              <mat-form-field class="col-3" appearance="outline">
                 <input matInput placeholder="prénom" formControlName="lastName">
                 <mat-error *ngIf="employee.get('lastName').invalid && employee.get('lastName').touched">
                   le prénom est obligatoire
@@ -90,10 +267,39 @@
                 <mat-error *ngIf="employee.get('telephone').invalid && employee.get('telephone').touched">
                   num est obligatoire
                 </mat-error>
-              </mat-form-field>
+              </mat-form-field>-->
             </div>
 
-            <div *ngIf="level.value!='unknown'" class="row w-100 mt-5 m-auto">
+               <div class="row mt-1  w-100 m-auto">
+
+              <div class="form-group col-md-6">
+                <label class="col-form-label" for="poste" style="color: #000000">Poste*</label>
+                <mat-form-field  appearance="outline">
+                  <mat-select id="poste" formControlName="poste" >
+                    <mat-option [value]="'B1'">B1</mat-option>
+                    <mat-option [value]="'B3'">H1</mat-option>
+                    <mat-option [value]="'B2'">BC</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="employee.get('poste').invalid && employee.get('poste').touched">Champ obligatoire</mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group col-md-6" *ngIf="level.value!='unknown'">
+                <label class="col-form-label" for="type" style="color: #000000">Type d'habilitation*</label>
+                <mat-form-field  appearance="outline">
+                  <mat-select id="type" matNativeControl formControlName="type" required>
+                    <mat-option [value]="true">initial</mat-option>
+                    <mat-option [value]="false">recyclage</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="employee.get('type').invalid && employee.get('type').touched">
+                    le type est obligatoire
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+            </div>
+
+            <!--<div *ngIf="level.value!='unknown'" class="row w-100 mt-5 m-auto">
               <mat-form-field class="m-auto w-25" appearance="outline">
                 <mat-label>Type</mat-label>
                 <mat-select matNativeControl formControlName="type" required>
@@ -105,7 +311,35 @@
                 </mat-error>
               </mat-form-field>
             </div>
+-->
 
+            <div class="row mt-1  w-100 m-auto">
+              <div class="form-group col-md-6">
+                <label class="col-form-label" for="dateN" style="color: #000000">Date de naissance*</label>
+                <mat-form-field  appearance="outline">
+                  <input placeholder="jj/mm/aaaa" matInput id="dateN" formControlName="dateNaissance" [matDatepicker]="picker">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <mat-error *ngIf="employee.get('dateNaissance').invalid && employee.get('dateNaissance').touched">
+                    cette date est invalide, il doit respecter cette forme <strong>"jj/mm/aaaa"</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group col-md-6">
+                <label class="col-form-label" for="dateE" style="color: #000000">Date d'embauche*</label>
+                <mat-form-field  appearance="outline">
+                  <input placeholder="jj/mm/aaaa" matInput id="dateE" formControlName="dateEmbauche" [matDatepicker]="picker1">
+                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+                  <mat-error *ngIf="employee.get('dateEmbauche').invalid && employee.get('dateEmbauche').touched">
+                    cette date est invalide, il doit respecter cette forme <strong>"jj/mm/aaaa"</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+            </div>
+            <!--
             <div class="row w-100 mt-5 m-auto">
               <div class="col-4 ">
                 <mat-form-field class="w-100" appearance="outline">
@@ -146,22 +380,23 @@
               </div>
             </div>
 
+-->
+
             <div class="row justify-content-between mt-2 w-100">
               <button class="col-2 float-start ms-4" mat-raised-button color="primary" (click)="deleteEmployee(i)">Supprimer</button>
-
             </div>
           </div>
 
           <div class="row justify-content-end">
             <button class="mt-2 me-3 col-2 float-start" mat-raised-button color="primary"
-                    [disabled]="employees.controls[employees.controls.length-1].invalid"
+                    [disabled]="employees.controls.length>0 && employees.controls[employees.controls.length-1].invalid"
                     (click)="addEmployee()">Ajouter</button>
           </div>
 
           <div class="row w-100 justify-content-end">
             <button class="mt-3 mb-2 col-2 float-start" mat-raised-button matStepperPrevious>Retour</button>
             <button class="mt-3 mb-2 ms-2 me-0 col-2 float-end " mat-raised-button color="accent"
-                    [disabled]="employees.controls[employees.controls.length-1].invalid"
+                    [disabled]="employees.controls.length == 0 || employees.controls[employees.controls.length-1].invalid"
                     matStepperNext >Suivant</button>
           </div>
         </div>
@@ -187,3 +422,32 @@
 
 </div>
 
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h1 class="modal-title text-center" id="modal-basic-title">Importer depuis excel</h1>
+    <span class="float-end pointer" style="margin-top: -37px;"><mat-icon (click)="modal.dismiss('Cross click')">close</mat-icon></span>
+  </div>
+  <div class="modal-body">
+    <h3 class="text-info fw-bolder alert-info ps-3">Exemple de fichier excel
+      <a href="assets/canva.xlsx" [href]="level.value=='unknown'? 'assets/canva.xlsx':'assets/canva 2.xlsx'" class="link-primary ms-3">
+
+        télécharger le model ?</a></h3>
+    <img class="mx-auto d-block mb-5 boderPrimary" *ngIf="level.value != 'unknown'"
+         src="assets/images/canvas/canva%20excel.png"
+         height="200" width="90%">
+    <form>
+      <div class="form-group">
+        <div class="input-group">
+          <input id="file" class="form-control"
+                 name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                 type="file" (change)="handleFileInput($event)">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Annuler')">Annuler</button>
+    <button type="button" class="btn btn-dark" [disabled]="fileToUpload == null" (click)="onImportExcel()">Importer</button>
+  </div>
+</ng-template>

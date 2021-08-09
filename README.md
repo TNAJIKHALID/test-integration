@@ -6,3 +6,4 @@ This project is an Angular project
 ##modify  base href="./" in index.html to base href="."
 
 
+correct add forms "update the ngIfs tha corct one is in addSession"

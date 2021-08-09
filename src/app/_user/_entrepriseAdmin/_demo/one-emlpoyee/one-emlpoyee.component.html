@@ -1,0 +1,96 @@
+<main>
+  <h2 mat-dialog-title>Modifier</h2>
+  <mat-dialog-content>
+
+    <form [formGroup]="myForm" >
+      <div class="row mt-1  w-100 m-auto">
+        <div class="form-group col-md-3">
+          <label class="col-form-label" for="nom" style="color: #000000">Nom*</label>
+          <mat-form-field  appearance="outline">
+            <input matInput id="nom" formControlName="firstName">
+            <mat-error *ngIf="firstName.invalid && firstName.touched">
+              le nom est obligatoire
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-group col-md-3">
+          <label class="col-form-label" for="prenom" style="color: #000000">Prénom*</label>
+          <mat-form-field  appearance="outline">
+            <input matInput id="prenom" formControlName="lastName">
+            <mat-error *ngIf="lastName.invalid && lastName.touched">
+              le prénom est obligatoire
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-group col-md-3">
+          <label class="col-form-label" for="email" style="color: #000000">Email*</label>
+          <mat-form-field  appearance="outline">
+            <input type="email" id="email" placeholder="nom@example.com" matInput formControlName="email">
+            <mat-error *ngIf="email.invalid && email.touched
+                      && email.value.length > 0">
+              adresse mail invalid
+            </mat-error>
+            <mat-error *ngIf="email.touched && email.value.length == 0">
+              adresse mail est obligatoire
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-group col-md-3">
+          <label class="col-form-label" for="tele" style="color: #000000">Téléphone*</label>
+          <mat-form-field  appearance="outline">
+            <input type="tel" id="tele" matInput formControlName="telephone">
+            <mat-error *ngIf="telephone.invalid && telephone.touched">
+              num est obligatoire
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row mt-1  w-100 m-auto">
+        <div class="form-group col-md-6">
+          <label class="col-form-label" for="poste" style="color: #000000">Poste*</label>
+          <mat-form-field  appearance="outline">
+            <mat-select id="poste" formControlName="poste" >
+              <mat-option [value]="'B1'">B1</mat-option>
+              <mat-option [value]="'B3'">H1</mat-option>
+              <mat-option [value]="'B2'">BC</mat-option>
+            </mat-select>
+            <mat-error *ngIf="poste.invalid && poste.touched">Champ obligatoire</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row mt-1  w-100 m-auto">
+        <div class="form-group col-md-6">
+          <label class="col-form-label" for="dateN" style="color: #000000">Date de naissance*</label>
+          <mat-form-field  appearance="outline">
+            <input placeholder="jj/mm/aaaa" matInput id="dateN" formControlName="dateNaissance" [matDatepicker]="picker">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="dateNaissance.invalid && dateNaissance.touched">
+              cette date est invalide, il doit respecter cette forme <strong>"jj/mm/aaaa"</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group col-md-6">
+          <label class="col-form-label" for="dateE" style="color: #000000">Date d'embauche*</label>
+          <mat-form-field  appearance="outline">
+            <input placeholder="jj/mm/aaaa" matInput id="dateE" formControlName="dateEmbauche" [matDatepicker]="picker1">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+            <mat-error *ngIf="dateEmbauche.invalid && dateEmbauche.touched">
+              cette date est invalide, il doit respecter cette forme <strong>"jj/mm/aaaa"</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+      </div>
+
+      <mat-dialog-actions class="container w-100 m-auto mt-3">
+        <button mat-raised-button color="warn"  mat-dialog-close >Annuler</button>
+        <button mat-raised-button class="float-end" cdkFocusInitial [mat-dialog-close]="employee" color="primary" [disabled]="myForm.invalid" >Enregistrer</button>
+      </mat-dialog-actions>
+    </form>
+  </mat-dialog-content>
+</main>

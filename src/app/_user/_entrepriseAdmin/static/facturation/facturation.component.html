@@ -1,4 +1,172 @@
 <div class="container w-100 min-vh-100">
+<!--
 
-<p>facturation works!</p>
+    <div class="container mt-4 mb-4 w-100 min-vh-100">
+
+      <div class="row w-100 m-0 pb-1" style="border-bottom: 2px solid #ff6801;">
+        <div class="col-md-6">
+          <button type="button" class="btn me-2" style="color:#fff ;background-color:#b6bfc7 ">Parametres des condidats
+          </button>
+          <button type="button" class="btn" style="color:#fff ;background-color:#FF6801">Parametres de niveaux</button>
+        </div>
+      </div>
+
+      &lt;!&ndash;Start Parametres generaux &ndash;&gt;
+      <mat-expansion-panel [expanded]="true" class="mt-2">
+        <mat-expansion-panel-header class="ms-2 me-2" style="background-color:#c7cbd0">
+          <mat-panel-title class="w-100" style="color: #fff">
+            Parametres generaux
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="row mt-3">
+          <div class="col-md-4">Choisir le niveau d'abilitations</div>
+          <div class="col-md-4">
+            <select class="form-select browser-default custom-select custom-select-lg mb-4  " name="">
+              <optgroup label="niveau" data-max-options="5">
+                <option>BE Maneuvre</option>
+                <option>BE Maneuvre1</option>
+                <option>BE Maneuvre2</option>
+                <option>BE Maneuvre3</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <select class="form-select browser-default custom-select custom-select-lg mb-4  " name="">
+              <optgroup label="niveau" data-max-options="5">
+                <option>Recyclage</option>
+                <option>Recyclage1</option>
+                <option>Recyclage2</option>
+                <option>Recyclage3</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4">Duree d'acees</div>
+          <div class="col-md-4">
+            <input type="date" class="form-control" id="date1">
+          </div>
+          <div class="col-md-4">
+            <input type="date" class="form-control" id="date2">
+          </div>
+        </div>
+
+        &lt;!&ndash; &ndash;&gt;
+        <div class="row mt-3 w-25">
+          <div class="col-md-7"> Acces accordes
+          </div>
+          <div class="col-md-5">
+            <mat-slide-toggle style="color: lightseagreen"></mat-slide-toggle>
+          </div>
+        </div>
+
+        &lt;!&ndash; &ndash;&gt;
+        <div class="row mt-3">
+          <div class="col-md-3">
+            <label>Test de positionement</label>
+            <input style=" margin: .4rem;" type="checkbox">
+          </div>
+          <div class="col-md-3">Formation
+            <input style=" margin: .4rem;" type="checkbox">
+          </div>
+          <div class="col-md-3">Entrainement
+            <input style=" margin: .4rem;" type="checkbox">
+          </div>
+          <div class="col-md-3">Evaluation
+            <input style=" margin: .4rem;" type="checkbox">
+          </div>
+        </div>
+
+        &lt;!&ndash; &ndash;&gt;
+
+        <div class="row mt-3">
+          <div class="col-md-3">Telechargement:</div>
+          <div class="col-md-3">Rapport d'entrainement
+            <input style=" margin: .4rem;" type="checkbox">
+          </div>
+          <div class="col-md-3">Rapport d'evaluation
+            <input style=" margin: .4rem;" type="checkbox">
+          </div>
+          <div class="col-md-3">Attestation de formation
+            <input style=" margin: .4rem;" type="checkbox">
+          </div>
+        </div>
+      </mat-expansion-panel>
+      &lt;!&ndash;End Parametres generaux &ndash;&gt;
+
+      &lt;!&ndash; Start Parametres Evaluation &ndash;&gt;
+      <mat-expansion-panel [expanded]="true" class="mt-2">
+        <mat-expansion-panel-header class="ms-2 me-2" style="background-color:#c7cbd0">
+          <mat-panel-title class="w-100" style="color: #fff">
+            Parametres Evaluation
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        &lt;!&ndash; &ndash;&gt;
+        <div class="row mt-3">
+          <div class="col-md-12">
+            <button type="button" class="btn ms-0 me-2" style="color:#fff ;background-color:#FF6801">Par defaut</button>
+            <button type="button" class="btn " style="color:#fff ;background-color:#FF6801">Parametres avances</button>
+          </div>
+        </div>
+
+        &lt;!&ndash; &ndash;&gt;
+        <div class="row mt-3" style="background-color: #f5f8f9ed">
+
+          <div class="col-md-3 mt-4">Rapport finaal</div>
+          <div class="col-md-3 mt-4">Rapport finaal</div>
+          <div class="col-md-3 mt-4">Rapport finaal</div>
+          <div class="col-md-3 mt-4">Rapport finaal</div>
+
+          <div class="col-md-3 mt-4 mb-4">Rapport finaal</div>
+          <div class="col-md-3 mt-4 mb-4">Rapport finaal</div>
+          <div class="col-md-3 mt-4 mb-4">Rapport finaal</div>
+          <div class="col-md-3 mt-4 mb-4">Rapport finaal</div>
+
+        </div>
+
+      </mat-expansion-panel>
+      &lt;!&ndash;End Parametres Evaluation &ndash;&gt;
+
+      &lt;!&ndash; Start Parametres Formations &ndash;&gt;
+      <mat-expansion-panel [expanded]="true" class="mt-2">
+        <mat-expansion-panel-header class="ms-2 me-2" style="background-color:#c7cbd0 ;">
+          <mat-panel-title class="w-100" style="color: #fff">
+            Parametres Formations
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <h3>Frequence de la formation:</h3>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            Limitee
+            <input style=" margin: .4rem;" type="checkbox">
+          </div>
+          <div class="col-md-6">
+            Ilimitee
+            <input style=" margin: .4rem;" type="checkbox">
+            <input type="number">
+          </div>
+        </div>
+        <div class="row mt-4">
+          <div>
+            <button type="button" class="btn float-end" style="color:#fff ;background-color:#FF6801">Suivant</button>
+          </div>
+        </div>
+
+      </mat-expansion-panel>
+      &lt;!&ndash;End Parametres Formations&ndash;&gt;
+
+    </div>
+-->
+
 </div>
+
+

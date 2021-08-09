@@ -1,0 +1,56 @@
+<div class="container w-100 min-vh-100">
+  <p style="text-align: center"> Bienvenue!</p>
+
+  <div class="card rounded-3 shadow-sm mt-3">
+    <form class="ms-2 me-2">
+
+      <div class="row mt-4">
+        <div class="col-md-8">
+          <p style=" border-left: 4px solid #ff4500; padding-left: 12px; top: 50%;" class="ms-2">Historique de facturation</p>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group form-inline">
+            <input class="form-control float-end" type="text" name="searchTerm"  style="width: 45%"/>
+          </div>
+        </div>
+      </div>
+      <div class="card rounded-3 shadow-sm mt-3">
+        <table class="table table-striped">
+          <thead style="border-bottom: 2px solid #ff6801;">
+          <tr>
+            <th scope="col">Facture</th>
+            <th scope="col" >Recupitulatif</th>
+            <th scope="col" >Date d'echeance</th>
+            <th scope="col" >Date de paiement</th>
+
+            <th scope="col" >Totale</th>
+            <th scope="col" >Equilibre</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td scope="row" style="color: #E65100"> 78171717</td>
+            <td>SH-27727</td>
+            <td>2021-02-01</td>
+            <td>2021-03-08</td>
+            <td>10000 DH</td>
+            <th >0.00 DH</th>
+          </tr>
+          </tbody>
+
+
+        </table>
+      </div>
+      <div class="d-flex justify-content-between p-2">
+        <ngb-pagination></ngb-pagination>
+
+        <select class="custom-select" style="width: auto" name="pageSize">
+          <option [ngValue]="2">2 items per page</option>
+          <option [ngValue]="4">4 items per page</option>
+          <option [ngValue]="6">6 items per page</option>
+        </select>
+      </div>
+
+    </form>
+  </div>
+</div>

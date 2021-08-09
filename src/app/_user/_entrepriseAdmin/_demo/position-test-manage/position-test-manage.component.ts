@@ -61,16 +61,21 @@ export class PositionTestManageComponent implements OnInit {
   }
 
   fillDataTable() {
-    console.log(this.sapAdminEntreprise.xemployeeEntreprises.length)
+    console.log(this.sapAdminEntreprise.xemployeeEntreprises.length);
+    this.positionTestDataTables = [];
     for (let xemployeeEntrepris of this.sapAdminEntreprise.xemployeeEntreprises) {
       if (xemployeeEntrepris.xpositionTestList.length > 0) {
         let nomComplet = xemployeeEntrepris.appUser.firstName + ' ' + xemployeeEntrepris.appUser.lastName;
         let email = xemployeeEntrepris.appUser.username ;
         xemployeeEntrepris.xpositionTestList.forEach(positionTest=>{
-          let result = positionTest.habilitationLevel ==
-          null ? "N'a pas de encore passé le teste": positionTest.habilitationLevel.habilitationLevel;
-          this.positionTestDataTables.push(new PositionTestDataTable(positionTest.id,nomComplet,email,result))
-
+          let result;
+          if(!positionTest.enable) {
+            result= "n'est pas encore invité";
+          } else {
+            result = positionTest.habilitationLevel ==
+            null ? "N'a pas de encore passé le teste": positionTest.habilitationLevel.habilitationLevel;
+          }
+          this.positionTestDataTables.push(new PositionTestDataTable(positionTest.id,nomComplet,email,result,positionTest.enable));
         })
       }
     }
@@ -155,6 +160,8 @@ export class PositionTestManageComponent implements OnInit {
         break;
       }
     }
+    formIsValid = this.employees.controls.length > 0;
+
     /* ....handling emails in form...*/
     /*
     let emails : Set<string> = new Set<string>();
@@ -172,8 +179,62 @@ export class PositionTestManageComponent implements OnInit {
     return !formIsValid;
   }
 
-  removeFromPositionTest() {
+  removeFromPositionTest(positionTestId:number) {
+    this.confirmationDialogService.
+    confirm('Confirmation', 'vous voulez supprimer cet utlisateur du teste de positionnement?')
+      .then((confirmed) => {
+        if (confirmed) {
+          let positionTestIds:Array<number> = new Array<number>();
+          positionTestIds.push(positionTestId);
+          this.deleteEmployeesFromTestPositionByIds(positionTestIds);
+        }
+      }).catch();
+  }
 
+
+  removeSelectedFromPositionTest() {
+    this.confirmationDialogService.
+    confirm('Confirmation', 'vous voulez supprimer ces utlisateurs du teste de positionnement?')
+      .then((confirmed) => {
+        if (confirmed) {
+          let positionTestIds:Array<number> = new Array<number>();
+          for (let value of this.selected.values()) positionTestIds.push(value)
+          this.deleteEmployeesFromTestPositionByIds(positionTestIds);
+        }
+      }).catch();
+  }
+
+  onInviteToPosition() {
+    this.confirmationDialogService.
+    confirm('Confirmation', 'vous voulez inviter ces utlisateurs du teste de positionnement?')
+      .then((confirmed) => {
+        if (confirmed) {
+          let selectedArray: Array<number> = new Array<number>();
+          for (let value of this.selected.values())  selectedArray.push(value);
+          this.inviteToPositionTestByIds(selectedArray);
+        }
+      }).catch();
+
+  }
+
+  onInviteSingleOne(positionTestId: number) {
+    this.confirmationDialogService.
+    confirm('Confirmation', 'vous voulez inviter cet utlisateur au teste de positionnement?')
+      .then((confirmed) => {
+        if (confirmed) {
+          let selectedArray: Array<number> = new Array<number>();
+          selectedArray.push(positionTestId);
+          this.inviteToPositionTestByIds(selectedArray);
+        }
+      }).catch();
+
+  }
+
+
+  deleteEmployeesFromTestPositionByIds(positionTestIds:Array<number>){
+    this.dataService.postResource('/deletePositionTests',positionTestIds).subscribe(data =>{
+      this.ngOnInit();
+    },error => console.log(error))
   }
 
   addEmployee(){
@@ -239,6 +300,17 @@ export class PositionTestManageComponent implements OnInit {
   get employees(){
     return this.myForm.get('employees') as FormArray;
   }
+
+
+
+  inviteToPositionTestByIds(positionTestIds:Array<number>){
+    this.dataService.postResource('/enabelPosition',positionTestIds).subscribe(d=>{
+      this.selected.clear();
+      this.ngOnInit();
+    },error => {
+      console.log(error)
+    })
+  }
 }
 
 class PositionTestDataTable{
@@ -246,10 +318,12 @@ class PositionTestDataTable{
   public nomComplet:string;
   public mail:string;
   public result:string;
-  constructor(positionTestId:number,nomComplet:string, mail:string,  result:string) {
+  public enabled:boolean;
+  constructor(positionTestId:number,nomComplet:string, mail:string,  result:string,enabled:boolean) {
     this.positionTestId=positionTestId;
     this.nomComplet=nomComplet;
     this.mail=mail;
     this.result=result;
+    this.enabled = enabled;
   }
 }
